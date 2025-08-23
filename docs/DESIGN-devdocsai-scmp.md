@@ -1,5 +1,24 @@
 # DevDocAI-v3.0 Software Configuration Management Plan (SCMP)
 
+---
+⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
+
+**Document Type**: Design Specification  
+**Implementation Status**: 0% - No code written  
+**Purpose**: Blueprint for future development  
+
+> **This document describes planned functionality and architecture that has not been built yet.**
+> All code examples, commands, and installation instructions are design specifications for future implementation.
+
+---
+
+🏗️ **TECHNICAL SPECIFICATION STATUS**
+
+This document contains complete technical specifications ready for implementation.
+Contributors can use this as a blueprint to build the described system.
+
+---
+
 **Document Version:** 2.0  
 **Date:** August 20, 2025  
 **Status:** Revised  

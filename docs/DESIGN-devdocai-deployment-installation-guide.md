@@ -2,6 +2,28 @@
 
 # DevDocAI v3.5.0 Deployment/Installation Guide
 
+---
+⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
+
+**Document Type**: Design Specification  
+**Implementation Status**: 0% - No code written  
+**Purpose**: Blueprint for future development  
+
+> **This document describes planned functionality and architecture that has not been built yet.**
+> All code examples, commands, and installation instructions are design specifications for future implementation.
+
+---
+
+📚 **IMPORTANT FOR READERS**
+
+This document describes how DevDocAI will work once implemented. Currently:
+- ❌ No working software exists
+- ❌ Installation commands will not work
+- ❌ No packages are available for download
+- ✅ This is a comprehensive design specification
+
+---
+
 ## Summary of Major Changes
 
 This guide has been completely updated from v3.0.0 to v3.5.0 to align with the current documentation suite. Major changes include:

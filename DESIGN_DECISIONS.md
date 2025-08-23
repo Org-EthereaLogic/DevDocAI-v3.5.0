@@ -17,12 +17,12 @@
 **Version**: 1.0
 **Date**: August 23, 2025
 **Status**: FINAL - Aligned with DevDocAI v3.5.0 Suite
-**License**: Apache-2.0 (Core), MIT (Plugin SDK)
+**License**: Apache-2.0 (Core), MIT (Plugin Software Development Kit (SDK))
 
 **Document Alignment**:
 
-- ✅ PRD v3.6.0 - Complete consistency with product requirements
-- ✅ SRS v3.6.0 - All functional and non-functional requirements covered
+- ✅ PRD v3.5.0 - Complete consistency with product requirements
+- ✅ SRS v3.5.0 - All functional and non-functional requirements covered
 - ✅ Architecture Blueprint v3.5.0 - Technical decisions aligned
 - ✅ User Stories v3.5.0 - All 21 stories (US-001 through US-021) supported
 
@@ -515,7 +515,7 @@ Implement 13-module architecture organized in 5 layers.
 
 #### 5.3.2 Web Dashboard
 
-**Decision**: React 18 + Material-UI
+**Decision**: React 18 + Material-User Interface (UI)
 **Status**: APPROVED
 
 **Selection Criteria**:
@@ -812,7 +812,7 @@ class BatchProcessor {
 
 **Format Support**:
 
-- **SPDX 2.3** - Industry standard, JSON/XML output
+- **SPDX 2.3** - Industry standard, JavaScript Object Notation (JSON)/Extensible Markup Language (XML) output
 - **CycloneDX 1.4** - OWASP standard, enhanced vulnerability data
 
 **Generation Tool**: Syft with custom DevDocAI integration

@@ -448,7 +448,7 @@ High-level capabilities mapped to user stories:
 **FR-030**: Human Verification Interface [Priority: High] [NEW]
 
 - The system SHALL provide visual dashboards displaying analysis results in human-reviewable format
-- The system SHALL generate PDF reports suitable for offline validation and audit documentation
+- The system SHALL generate Portable Document Format (PDF) reports suitable for offline validation and audit documentation
 - The system SHALL highlight areas requiring human attention with visual indicators (red/yellow/green)
 - The system SHALL track human verification completion status with timestamps and reviewer identification
 - The system SHALL prevent progression to next phase until human verification is documented
@@ -793,7 +793,7 @@ The CLI SHALL support:
 
 - Command completion (bash, zsh, PowerShell)
 - Colorized output with --no-color option
-- Machine-readable formats (JSON, CSV, XML)
+- Machine-readable formats (JavaScript Object Notation (JSON), Comma-Separated Values (CSV), Extensible Markup Language (XML))
 - Batch processing with glob patterns
 - Pipeline integration (stdin/stdout)
 

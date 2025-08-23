@@ -50,7 +50,7 @@ This document describes how DevDocAI will work once implemented. Currently:
 
 ### What is DevDocAI?
 
-DevDocAI v3.5.0 is an AI-powered documentation generation and management system designed specifically for solo developers, independent contractors, technical writers, and small teams. It transforms the documentation process from a time-consuming burden into an efficient, quality-driven workflow that produces professional-grade technical documentation.
+DevDocAI v3.5.0 is an Artificial Intelligence (AI)-powered documentation generation and management system designed specifically for solo developers, independent contractors, technical writers, and small teams. It transforms the documentation process from a time-consuming burden into an efficient, quality-driven workflow that produces professional-grade technical documentation.
 
 ### Key Capabilities
 
@@ -64,14 +64,14 @@ DevDocAI v3.5.0 offers comprehensive documentation capabilities:
 | **Tracking Matrix** | Visual document relationship management | Maintain consistency across suite |
 | **Privacy-First Design** | Local-first operation with optional cloud | Complete data control |
 | **Compliance Features** | SBOM generation, PII detection, DSR support | Meet regulatory requirements |
-| **Cost Management** | Smart API usage optimization | Control cloud service costs |
+| **Cost Management** | Smart Application Programming Interface (API) usage optimization | Control cloud service costs |
 
 ### System Architecture Overview
 
 ```
 ┌─────────────────────────────────────┐
 │        User Interfaces              │
-│  VS Code Extension | CLI | Dashboard│
+│  VS Code Extension | Command Line Interface (CLI) | Dashboard│
 └─────────────┬───────────────────────┘
               │
 ┌─────────────▼───────────────────────┐

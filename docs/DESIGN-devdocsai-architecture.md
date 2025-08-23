@@ -1,4 +1,4 @@
-# DevDocAI v3.6.0 Proposed Architecture Blueprint
+# DevDocAI v3.5.0 Proposed Architecture Blueprint
 
 ---
 ⚠️ **STATUS: PROPOSED DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
@@ -18,13 +18,13 @@ Contributors can use this as a blueprint to build the described system
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 3.6.0 | August 23, 2025 | DevDocAI Team | Added Human Verification components (M007.6), Test Coverage Enforcement Architecture (Section 7.4), Quality Assurance Architecture (Section 4.3.4), updated component diagrams |
+| 3.5.0 | August 23, 2025 | DevDocAI Team | Added Human Verification components (M007.6), Test Coverage Enforcement Architecture (Section 7.4), Quality Assurance Architecture (Section 4.3.4), updated component diagrams |
 | 3.5.1 | December 19, 2024 | DevDocAI Team | Added Internal API Boundaries, Packaging/Distribution Strategy, Enhancement sequence diagram based on review |
 | 3.5.0 | August 21, 2025 | DevDocAI Team | Synchronized with full documentation suite v3.5.0: Added US-019/020/021 support, standardized memory modes, implementation priorities, backward traceability complete |
 | 3.4.1 | August 21, 2025 | DevDocAI Team | Compliance review updates: Added code signing, plugin revocation, SBOM generation, key management details, DSR workflows |
 | 3.4.0 | August 21, 2025 | DevDocAI Team | Enhanced usability, added Reader Guide, balanced technical depth, improved visual summaries |
-**Document Status**: FINAL - v3.6.0 Suite Aligned (PROPOSED ARCHITECTURE)  
-**Suite Version**: v3.6.0 (User Stories v3.5.0, PRD v3.6.0, SRS v3.6.0, Architecture v3.6.0)  
+**Document Status**: FINAL - v3.5.0 Suite Aligned (PROPOSED ARCHITECTURE)  
+**Suite Version**: v3.5.0 (User Stories v3.5.0, PRD v3.5.0, SRS v3.5.0, Architecture v3.5.0)  
 **Target Audience**: Solo Developers, Independent Software Engineers, Technical Writers, Indie Game Developers, Open Source Maintainers, System Architects  
 **License**: Apache-2.0 (Core), MIT (Plugin SDK)
 

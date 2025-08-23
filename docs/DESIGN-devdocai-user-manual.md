@@ -1337,7 +1337,7 @@ When implemented, we envision this system will help developers create documentat
 📐 **DESIGN STATUS**:
 
 - **Current Implementation**: 0% Complete
-- **Target Availability**: TBD
+- **Target Availability**: TBD (estimated Q2 2026, pending completion of implementation phases)
 - **Document Type**: User Experience Design Specification
 - **Purpose**: Blueprint for future development
 

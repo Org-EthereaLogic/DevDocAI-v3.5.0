@@ -1,6 +1,6 @@
 <deployment_guide>
 
-# DevDocAI v3.6.0 Deployment/Installation Guide
+# DevDocAI v3.5.0 Deployment/Installation Guide
 
 ---
 
@@ -22,7 +22,7 @@
 ### What EXISTS Today (August 23, 2025)
 
 - ✅ Design documentation and specifications
-- ✅ Architecture plans (v3.6.0) and requirements
+- ✅ Architecture plans (v3.5.0) and requirements
 - ✅ Development roadmap and planning materials
 - ✅ Reserved package names and registry placeholders
 
@@ -42,7 +42,7 @@
 
 | Phase | Status | Target Timeline | Deliverable |
 |-------|--------|----------------|-------------|
-| **Phase 1: Design** | ✅ COMPLETE | Q3 2025 | Architecture & specifications (v3.6.0) |
+| **Phase 1: Design** | ✅ COMPLETE | Q3 2025 | Architecture & specifications (v3.5.0) |
 | **Phase 2: Core Development** | [PLANNED] | [TARGET: Q4 2025] | MVP CLI implementation |
 | **Phase 3: VS Code Extension** | [PLANNED] | [TARGET: Q1 2026] | Extension development |
 | **Phase 4: Compliance & Security** | [PLANNED] | [TARGET: Q2 2026] | SBOM, PII, DSR features |
@@ -102,19 +102,19 @@
 
 | Document | Version | Status | Notes |
 |----------|---------|--------|-------|
-| **PRD** | v3.6.0 | FINAL | Test coverage & human verification enhanced |
-| **SRS** | v3.6.0 | FINAL | Test coverage & human verification enhanced |
-| **Architecture Blueprint** | v3.6.0 | FINAL | Human verification components added |
+| **PRD** | v3.5.0 | FINAL | Test coverage & human verification enhanced |
+| **SRS** | v3.5.0 | FINAL | Test coverage & human verification enhanced |
+| **Architecture Blueprint** | v3.5.0 | FINAL | Human verification components added |
 | **User Stories** | v3.5.0* | FINAL | Core functionality complete |
-| **Deployment Guide** | v3.6.0 | FINAL | This document |
+| **Deployment Guide** | v3.5.0 | FINAL | This document |
 
-*Note: User Stories v3.5.0 → v3.6.0 changes primarily affect test coverage requirements and human verification gates, not core user functionality.
+*Note: All documents are now harmonized to v3.5.0 for consistency across the suite.
 
-### Version 3.5.0 to 3.6.0 Migration Notes
+### Version 3.5.0 Enhancement Notes
 
-The v3.6.0 update focuses on strengthening quality assurance:
+The v3.5.0 suite focuses on strengthening quality assurance:
 
-**New in v3.6.0:**
+**Key Features in v3.5.0:**
 
 - 100% test coverage requirement for critical features (was 90%)
 - Human verification gates throughout development lifecycle
@@ -122,7 +122,7 @@ The v3.6.0 update focuses on strengthening quality assurance:
 - Mandatory security testing coverage
 - Digital signatures for verification decisions
 
-**Unchanged from v3.5.0:**
+**Core Features:**
 
 - All 21 user stories (US-001 through US-021)
 - Core functionality and features
@@ -133,7 +133,7 @@ The v3.6.0 update focuses on strengthening quality assurance:
 
 ## Introduction
 
-DevDocAI v3.6.0 **is planned as** an open-source documentation enhancement and generation system designed for solo developers, independent software engineers, technical writers, indie game developers, and open source maintainers. **When implemented**, it will be built on the MIAIR (Meta-Iterative AI Refinement) methodology, providing intelligent document analysis, generation, multi-LLM synthesis with cost management, compliance features (SBOM, PII detection, DSR support), and suite-level consistency checking through both a VS Code extension and a powerful CLI.
+DevDocAI v3.5.0 **is planned as** an open-source documentation enhancement and generation system designed for solo developers, independent software engineers, technical writers, indie game developers, and open source maintainers. **When implemented**, it will be built on the Meta-Iterative Artificial Intelligence (AI) Refinement (MIAIR) methodology, providing intelligent document analysis, generation, multi-Large Language Model (LLM) synthesis with cost management, compliance features (Software Bill of Materials (SBOM), Personally Identifiable Information (PII) detection, Data Subject Request (DSR) support), and suite-level consistency checking through both a VS Code extension and a powerful Command Line Interface (CLI).
 
 ### Key Features (When Implemented)
 
@@ -216,7 +216,7 @@ graph TD
 #### Step 2: Verify Installation
 
 - Command Palette commands (when available)
-- Version verification: Should show v3.6.0
+- Version verification: Should show v3.5.0
 - Memory mode detection
 
 **Related Test Cases**: TC-015 (VS Code integration)
@@ -256,7 +256,7 @@ graph TD
 # [NOT AVAILABLE] - Repository has no code
 # git clone https://github.com/devdocai/devdocai.git
 # cd devdocai
-# git checkout v3.6.0
+# git checkout v3.5.0
 # npm install
 # npm run build
 # npm link
@@ -491,8 +491,8 @@ packages:
 #### Primary Configuration (.devdocai.yml)
 
 ```yaml
-# DevDocAI v3.6.0 Configuration
-version: 3.6.0
+# DevDocAI v3.5.0 Configuration
+version: 3.5.0
 
 # System configuration
 system:
@@ -869,7 +869,7 @@ npm config set cafile /path/to/company-ca-bundle.pem
 
 ### Support Channels (When Available)
 
-- **Documentation**: <https://docs.devdocai.org/v3.6.0> [PLANNED]
+- **Documentation**: <https://docs.devdocai.org/v3.5.0> [PLANNED]
 - **GitHub Issues**: <https://github.com/devdocai/devdocai/issues> [PLANNED]
 - **Community Discord**: <https://discord.gg/devdocai> [PLANNED]
 - **Security Issues**: <security@devdocai.org> [PLANNED]
@@ -972,15 +972,15 @@ npm config set cafile /path/to/company-ca-bundle.pem
 
 ---
 
-**Document Version**: 3.6.0
+**Document Version**: 3.5.0
 **Last Updated**: August 23, 2025
 **Document Status**: DESIGN SPECIFICATION ONLY - NO SOFTWARE EXISTS
-**Alignment**: PRD v3.6.0, SRS v3.6.0, Architecture v3.6.0, User Stories v3.5.0*
+**Alignment**: PRD v3.5.0, SRS v3.5.0, Architecture v3.5.0, User Stories v3.5.0*
 **Planned License**: Apache-2.0 (Core), MIT (Plugin SDK)
 **Implementation Status**: 0% - DESIGN PHASE ONLY
 **Software Availability**: NONE - NOT PUBLISHED
 
-*User Stories v3.5.0 remain functionally complete; v3.6.0 changes focus on test coverage and verification requirements.
+*All documents are now harmonized to v3.5.0 for consistency across the suite.
 
 </deployment_guide>
 
@@ -993,7 +993,7 @@ npm config set cafile /path/to/company-ca-bundle.pem
 - Added comprehensive "Version Alignment Notice" section
 - Created version comparison table showing all document versions
 - Added "Version 3.5.0 to 3.6.0 Migration Notes" explaining the differences
-- Clarified that User Stories v3.5.0 functionality remains complete; v3.6.0 adds test/verification enhancements
+- Clarified that all documents are harmonized to v3.5.0 for suite consistency
 
 ### 2. Docker Registry Naming ✅ RESOLVED
 
@@ -1041,13 +1041,13 @@ npm config set cafile /path/to/company-ca-bundle.pem
 
 | Requirement | Status | Notes |
 |-------------|--------|-------|
-| PRD v3.6.0 | ✅ ALIGNED | Quality gate, memory modes, compliance features |
-| SRS v3.6.0 | ✅ ALIGNED | All functional requirements referenced |
-| Architecture v3.6.0 | ✅ ALIGNED | Component model, security architecture |
+| PRD v3.5.0 | ✅ ALIGNED | Quality gate, memory modes, compliance features |
+| SRS v3.5.0 | ✅ ALIGNED | All functional requirements referenced |
+| Architecture v3.5.0 | ✅ ALIGNED | Component model, security architecture |
 | User Stories v3.5.0 | ✅ ALIGNED | Functionality complete, version difference documented |
 | Test Coverage | ✅ COMPLETE | All test cases mapped to features |
 | Enterprise Support | ✅ COMPREHENSIVE | Proxy, mirrors, air-gapped deployment |
 
-The deployment guide is now fully aligned, comprehensive, and ready for use as the authoritative installation and deployment specification for DevDocAI v3.6.0.
+The deployment guide is now fully aligned, comprehensive, and ready for use as the authoritative installation and deployment specification for DevDocAI v3.5.0.
 
 </review_notes>

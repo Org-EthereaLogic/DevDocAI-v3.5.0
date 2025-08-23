@@ -1,13 +1,13 @@
 <updated_api_design>
 
-# DevDocAI API Design Specification
+# DevDocAI Application Programming Interface (API) Design Specification
 
 ---
 ⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
 
 **Document Type**: API Design Specification
 **Implementation Status**: 0% - No code written
-**Purpose**: Blueprint for DevDocAI v3.6.0 API development
+**Purpose**: Blueprint for DevDocAI v3.5.0 API development
 
 > **This document describes planned API functionality and architecture that has not been built yet.**
 > All code examples, endpoints, and integration instructions are design specifications for future implementation.
@@ -21,17 +21,17 @@ Contributors can use this as a blueprint to build the described DevDocAI API sys
 
 ---
 
-## Version 3.6.0
+## Version 3.5.0
 
-**Status:** FINAL - Suite Aligned v3.6.0
+**Status:** FINAL - Suite Aligned v3.5.0
 **License:** Apache-2.0 (Core System), MIT (Client SDKs)
 **Last Updated:** August 23, 2025
 
 **Document Alignment:**
 
-- ✅ PRD v3.6.0 - Complete feature alignment with test coverage requirements
-- ✅ SRS v3.6.0 - All functional requirements mapped with human verification gates
-- ✅ Architecture v3.6.0 - Component model fully integrated (M001-M013)
+- ✅ PRD v3.5.0 - Complete feature alignment with test coverage requirements
+- ✅ SRS v3.5.0 - All functional requirements mapped with human verification gates
+- ✅ Architecture v3.5.0 - Component model fully integrated (M001-M013)
 - ✅ User Stories v3.5.0 - All 21 stories (US-001 through US-021) implemented
 
 ---

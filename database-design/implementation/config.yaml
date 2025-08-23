@@ -1,0 +1,319 @@
+# DevDocAI Database System Configuration
+# Production-ready multi-database architecture
+
+system:
+  name: "DevDocAI Database System"
+  version: "3.5.0"
+  environment: "${ENVIRONMENT:development}"
+  log_level: "${LOG_LEVEL:INFO}"
+  debug: "${DEBUG:false}"
+
+# Vector Database Configuration
+qdrant:
+  host: "${QDRANT_HOST:localhost}"
+  port: ${QDRANT_PORT:6333}
+  grpc_port: ${QDRANT_GRPC_PORT:6334}
+  api_key: "${QDRANT_API_KEY:}"
+  https: ${QDRANT_HTTPS:false}
+  collections:
+    documents:
+      name: "devdocai_documents"
+      vector_size: 1536  # OpenAI embeddings
+      distance: "Cosine"
+      shard_number: 2
+      replication_factor: 1
+    modules:
+      name: "devdocai_modules"
+      vector_size: 1536
+      distance: "Cosine"
+    requirements:
+      name: "devdocai_requirements"
+      vector_size: 1536
+      distance: "Cosine"
+    tests:
+      name: "devdocai_tests"
+      vector_size: 768  # Local model fallback
+      distance: "Cosine"
+  batch_size: 100
+  timeout: 30
+
+# Graph Database Configuration
+neo4j:
+  uri: "${NEO4J_URI:bolt://localhost:7687}"
+  username: "${NEO4J_USERNAME:neo4j}"
+  password: "${NEO4J_PASSWORD:password}"
+  database: "${NEO4J_DATABASE:neo4j}"
+  max_connection_lifetime: 3600
+  max_connection_pool_size: 50
+  connection_acquisition_timeout: 60
+  connection_timeout: 30
+  encrypted: ${NEO4J_ENCRYPTED:false}
+  trust: "${NEO4J_TRUST:TRUST_ALL_CERTIFICATES}"
+  indexes:
+    - "CREATE INDEX document_id IF NOT EXISTS FOR (d:Document) ON (d.id)"
+    - "CREATE INDEX module_id IF NOT EXISTS FOR (m:Module) ON (m.id)"
+    - "CREATE INDEX requirement_id IF NOT EXISTS FOR (r:Requirement) ON (r.id)"
+    - "CREATE INDEX test_id IF NOT EXISTS FOR (t:Test) ON (t.id)"
+  constraints:
+    - "CREATE CONSTRAINT document_unique IF NOT EXISTS FOR (d:Document) REQUIRE d.id IS UNIQUE"
+    - "CREATE CONSTRAINT module_unique IF NOT EXISTS FOR (m:Module) REQUIRE m.id IS UNIQUE"
+
+# PostgreSQL Configuration
+postgresql:
+  host: "${POSTGRES_HOST:localhost}"
+  port: ${POSTGRES_PORT:5432}
+  database: "${POSTGRES_DB:devdocai}"
+  username: "${POSTGRES_USER:postgres}"
+  password: "${POSTGRES_PASSWORD:password}"
+  sslmode: "${POSTGRES_SSLMODE:prefer}"
+  pool:
+    min_size: 5
+    max_size: 20
+    max_overflow: 10
+    pool_timeout: 30
+    pool_recycle: 3600
+  pgvector:
+    extension: "vector"
+    dimensions: 1536
+    index_type: "ivfflat"
+    lists: 100
+  tables:
+    - documents
+    - modules
+    - requirements
+    - tests
+    - audit_log
+    - embeddings_cache
+
+# Redis Cache Configuration
+redis:
+  host: "${REDIS_HOST:localhost}"
+  port: ${REDIS_PORT:6379}
+  password: "${REDIS_PASSWORD:}"
+  db: ${REDIS_DB:0}
+  ssl: ${REDIS_SSL:false}
+  decode_responses: true
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  socket_keepalive: true
+  socket_keepalive_options: {}
+  connection_pool:
+    max_connections: 50
+    max_idle_time: 300
+  cache:
+    ttl:
+      queries: 3600  # 1 hour
+      embeddings: 86400  # 24 hours
+      documents: 7200  # 2 hours
+      relationships: 10800  # 3 hours
+    key_patterns:
+      query: "query:{hash}:{version}"
+      embedding: "embed:{doc_id}:{chunk_id}"
+      document: "doc:{id}:{version}"
+      relationship: "rel:{from_id}:{to_id}:{type}"
+
+# Elasticsearch Configuration
+elasticsearch:
+  hosts:
+    - "${ELASTICSEARCH_HOST:http://localhost:9200}"
+  username: "${ELASTICSEARCH_USERNAME:}"
+  password: "${ELASTICSEARCH_PASSWORD:}"
+  api_key: "${ELASTICSEARCH_API_KEY:}"
+  verify_certs: ${ELASTICSEARCH_VERIFY_CERTS:false}
+  ssl_show_warn: ${ELASTICSEARCH_SSL_WARN:false}
+  timeout: 30
+  max_retries: 3
+  retry_on_timeout: true
+  indices:
+    documents:
+      name: "devdocai-documents"
+      shards: 2
+      replicas: 1
+    modules:
+      name: "devdocai-modules"
+      shards: 1
+      replicas: 1
+    requirements:
+      name: "devdocai-requirements"
+      shards: 1
+      replicas: 1
+  analyzers:
+    code_analyzer:
+      tokenizer: "standard"
+      filter: ["lowercase", "stop", "snowball"]
+    tech_analyzer:
+      tokenizer: "standard"
+      filter: ["lowercase", "tech_synonyms"]
+
+# Embedding Configuration
+embeddings:
+  provider: "${EMBEDDING_PROVIDER:openai}"  # openai, local, huggingface
+  openai:
+    api_key: "${OPENAI_API_KEY:}"
+    model: "text-embedding-ada-002"
+    dimensions: 1536
+    batch_size: 100
+    max_retries: 3
+    timeout: 60
+    rate_limit:
+      requests_per_minute: 3000
+      tokens_per_minute: 1000000
+  local:
+    model_name: "sentence-transformers/all-MiniLM-L6-v2"
+    dimensions: 768
+    device: "${EMBEDDING_DEVICE:cpu}"  # cpu, cuda, mps
+    batch_size: 32
+    cache_dir: "./models"
+  huggingface:
+    api_key: "${HUGGINGFACE_API_KEY:}"
+    model: "sentence-transformers/all-mpnet-base-v2"
+    dimensions: 768
+
+# Document Processing Configuration
+document_processing:
+  chunk_size: 512
+  chunk_overlap: 50
+  min_chunk_size: 100
+  max_chunk_size: 1000
+  separators:
+    - "\n\n"
+    - "\n"
+    - ". "
+    - " "
+  metadata_keys:
+    - "source"
+    - "type"
+    - "module"
+    - "version"
+    - "author"
+    - "created_at"
+    - "updated_at"
+  supported_formats:
+    - ".md"
+    - ".txt"
+    - ".py"
+    - ".yaml"
+    - ".json"
+  
+# Query Configuration
+query:
+  default_limit: 10
+  max_limit: 100
+  timeout: 30
+  cache_enabled: true
+  query_types:
+    semantic_search:
+      enabled: true
+      databases: ["qdrant", "postgresql"]
+      min_score: 0.7
+    requirement_tracing:
+      enabled: true
+      databases: ["neo4j", "postgresql"]
+      max_depth: 5
+    module_dependencies:
+      enabled: true
+      databases: ["neo4j"]
+      include_indirect: true
+    test_coverage:
+      enabled: true
+      databases: ["neo4j", "postgresql"]
+    implementation_guides:
+      enabled: true
+      databases: ["elasticsearch", "qdrant"]
+    consistency_checking:
+      enabled: true
+      databases: ["all"]
+    architecture_queries:
+      enabled: true
+      databases: ["neo4j", "elasticsearch"]
+
+# Monitoring Configuration
+monitoring:
+  enabled: true
+  metrics:
+    enabled: true
+    port: ${METRICS_PORT:9090}
+    path: "/metrics"
+    collect_interval: 60
+  logging:
+    enabled: true
+    format: "json"
+    level: "${LOG_LEVEL:INFO}"
+    file: "${LOG_FILE:./logs/devdocai.log}"
+    max_size: "100M"
+    max_backups: 10
+    max_age: 30
+  tracing:
+    enabled: ${TRACING_ENABLED:false}
+    provider: "${TRACING_PROVIDER:jaeger}"
+    endpoint: "${TRACING_ENDPOINT:http://localhost:14268/api/traces}"
+    sample_rate: ${TRACING_SAMPLE_RATE:0.1}
+  health_check:
+    enabled: true
+    port: ${HEALTH_PORT:8080}
+    path: "/health"
+    interval: 30
+
+# Performance Configuration
+performance:
+  max_workers: ${MAX_WORKERS:10}
+  thread_pool_size: ${THREAD_POOL_SIZE:20}
+  async_enabled: true
+  batch_processing:
+    enabled: true
+    batch_size: 100
+    timeout: 300
+  connection_pool:
+    min_size: 5
+    max_size: 50
+    timeout: 30
+  circuit_breaker:
+    enabled: true
+    failure_threshold: 5
+    recovery_timeout: 60
+    expected_exception_types:
+      - "ConnectionError"
+      - "TimeoutError"
+
+# Security Configuration
+security:
+  api_keys:
+    enabled: ${API_KEYS_ENABLED:true}
+    header_name: "X-API-Key"
+  encryption:
+    enabled: ${ENCRYPTION_ENABLED:true}
+    algorithm: "AES-256-GCM"
+    key_derivation: "PBKDF2"
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    requests_per_hour: 5000
+  cors:
+    enabled: ${CORS_ENABLED:true}
+    allowed_origins: ["*"]
+    allowed_methods: ["GET", "POST", "PUT", "DELETE"]
+    allowed_headers: ["Content-Type", "Authorization", "X-API-Key"]
+
+# Backup Configuration
+backup:
+  enabled: ${BACKUP_ENABLED:true}
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention_days: 30
+  destinations:
+    - type: "s3"
+      bucket: "${BACKUP_S3_BUCKET:}"
+      region: "${BACKUP_S3_REGION:us-east-1}"
+    - type: "local"
+      path: "./backups"
+  databases:
+    - "postgresql"
+    - "neo4j"
+    - "elasticsearch"
+
+# Development Configuration
+development:
+  debug: true
+  hot_reload: true
+  mock_external_services: false
+  seed_data: true
+  test_mode: false

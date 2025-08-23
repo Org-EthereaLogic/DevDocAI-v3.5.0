@@ -1,343 +1,806 @@
+<updated_contributing_md>
+
 # Contributing to DevDocAI v3.5.0
 
-Welcome to DevDocAI! We're thrilled that you're interested in contributing to our open-source documentation enhancement and generation system. DevDocAI empowers solo developers, independent contractors, and small teams to create professional-grade technical documentation with AI-powered analysis, multi-LLM synthesis, and enterprise-level compliance features.
+Welcome to DevDocAI! We're thrilled that you're interested in contributing to our AI-powered documentation enhancement and generation system. DevDocAI empowers solo developers, independent contractors, and small teams to create professional-grade technical documentation with AI-powered analysis, multi-LLM synthesis, and enterprise-level compliance features.
 
-## 🚨 IMPORTANT: Project Status
+## 🌟 Project Vision
 
-**DevDocAI is currently in the DESIGN PHASE only.**
+DevDocAI democratizes professional documentation creation by providing enterprise-grade tools accessible to individual developers. Through the Meta-Iterative AI Refinement (MIAIR) methodology, we're building a system that achieves consistent 85%+ documentation quality while maintaining complete privacy through local-first operation.
 
-- No code has been written yet
-- These are comprehensive design specifications
-- We're seeking contributors to help BUILD the first version
+## 📚 Table of Contents
 
-### How You Can Contribute Now
-
-1. Review design documents and provide feedback
-2. Identify potential implementation challenges
-3. Suggest technology choices for the stack
-4. Volunteer to lead development of specific modules
-
-## Current Project State
-
-### What Exists Today
-
-✅ **Comprehensive Design Documentation:**
-
-- Product Requirements Document (PRD) v3.5.0
-- Software Requirements Specification (SRS) v3.5.0
-- Architecture Blueprint v3.5.0
-- 21 User Stories with Acceptance Criteria
-- Complete Test Plan (121 test cases)
-- User Manual (design specification)
-- API specifications
-
-### What Doesn't Exist Yet
-
-❌ **No Implementation:**
-
-- No source code written
-- No development environment setup
-- No CI/CD pipelines
-- No tests implemented
-- No packages published
-- No working software
-
-### Development Timeline
-
-🗓️ **Planned Phases:**
-
-- **Phase 1 (Q4 2025)**: Core components (M001-M007)
-- **Phase 2 (Q1 2026)**: Intelligence components (M003, M008-M009)
-- **Phase 3 (Q2 2026)**: Advanced features (M010-M013)
-- **Phase 4 (Q3 2026)**: Beta release
-
-## 📋 Table of Contents
-
-- [Current Project State](#current-project-state)
-- [Legal and Licensing](#legal-and-licensing)
-- [Getting Started as a Contributor](#getting-started-as-a-contributor)
-- [Types of Contributions Needed](#types-of-contributions-needed)
-- [Module Ownership Model](#module-ownership-model)
-- [Development Guidelines (When Implementation Begins)](#development-guidelines-when-implementation-begins)
-- [Communication Channels](#communication-channels)
-- [Recognition and Attribution](#recognition-and-attribution)
-- [Project Overview](#project-overview)
+- [Project Status](#project-status)
+- [Getting Started](#getting-started)
+- [Types of Contributions](#types-of-contributions)
+- [Development Process](#development-process)
+- [Version Control Guidelines](#version-control-guidelines)
+- [Coding Standards](#coding-standards)
+- [Testing Requirements](#testing-requirements)
+- [Submission Process](#submission-process)
+- [Module Ownership](#module-ownership)
+- [Communication](#communication)
+- [Recognition](#recognition)
+- [Legal & Licensing](#legal--licensing)
 - [Code of Conduct](#code-of-conduct)
-- [Questions](#questions)
+- [Resources](#resources)
 
-## Legal and Licensing
+## Project Status
 
-### Current Status
+### 🚨 Current Phase: Design Complete, Implementation Ready
 
-- Design documents: Creative Commons CC-BY-4.0
-- Future code: Apache-2.0 (Core), MIT (Plugin SDK)
-- No CLA required for design contributions
-- CLA will be implemented when coding begins
+DevDocAI v3.5.0 has **comprehensive design documentation** with **0% code implementation**, making it an ideal greenfield project for contributors.
 
-### Contribution Agreement
+#### ✅ What's Complete
 
-By contributing design feedback or documentation:
+- **Product Requirements Document (PRD) v3.5.0** - Business requirements and vision
+- **Software Requirements Specification (SRS) v3.5.0** - Technical specifications with detailed requirements
+- **Architecture Blueprint v3.5.0** - Complete component design (M001-M013)
+- **21 User Stories** - Detailed acceptance criteria (US-001 through US-021)
+- **Test Plan v3.5.0** - 121 comprehensive test cases designed
+- **User Manual** - Complete user guidance (design specification)
+- **API Specifications** - RESTful interfaces and plugin SDK
 
-1. You agree your contributions can be used to build DevDocAI
-2. You understand the project will be open source
-3. You accept the planned dual-license model
+#### ❌ What Needs Building
 
-## Getting Started as a Contributor
+- Source code implementation (0% complete)
+- Development environment setup
+- CI/CD pipelines with quality gates
+- Test implementation (121 test cases designed)
+- Package publishing infrastructure
+- Documentation site deployment
 
-### Step 1: Understand the Vision
+#### 📅 Implementation Roadmap
 
-1. Read the [Product Requirements Document](docs/01-requirements/DESIGN-devdocai-prd.md)
-2. Review the [Architecture Blueprint](docs/02-architecture/DESIGN-devdocai-architecture-blueprint.md)
-3. Study the [21 User Stories](docs/01-requirements/DESIGN-devdocai-user-stories.md)
-4. Examine the [SRS](docs/01-requirements/DESIGN-devdocai-srs.md) for technical details
+Per the PRD v3.5.0 Section 14, development follows a phased monthly approach:
 
-### Step 2: Join the Planning Discussion
+**Phase 1: Foundation (Months 1-2)**
 
-1. **GitHub Discussions**: Join architecture and design discussions
-2. **Discord**: Connect with other contributors planning the build
-3. **Weekly Meetings**: Participate in design review sessions
+- Core modules M001-M007 implementation
+- Configuration Manager, Local Storage System
+- Document Generator, Tracking Matrix
+- Suite Manager, Review Engine
+- VS Code Extension & CLI Interface
+- Basic security (encryption, authentication)
 
-### Step 3: Choose Your Contribution Area
+**Phase 2: Intelligence (Months 3-4)**
 
-1. **Design Review**: Provide feedback on existing specifications
-2. **Module Leadership**: Volunteer to lead a component's development
-3. **Technology Research**: Investigate and recommend tools/libraries
-4. **Documentation**: Help refine and expand design documents
+- MIAIR Engine (M003), LLM Adapter (M008)
+- Enhancement Pipeline (M009)
+- Batch Operations Manager (M011)
+- Version Control Integration (M012)
+- Cost Management implementation
 
-### Step 4: Submit Your Contribution
+**Phase 3: Enhancement (Months 5-6)**
 
-For design-phase contributions:
+- SBOM Generator (M010)
+- Template Marketplace Client (M013)
+- Web Dashboard, Learning System
+- Plugin Architecture
+- Advanced security (code signing, DSR)
 
-1. Open an issue describing your feedback/proposal
-2. Use appropriate labels: `design-review`, `architecture`, `technology-stack`
-3. Reference specific sections of design documents
-4. Provide detailed rationale for suggestions
+**Phase 4: Ecosystem (Months 7-8)**
 
-## Types of Contributions Needed
+- Performance optimizations
+- Community features
+- Enterprise capabilities
+- Production hardening
 
-### 🎯 Immediate Needs (Design Phase)
+## Getting Started
 
-#### 1. Design Review and Validation
+### Prerequisites
 
-- Review existing design documents for completeness
-- Identify gaps or contradictions in specifications
-- Validate technical feasibility of proposed features
-- Ensure compliance requirements are achievable
+Before contributing, ensure you have:
 
-#### 2. Technology Stack Recommendations
+- **Technical Skills**: JavaScript/TypeScript, Node.js experience
+- **Development Environment**: Node.js 18+, Git 2.25+, VS Code 1.70+
+- **Documentation Review**: Familiarity with project specifications
+- **Quality Mindset**: Commitment to 85% quality gate threshold
 
-Help us choose the right technologies for:
+### Step 1: Understand the Architecture
 
-- **Core Framework**: Node.js version, TypeScript configuration
-- **VS Code Extension**: Extension API best practices
-- **AI Integration**: LLM SDK selections (OpenAI, Anthropic, Google)
-- **Testing Framework**: Jest vs Mocha vs Vitest
-- **Build System**: Webpack vs Rollup vs esbuild
-- **Documentation**: Docusaurus vs MkDocs vs custom
+1. **Read Core Documents** (in order):
+   - [Product Requirements Document](docs/01-requirements/DESIGN-devdocai-prd.md) - Vision and requirements
+   - [Architecture Blueprint](docs/02-architecture/DESIGN-devdocai-architecture-blueprint.md) - System design
+   - [Software Requirements Specification](docs/01-requirements/DESIGN-devdocai-srs.md) - Technical details
+   - [User Stories](docs/01-requirements/DESIGN-devdocai-user-stories.md) - Feature requirements
 
-#### 3. Module Development Leadership
+2. **Review Component Specifications**:
+   - Study module designs (M001-M013) in Architecture Blueprint
+   - Understand dependencies and interactions
+   - Review memory mode requirements (Baseline/Standard/Enhanced/Performance)
 
-Volunteer to lead development of specific modules:
+3. **Understand Quality Requirements**:
+   - 85% quality gate for all outputs
+   - 80% overall test coverage, 90% for critical paths
+   - Comprehensive testing across 121 defined test cases
 
-- **M001**: Configuration Manager
-- **M002**: Local Storage System
-- **M003**: MIAIR Engine
-- **M004**: Document Generator
-- **M005**: Traceability Matrix
-- **M006**: Suite Manager
-- **M007**: Review Engine
-- **M008**: LLM Adapter
-- **M009**: Enhancement Pipeline
-- **M010**: SBOM Generator
-- **M011**: Batch Operations Manager
-- **M012**: Version Control Integration
-- **M013**: Template Marketplace Client
+### Step 2: Set Up Development Environment
 
-#### 4. Implementation Planning
+```bash
+# Clone repository
+git clone https://github.com/devdocai/devdocai.git
+cd devdocai
 
-- Create detailed implementation roadmaps
-- Define coding standards and conventions
-- Design CI/CD pipeline architecture
-- Plan testing strategies
+# Install dependencies (when package.json is created)
+npm install
 
-## Module Ownership Model
+# Set up pre-commit hooks
+npm run setup:hooks
 
-### Core Modules Seeking Owners
+# Verify environment
+npm run verify:env
+```
 
-| Module | Description | Complexity | Status | Owner |
-|--------|-------------|------------|--------|-------|
-| M001 | Configuration Manager | Medium | UNASSIGNED | [VOLUNTEER] |
-| M002 | Local Storage System | Medium | UNASSIGNED | [VOLUNTEER] |
-| M003 | MIAIR Engine | High | UNASSIGNED | [VOLUNTEER] |
-| M004 | Document Generator | High | UNASSIGNED | [VOLUNTEER] |
-| M005 | Traceability Matrix | Medium | UNASSIGNED | [VOLUNTEER] |
-| M006 | Suite Manager | Medium | UNASSIGNED | [VOLUNTEER] |
-| M007 | Review Engine | High | UNASSIGNED | [VOLUNTEER] |
-| M008 | LLM Adapter | High | UNASSIGNED | [VOLUNTEER] |
-| M009 | Enhancement Pipeline | Medium | UNASSIGNED | [VOLUNTEER] |
-| M010 | SBOM Generator | High | UNASSIGNED | [VOLUNTEER] |
-| M011 | Batch Operations Manager | Low | UNASSIGNED | [VOLUNTEER] |
-| M012 | Version Control Integration | Medium | UNASSIGNED | [VOLUNTEER] |
-| M013 | Template Marketplace | Medium | UNASSIGNED | [VOLUNTEER] |
+### Step 3: Choose Your Contribution Path
 
-### Responsibilities of Module Owners
+#### 🎯 Immediate Opportunities
 
-- Lead design refinement for the module
-- Create implementation plan and estimates
-- Coordinate with dependent module owners
-- Recruit contributors for the module
-- Ensure module meets quality standards
+1. **Module Implementation** - Take ownership of a core module (M001-M013)
+2. **Testing Framework** - Set up Jest/Vitest for 121 test cases
+3. **CI/CD Pipeline** - Design GitHub Actions workflows
+4. **Development Environment** - Create Docker containers and setup scripts
+5. **Documentation Site** - Build docs.devdocai.io with Docusaurus
 
-## Development Guidelines (When Implementation Begins)
+### Step 4: Join the Community
 
-### 🚀 Future Development Process
+- **GitHub Discussions**: Architecture debates and design decisions
+- **Discord Server**: Real-time collaboration (#dev-general, #module-owners)
+- **Weekly Sync**: Thursdays 3pm UTC - Progress reviews and planning
+- **Office Hours**: Tuesdays 5pm UTC - Technical Q&A sessions
 
-Once we begin coding (Target: Q4 2025), we'll follow these guidelines:
+## Types of Contributions
 
-#### Code Quality Standards
+### 🏗️ Core Development
 
-- **Language**: TypeScript 5.x strict mode
-- **Style**: ESLint + Prettier configuration
-- **Testing**: Minimum 80% coverage (90% for critical paths)
+#### Module Implementation
+
+Take ownership of one of our 13 core modules. Each module has complete specifications and requires:
+
+- TypeScript implementation following strict mode
+- 80% overall test coverage, 90% for critical paths
+- JSDoc documentation for all public APIs
+- Integration with other modules per architecture
+
+#### Testing Infrastructure
+
+- Unit test frameworks (Jest/Vitest configuration)
+- Integration test suites with mock services
+- Implementation of 121 test cases from Test Plan
+- Performance benchmarks for all operations
+- Security testing automation
+- Accessibility validation (WCAG 2.1 AA)
+
+### 🔧 Infrastructure & DevOps
+
+#### CI/CD Pipeline Development
+
+- GitHub Actions workflows for all phases
+- Quality gate enforcement (85% threshold)
+- Automated security scanning
+- SBOM generation in CI pipeline
+- Release automation with semantic versioning
+
+#### Development Environment
+
+- Docker compose for local development
+- VS Code workspace configuration
+- Debugging configurations
+- Memory mode simulation environments
+
+### 📖 Documentation
+
+#### Technical Documentation
+
+- API documentation with OpenAPI 3.0
+- Architecture decision records (ADRs)
+- Module implementation guides
+- Integration tutorials
+
+#### User Documentation
+
+- Getting started guides
+- Video tutorials and demos
+- Template creation guides (40+ document types)
+- Troubleshooting guides
+
+### 🧪 Quality Assurance
+
+#### Test Implementation
+
+- Implement 121 test cases from Test Plan v3.5.0
+- Create test data generators
+- Build regression test suites
+- Implement performance tests
+
+#### Code Review
+
+- Review pull requests for quality
+- Ensure architectural compliance
+- Validate security requirements
+- Check accessibility standards
+
+## Development Process
+
+### Development Workflow
+
+1. **Issue Selection**
+   - Browse open issues labeled `good-first-issue` or `help-wanted`
+   - Check module ownership availability
+   - Verify prerequisites and dependencies
+
+2. **Design Review**
+   - Review relevant specifications
+   - Discuss approach in issue comments
+   - Get design approval before implementation
+
+3. **Implementation**
+   - Create feature branch from `develop`
+   - Write code following standards
+   - Implement tests achieving coverage targets
+   - Update documentation
+
+4. **Quality Assurance**
+   - Run local test suite
+   - Verify quality gate (85%)
+   - Check security requirements
+   - Validate accessibility
+
+5. **Submission**
+   - Create pull request with template
+   - Link related issues
+   - Wait for automated checks
+   - Address review feedback
+
+## Version Control Guidelines
+
+### Branching Strategy
+
+We follow GitFlow with modifications for our phased development:
+
+```
+main                    (production-ready code)
+├── develop            (integration branch)
+│   ├── feature/       (new features)
+│   ├── module/        (module implementations)
+│   ├── fix/           (bug fixes)
+│   └── test/          (test implementations)
+└── release/           (release preparation)
+```
+
+#### Branch Naming Conventions
+
+- `feature/US-XXX-description` - Feature implementation
+- `module/M00X-module-name` - Module development
+- `fix/issue-XXX-description` - Bug fixes
+- `test/TC-XXX-test-name` - Test implementation
+- `docs/section-description` - Documentation updates
+
+### Commit Message Standards
+
+We follow Conventional Commits specification with enhanced requirements:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+#### Types
+
+- `feat`: New feature implementation
+- `fix`: Bug fix
+- `test`: Test additions or modifications
+- `docs`: Documentation changes
+- `refactor`: Code refactoring
+- `perf`: Performance improvements
+- `build`: Build system changes
+- `ci`: CI/CD configuration
+- `chore`: Maintenance tasks
+
+#### Examples
+
+```bash
+feat(M004): implement document generator base class
+
+- Add DocumentGenerator abstract class
+- Implement template loading mechanism
+- Add metadata v1.0 support
+
+Implements: US-001
+Coverage: 85%
+```
+
+```bash
+test(M007): add review engine quality gate tests
+
+- Test 85% threshold enforcement
+- Validate score calculation accuracy
+- Add edge case handling
+
+Test-Cases: TC-005, TC-006
+Coverage: 90%
+```
+
+### Pull Request Guidelines
+
+#### PR Title Format
+
+`[Module/Feature] Brief description (US-XXX)`
+
+#### PR Description Template
+
+```markdown
+## Summary
+Brief description of changes
+
+## Related Issues
+- Closes #XXX
+- Implements US-XXX
+- Relates to M00X
+
+## Changes Made
+- [ ] Feature/fix implementation
+- [ ] Tests added/updated
+- [ ] Documentation updated
+- [ ] Security review completed
+
+## Test Coverage
+- Overall: XX% (minimum 80%)
+- Critical Paths: XX% (minimum 90%)
+- New Code: XX%
+
+## Quality Gate
+- [ ] Passes 85% threshold
+- [ ] No security vulnerabilities
+- [ ] Accessibility compliant
+
+## Screenshots/Demo
+(if applicable)
+
+## Reviewer Checklist
+- [ ] Code follows style guidelines
+- [ ] Tests are comprehensive
+- [ ] Documentation is clear
+- [ ] No breaking changes
+```
+
+## Coding Standards
+
+### TypeScript Guidelines
+
+```typescript
+// Required TypeScript configuration
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}
+```
+
+### Code Quality Standards
+
+- **ESLint**: Airbnb configuration with TypeScript
+- **Prettier**: Automatic formatting (2 spaces, single quotes)
+- **Complexity**: Maximum cyclomatic complexity of 10
+- **File Size**: Maximum 300 lines per file
+- **Function Size**: Maximum 50 lines per function
 - **Documentation**: JSDoc for all public APIs
 
-#### Architecture Principles
+### Security Requirements
 
-Based on our Architecture Blueprint:
+- Input validation on all external data
+- Parameterized queries for any database operations
+- Encryption for sensitive data (AES-256-GCM)
+- No hardcoded secrets or credentials
+- Regular dependency vulnerability scanning
+- Ed25519 code signing for plugins
 
-- **Modular Design**: Loose coupling between components
-- **Privacy-First**: Local operation by default
-- **Memory-Aware**: Adaptive to system resources
-- **Plugin Security**: Sandboxed execution, Ed25519 signatures
+### Performance Standards
 
-#### Quality Gate
+- Response time <200ms for UI operations
+- Processing <5 seconds for documents <50 pages
+- Memory usage within mode constraints
+- Lazy loading for large datasets
+- Caching strategies per memory mode
 
-All contributions must meet our 85% quality threshold:
+## Testing Requirements
 
-- Code quality score ≥85%
-- Test coverage ≥80%
-- Documentation completeness ≥90%
-- Security scan pass rate 100%
+### Coverage Targets
 
-## Communication Channels
+Per Test Plan v3.5.0 requirements:
 
-### Design Phase Channels (Active Now)
+| Component Type | Minimum Coverage | Critical Path Coverage |
+|---------------|-----------------|----------------------|
+| Core Modules | 80% | 90% |
+| UI Components | 75% | 90% |
+| Utilities | 85% | 95% |
+| Security Functions | 90% | 100% |
+| API Endpoints | 80% | 95% |
 
-- **GitHub Discussions**: Architecture and design debates
-- **Discord #design**: Real-time design discussions
-- **Weekly Zoom**: Thursday 3pm UTC - Design review meetings
-- **Email List**: <devdocai-design@googlegroups.com>
+### Test Categories
 
-### Development Phase Channels (Future)
+The Test Plan v3.5.0 defines 121 test cases across these categories:
 
-- **GitHub Issues**: Bug reports and feature requests
-- **Discord #dev**: Development coordination
-- **Slack**: Internal team communication (when team forms)
+#### Unit Tests (TC-001 to TC-050)
 
-## Recognition and Attribution
+- Test individual functions and methods
+- Mock external dependencies
+- Focus on edge cases and error conditions
+- Use Jest or Vitest framework
 
-### Design Phase Contributors
+```typescript
+describe('DocumentGenerator', () => {
+  describe('generate()', () => {
+    it('should generate document with valid template', async () => {
+      // Test implementation per TC-001
+    });
 
-Contributors during the design phase will be recognized as:
+    it('should enforce 85% quality gate', async () => {
+      // Test quality threshold per TC-005
+    });
 
-- **Founding Contributors**: Helped shape the initial implementation
-- **Module Architects**: Led the design-to-code transition
-- **Technology Advisors**: Guided critical technology decisions
+    it('should handle API failures with fallback', async () => {
+      // Test resilience per TC-002
+    });
+  });
+});
+```
+
+#### Integration Tests (TC-051 to TC-080)
+
+- Test module interactions
+- Validate data flow between components
+- Test with realistic data volumes
+- Verify memory mode behaviors
+
+#### System Tests (TC-081 to TC-100)
+
+- Test complete user workflows
+- Validate all 21 user stories
+- Test VS Code extension integration
+- Verify CLI operations
+
+#### Performance Tests (TC-101 to TC-110)
+
+- Response time validation
+- Throughput testing
+- Resource utilization
+- Scalability verification
+
+#### Security Tests (TC-111 to TC-121)
+
+- Authentication and authorization
+- Data encryption validation
+- SBOM generation accuracy
+- PII detection verification
+
+### Test Documentation
+
+Every test must include:
+
+- Clear description mapping to Test Plan TC-XXX
+- Expected behavior documentation
+- Test data requirements
+- Performance expectations
+
+## Submission Process
+
+### Pre-Submission Checklist
+
+Before submitting a PR, ensure:
+
+- [ ] All tests pass locally
+- [ ] Code coverage meets requirements (80% overall, 90% critical)
+- [ ] No linting errors or warnings
+- [ ] Documentation is updated
+- [ ] Commit messages follow standards
+- [ ] Branch is up-to-date with develop
+- [ ] Security scan completed
+- [ ] Performance benchmarks pass
+
+### Review Process
+
+1. **Automated Checks** (5-10 minutes)
+   - CI pipeline validation
+   - Test execution
+   - Coverage verification
+   - Security scanning
+
+2. **Peer Review** (1-2 days)
+   - Code quality assessment
+   - Architecture compliance
+   - Best practices validation
+   - Documentation review
+
+3. **Module Owner Review** (1-2 days)
+   - Technical accuracy
+   - Integration validation
+   - Performance impact
+   - API compatibility
+
+4. **Merge Requirements**
+   - 2 approvals minimum
+   - All checks passing
+   - No unresolved comments
+   - Up-to-date with target branch
+
+### Post-Merge Activities
+
+- Update implementation tracker
+- Close related issues
+- Update module documentation
+- Notify dependent module owners
+
+## Module Ownership
+
+### Available Modules
+
+Per Architecture Blueprint v3.5.0:
+
+| Module ID | Module Name | Complexity | Priority | Phase | Status | Owner |
+|-----------|------------|------------|----------|-------|--------|-------|
+| M001 | Configuration Manager | Medium | P0 | 1 | 🔓 AVAILABLE | - |
+| M002 | Local Storage System | Medium | P0 | 1 | 🔓 AVAILABLE | - |
+| M003 | MIAIR Engine | High | P1 | 2 | 🔓 AVAILABLE | - |
+| M004 | Document Generator | High | P0 | 1 | 🔓 AVAILABLE | - |
+| M005 | Tracking Matrix | Medium | P0 | 1 | 🔓 AVAILABLE | - |
+| M006 | Suite Manager | Medium | P0 | 1 | 🔓 AVAILABLE | - |
+| M007 | Review Engine | High | P0 | 1 | 🔓 AVAILABLE | - |
+| M008 | LLM Adapter | High | P1 | 2 | 🔓 AVAILABLE | - |
+| M009 | Enhancement Pipeline | Medium | P1 | 2 | 🔓 AVAILABLE | - |
+| M010 | SBOM Generator | High | P2 | 3 | 🔓 AVAILABLE | - |
+| M011 | Batch Operations Manager | Low | P1 | 2 | 🔓 AVAILABLE | - |
+| M012 | Version Control Integration | Medium | P1 | 2 | 🔓 AVAILABLE | - |
+| M013 | Template Marketplace Client | Medium | P2 | 3 | 🔓 AVAILABLE | - |
+
+### Module Owner Responsibilities
+
+- **Technical Leadership**: Guide implementation decisions
+- **Code Review**: Review all PRs for the module
+- **Documentation**: Maintain module documentation
+- **Integration**: Coordinate with dependent modules
+- **Quality**: Ensure 85% quality gate compliance
+- **Test Coverage**: Ensure 80% overall, 90% critical path coverage
+- **Mentorship**: Support contributors working on the module
+
+### Claiming Module Ownership
+
+1. Review module specifications in Architecture Blueprint v3.5.0
+2. Assess complexity and time commitment
+3. Open an issue: "Module Ownership Request: M00X"
+4. Include implementation plan and timeline
+5. Wait for approval from maintainers
+
+## Communication
+
+### Channels
+
+#### GitHub
+
+- **Discussions**: Architecture decisions, feature proposals
+- **Issues**: Bug reports, feature requests, tasks
+- **Pull Requests**: Code reviews, implementation discussions
+
+#### Discord
+
+- **#general**: Community announcements
+- **#dev-help**: Technical questions
+- **#module-[name]**: Module-specific discussions
+- **#code-review**: Review requests and feedback
+
+#### Meetings
+
+- **Weekly Sync**: Thursdays 3pm UTC (recorded)
+- **Office Hours**: Tuesdays 5pm UTC (live Q&A)
+- **Module Standups**: Per module schedule
+- **Release Planning**: Monthly, first Monday
+
+### Response Times
+
+- **Critical Issues**: Within 24 hours
+- **Pull Requests**: Initial review within 48 hours
+- **General Questions**: Within 72 hours
+- **Feature Requests**: Weekly triage
+
+## Recognition
+
+### Contributor Levels
+
+#### 🌱 Contributor
+
+- First PR merged
+- Listed in CONTRIBUTORS.md
+- Discord role and badge
+
+#### 🌿 Regular Contributor
+
+- 5+ PRs merged
+- Consistent quality contributions
+- Code review privileges
+
+#### 🌳 Core Contributor
+
+- Module ownership
+- Significant feature implementation
+- Architecture decision participation
+
+#### 🏆 Founding Contributor
+
+- Contributed during design/early implementation
+- Special recognition in releases
+- Permanent acknowledgment
 
 ### Attribution
 
-- All design-phase contributors listed in CONTRIBUTORS.md
-- Special recognition in release notes
-- "Founding Contributor" badge in future community
+- All contributors listed in CONTRIBUTORS.md
+- Significant contributions noted in release notes
+- Module owners credited in documentation
+- Annual contributor spotlight blog posts
 
-## Project Overview
+## Legal & Licensing
 
-DevDocAI v3.5.0 is built on the MIAIR (Meta-Iterative AI Refinement) methodology and provides comprehensive documentation capabilities:
+### License Structure
 
-### Core Features
+Per PRD v3.5.0 Section 2.4:
 
-- **Document Generation**: Create 40+ document types from intelligent templates
-- **Multi-Dimensional Analysis**: Comprehensive quality reviews across requirements, design, security, and performance
-- **Suite Management**: Maintain consistency across entire documentation suites with visual tracking matrix
-- **AI Enhancement**: Multi-LLM synthesis using Claude, ChatGPT, and Gemini with cost optimization
-- **Workflow Integration**: Seamless VS Code extension and powerful CLI automation
+- **Core System**: Apache-2.0 License
+- **Plugin SDK**: MIT License
+- **Documentation**: Creative Commons CC-BY-4.0
+- **Templates**: Apache-2.0 License
 
-### Compliance & Security Features (v3.5.0)
+### Contribution Agreement
 
-- **SBOM Generation** (M010): Generate Software Bill of Materials in SPDX 2.3 and CycloneDX 1.4 formats
-- **PII Detection**: Automatic detection of personally identifiable information with 95%+ accuracy
-- **DSR Support**: Data Subject Rights implementation for GDPR/CCPA compliance
-- **Privacy-First**: Complete offline capability with optional cloud features
-- **Code Signing**: Ed25519 digital signatures for plugin verification
+By submitting contributions, you agree that:
 
-### Architecture Components
+1. Your contributions are original or you have rights to submit
+2. You grant the project a perpetual, worldwide, royalty-free license
+3. Your contributions may be relicensed if necessary
+4. You understand this is an open-source project
 
-The project is organized into modular components (M001-M013) across four implementation phases. See our [Architecture Blueprint](docs/02-architecture/DESIGN-devdocai-architecture-blueprint.md) for detailed component descriptions.
+### Intellectual Property
+
+- No proprietary code or algorithms
+- No copyrighted content without permission
+- No patented implementations without disclosure
+- Respect third-party licenses
 
 ## Code of Conduct
 
-We are committed to providing a welcoming, inclusive, and harassment-free environment for all contributors.
+### Our Pledge
+
+We are committed to providing a welcoming, inclusive, and harassment-free environment for all contributors, regardless of:
+
+- Experience level
+- Age, body size, disability
+- Ethnicity, gender identity and expression
+- Nationality, personal appearance
+- Race, religion, sexual identity and orientation
 
 ### Our Standards
 
-- **Be Respectful**: Value diverse perspectives and experiences
-- **Be Constructive**: Provide actionable, helpful feedback
-- **Be Inclusive**: Welcome contributors of all backgrounds and skill levels
-- **Be Professional**: Focus on what's best for the community and project
-- **Be Patient**: Remember that everyone was new once
+#### Positive Behaviors
 
-### Unacceptable Behavior
+- **Respectful Communication**: Professional and constructive
+- **Collaborative Spirit**: Help others succeed
+- **Open-Mindedness**: Consider different perspectives
+- **Patience**: Remember everyone starts somewhere
+- **Recognition**: Acknowledge others' contributions
 
-- Harassment, discrimination, or offensive language
-- Personal attacks or inflammatory comments
-- Publishing others' private information
-- Sexual harassment or unwelcome advances
-- Trolling or intentionally disruptive behavior
-- Any conduct inappropriate for a professional setting
+#### Unacceptable Behaviors
+
+- Harassment, discrimination, or hate speech
+- Personal attacks or insults
+- Trolling or deliberate disruption
+- Publishing private information
+- Sexual language or imagery
+- Any unprofessional conduct
 
 ### Enforcement
 
-1. **First Offense**: Private warning from maintainers
-2. **Second Offense**: Public warning with specific consequences
-3. **Third Offense**: Temporary ban from project interactions
+#### Reporting
+
+- Email: <conduct@devdocai.org>
+- Discord: DM any moderator
+- Anonymous: <https://devdocai.org/report>
+
+#### Consequences
+
+1. **First Offense**: Private warning
+2. **Second Offense**: Public warning
+3. **Third Offense**: Temporary ban (30 days)
 4. **Severe Violations**: Immediate permanent ban
 
-### Reporting
+#### Response Time
 
-If you experience or witness unacceptable behavior:
+- Reports reviewed within 48 hours
+- Decision communicated within 72 hours
+- Appeals process available
 
-- **Email**: <conduct@devdocai.org> (private, confidential)
-- **Discord**: DM any moderator
-- **Anonymous Form**: [devdocai.org/report](https://devdocai.org/report)
+## Resources
 
-All reports are reviewed within 48 hours. We maintain strict confidentiality and protect reporters from retaliation.
+### Core Documentation
 
-For complete details, see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+All v3.5.0 aligned:
 
-## Questions?
+- **[Product Requirements Document](docs/01-requirements/DESIGN-devdocai-prd.md)**: Business vision and requirements
+- **[Architecture Blueprint](docs/02-architecture/DESIGN-devdocai-architecture-blueprint.md)**: System design and components
+- **[Software Requirements Specification](docs/01-requirements/DESIGN-devdocai-srs.md)**: Technical specifications
+- **[User Stories](docs/01-requirements/DESIGN-devdocai-user-stories.md)**: 21 stories with acceptance criteria
+- **[Test Plan](docs/04-testing/DESIGN-devdocai-test-plan.md)**: 121 test cases
+- **[User Manual](docs/05-user-docs/DESIGN-devdocai-user-manual.md)**: User guidance
 
-If you have questions about contributing during the design phase:
+### API Documentation
 
-1. **GitHub Discussions**: Ask about architecture, design, or technology choices
-2. **Discord #design**: Real-time discussion with other contributors planning the build
-3. **Weekly Design Reviews**: Join our Thursday design meetings
-4. **Email**: Contact <devdocai-design@googlegroups.com> for detailed technical discussions
+- **REST API**: <https://api.devdocai.io/docs>
+- **Plugin SDK**: MIT-licensed SDK documentation
+- **LLM Integration**: Multi-provider API guide
 
-### Getting Involved in Implementation Planning
+### Learning Resources
 
-Once we move to the implementation phase (target Q4 2025):
+- **TypeScript Handbook**: Official TypeScript documentation
+- **VS Code Extension Guide**: Extension development basics
+- **MIAIR Methodology**: Our AI refinement approach
+- **Security Best Practices**: OWASP guidelines
 
-1. Module ownership opportunities will open
-2. Implementation teams will form around each component
-3. Regular development sprints will begin
-4. Code contribution guidelines will be activated
+### Tools & Services
+
+- **Development Environment**: Docker configurations
+- **CI/CD Templates**: GitHub Actions workflows
+- **Code Quality Tools**: ESLint, Prettier configs
+- **Testing Frameworks**: Jest, Vitest setups
+
+### Getting Help
+
+- **FAQ**: <https://docs.devdocai.io/faq>
+- **Troubleshooting**: Common issues and solutions
+- **Stack Overflow**: Tag `devdocai`
+- **Email Support**: <contributors@devdocai.org>
+
+---
+
+## Quick Start Commands
+
+```bash
+# Clone and setup
+git clone https://github.com/devdocai/devdocai.git
+cd devdocai
+npm install
+
+# Development
+npm run dev          # Start development server
+npm run test         # Run test suite
+npm run lint         # Check code quality
+npm run build        # Build for production
+
+# Contributing
+npm run create:branch    # Create feature branch
+npm run check:quality    # Verify quality gate
+npm run test:coverage    # Check test coverage
+npm run submit:pr        # Prepare pull request
+```
 
 ---
 
 **Thank you for contributing to DevDocAI v3.5.0!** 🚀
 
-Your design-phase contributions are shaping the future of documentation tools for solo developers and small teams. Whether you're reviewing specifications, suggesting technologies, or volunteering to lead module development, every contribution brings us closer to building this transformative tool.
+Your contributions are building the future of AI-powered documentation tools. Whether you're implementing core modules, writing tests, improving documentation, or helping others in the community, every contribution matters.
 
-Together, we're creating the foundation for democratizing professional documentation creation and making enterprise-grade documentation tools accessible to everyone!
+Together, we're democratizing professional documentation creation and making enterprise-grade tools accessible to every developer!
 
-*Last Updated: August 23, 2025 | Version: 3.5.0 (Design Phase)*
+---
+
+*Last Updated: August 23, 2025 | Version: 3.5.0 | Status: Design Complete, Implementation Ready*
+
+*This document is maintained by the DevDocAI community. Propose changes via pull request.*
+</updated_contributing_md>

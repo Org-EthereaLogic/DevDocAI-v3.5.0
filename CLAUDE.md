@@ -6,6 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 DevDocAI v3.5.0 is an AI-powered documentation system for solo developers that transforms documentation from a burden into an efficient, quality-driven workflow. The system uses the MIAIR (Meta-Iterative AI Refinement) methodology to achieve 60-75% quality improvement through multi-LLM synthesis (Claude, ChatGPT, Gemini).
 
+### Project Status
+- **Version**: 3.5.0
+- **Stage**: Development
+- **License**: Apache-2.0 (Core), MIT (Plugin SDK)
+- **Target Audience**: Solo developers and small development teams
+
 ## Core Architecture
 
 ### Modular Component System (M001-M013)
@@ -232,3 +238,73 @@ class CustomPlugin extends Plugin {
 - Base templates: `templates/base/`
 - Custom templates: User's `.devdocai/templates/`
 - Marketplace templates: Downloaded to `templates/marketplace/`
+
+## Project Roadmap
+
+### Completed
+- Core modular architecture (M001-M013)
+- MIAIR Engine implementation
+- Multi-LLM integration
+- Quality gate system (85% threshold)
+- Plugin SDK with digital signatures
+
+### In Progress
+- VS Code extension marketplace preparation
+- Template marketplace infrastructure
+- Performance optimization for large document suites
+
+### Planned
+- Real-time collaboration features
+- Cloud sync capabilities
+- Advanced analytics dashboard
+- Mobile companion app
+
+## Contributing Guidelines
+
+### Code Style
+- Follow TypeScript best practices
+- Use ESLint and Prettier configurations
+- Maintain 80% test coverage minimum
+- Document all public APIs
+
+### Pull Request Process
+1. Create feature branch from `main`
+2. Implement changes with tests
+3. Ensure quality gate passes (85%)
+4. Submit PR with detailed description
+5. Address review feedback
+
+### Issue Reporting
+- Use GitHub issue templates
+- Include reproduction steps
+- Attach relevant logs
+- Specify environment details
+
+## Support and Resources
+
+- **Documentation**: Available in `/docs` directory
+- **API Reference**: Generated from TypeScript definitions
+- **Examples**: See `/examples` for usage patterns
+- **Community**: GitHub Discussions for Q&A
+
+## Quick Start
+
+```bash
+# Install DevDocAI globally
+npm install -g devdocai
+
+# Initialize in your project
+devdocai init
+
+# Generate your first document
+devdocai generate readme
+
+# Run quality analysis
+devdocai quality check
+```
+
+## Contact
+
+- **Repository**: https://github.com/devdocai/devdocai-v3.5
+- **Issues**: https://github.com/devdocai/devdocai-v3.5/issues
+- **Discussions**: https://github.com/devdocai/devdocai-v3.5/discussions

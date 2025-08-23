@@ -18,6 +18,7 @@ Contributors can use this as a blueprint to build the described system
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 3.5.1 | December 19, 2024 | DevDocAI Team | Added Internal API Boundaries, Packaging/Distribution Strategy, Enhancement sequence diagram based on review |
 | 3.5.0 | August 21, 2025 | DevDocAI Team | Synchronized with full documentation suite v3.5.0: Added US-019/020/021 support, standardized memory modes, implementation priorities, backward traceability complete |
 | 3.4.1 | August 21, 2025 | DevDocAI Team | Compliance review updates: Added code signing, plugin revocation, SBOM generation, key management details, DSR workflows |
 | 3.4.0 | August 21, 2025 | DevDocAI Team | Enhanced usability, added Reader Guide, balanced technical depth, improved visual summaries |
@@ -1003,6 +1004,166 @@ Regular manual accessibility audits. Maintain accessibility regression test suit
 
 ---
 
+## Proposed Architecture: Internal API Boundaries
+
+### Overview
+
+This section defines the primary interfaces between architectural layers and critical modules, establishing clear contracts for inter-component communication.
+
+### Layer Interface Specifications
+
+#### Presentation-Application Interface
+
+**Purpose**: Standardized command and response protocol between user interfaces and application logic.
+
+**Key Interfaces**:
+
+- **Command Interface**: All UI layers (VS Code, CLI, Dashboard) communicate with the application layer through a unified command pattern
+- **Response Interface**: Structured responses with status, data, and error information
+- **Event Stream**: Real-time updates from application to presentation layer
+
+```typescript
+// Proposed interface definition
+interface ApplicationCommand {
+  type: CommandType;
+  payload: any;
+  context: ExecutionContext;
+  options?: CommandOptions;
+}
+
+interface ApplicationResponse {
+  status: 'success' | 'error' | 'pending';
+  data?: any;
+  error?: ErrorInfo;
+  metadata?: ResponseMetadata;
+}
+```
+
+#### Application-Intelligence Interface
+
+**Purpose**: Abstracted AI operations allowing multiple intelligence providers.
+
+**Key Interfaces**:
+
+- **Enhancement Request**: Document with quality targets and enhancement parameters
+- **Analysis Request**: Document with review type and validation criteria
+- **Intelligence Response**: Enhanced document with quality metrics and recommendations
+
+```typescript
+// Proposed interface definition
+interface IntelligenceRequest {
+  document: Document;
+  operation: 'enhance' | 'analyze' | 'validate';
+  parameters: OperationParameters;
+  qualityTarget?: number; // 0-100
+}
+
+interface IntelligenceResponse {
+  document: Document;
+  metrics: QualityMetrics;
+  recommendations: Recommendation[];
+  confidence: number; // 0-1
+}
+```
+
+### Module Interface Specifications
+
+#### Generator-MIAIR Interface (M004 ↔ M003)
+
+**Purpose**: The Document Generator invokes the MIAIR Engine for quality optimization.
+**Protocol**: Asynchronous request-response with streaming support
+**Data Flow**: Document object → MIAIR processing → Enhanced document with entropy metrics
+
+#### Storage-Encryption Interface (M002 ↔ Security)
+
+**Purpose**: Transparent encryption/decryption for all storage operations.
+**Protocol**: Synchronous wrapper around storage operations
+**Data Flow**: Clear data → AES-256-GCM encryption → Encrypted storage → Decryption → Clear data
+
+#### LLM Adapter-Provider Interface (M008 ↔ External)
+
+**Purpose**: Unified interface for multiple LLM providers (OpenAI, Anthropic, Local).
+**Protocol**: Asynchronous with retry logic and fallback chains
+**Data Flow**: Prompt → Provider selection → API call → Response normalization → Unified output
+
+#### Batch Manager-Worker Interface (M011 ↔ Workers)
+
+**Purpose**: Distributed processing of document batches.
+**Protocol**: Queue-based with progress tracking
+**Data Flow**: Batch request → Queue → Worker assignment → Parallel processing → Result aggregation
+
+#### Version Control-Git Interface (M012 ↔ Git)
+
+**Purpose**: Native Git operations for document versioning.
+**Protocol**: LibGit2 bindings with transaction support
+**Data Flow**: Document changes → Git operations → Commit/branch management → History tracking
+
+#### Marketplace-CDN Interface (M013 ↔ External)
+
+**Purpose**: Template discovery, download, and verification.
+**Protocol**: GraphQL queries with signature verification
+**Data Flow**: Search query → GraphQL request → Template metadata → Download → Signature verification → Local installation
+
+### Cross-Cutting Interfaces
+
+#### Security Interfaces
+
+All modules interact with the security layer through standardized interfaces:
+
+- **Authentication**: Token-based with refresh mechanism
+- **Authorization**: Permission checks before operations
+- **Audit**: Automatic logging of security-relevant events
+
+#### Monitoring Interfaces
+
+All modules expose metrics through OpenTelemetry:
+
+- **Metrics**: Performance counters and gauges
+- **Traces**: Distributed tracing for request flow
+- **Logs**: Structured logging with correlation IDs
+
+### Sequence Diagram: Document Enhancement Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI
+    participant Generator as Document Generator (M004)
+    participant MIAIR as MIAIR Engine (M003)
+    participant LLM as LLM Adapter (M008)
+    participant Storage as Storage System (M002)
+    participant Security as Security Layer
+
+    User->>CLI: devdocai enhance document.md
+    CLI->>Generator: enhance(document, options)
+    Generator->>Storage: load(document)
+    Storage->>Security: decrypt(data)
+    Security-->>Storage: clearData
+    Storage-->>Generator: document
+    
+    Generator->>MIAIR: optimize(document, qualityTarget=90)
+    
+    loop MIAIR Iterations (max 10)
+        MIAIR->>MIAIR: calculateEntropy(document)
+        MIAIR->>LLM: enhance(section, context)
+        LLM->>LLM: selectProvider(cost, quality)
+        LLM-->>MIAIR: enhancedSection
+        MIAIR->>MIAIR: measureImprovement()
+    end
+    
+    MIAIR-->>Generator: enhancedDocument(metrics)
+    
+    Generator->>Storage: save(enhancedDocument)
+    Storage->>Security: encrypt(data)
+    Security-->>Storage: encryptedData
+    Storage-->>Generator: success
+    
+    Generator-->>CLI: response(enhancedDocument, metrics)
+    CLI-->>User: Enhanced document saved (Quality: 92%)
+    
+    Note over User,Security: Total time: ~45 seconds
+```
+
 ## Proposed Architecture: Plugin Ecosystem
 
 ### Proposed Plugin Architecture Phases
@@ -1136,6 +1297,250 @@ Implement plugin resource quotas. Provide plugin development kit with testing fr
 - **Mitigation**: Provide synchronous API wrapper for simple use cases
 
 ---
+
+## Proposed Architecture: Deployment and Distribution
+
+### Packaging Strategy
+
+#### Desktop Application Packaging
+
+DevDocAI will be packaged as a standalone desktop application using Electron for cross-platform compatibility.
+
+##### Technology Selection Rationale for Packaging
+
+**Primary Technology**: Electron 26+ with Electron Builder
+**Alternatives Considered**: Tauri, Native per-platform, Progressive Web App
+**Selection Criteria**:
+
+- **Performance**: Native-like performance with V8 engine
+- **Scalability**: Single codebase for all platforms
+- **Developer Experience**: Familiar web technologies
+- **Cost**: Open source, no platform licensing
+- **Security**: Sandboxed with context isolation
+- **Maturity**: Proven by VS Code, Discord, Slack
+**Decision Justification**:
+Electron provides the best balance of development efficiency and user experience, allowing us to maintain a single codebase while delivering native desktop applications. The VS Code extension will remain separate but share core libraries.
+**Risk Mitigation**:
+Optimize bundle size through tree-shaking and lazy loading. Implement auto-updates with differential downloads to minimize bandwidth.
+
+#### Platform-Specific Packages
+
+| Platform | Package Format | Installer | Size (Est.) | Signing |
+|----------|---------------|-----------|-------------|---------|
+| **Windows** | .exe, .msi | NSIS/MSI | ~120MB | EV Certificate |
+| **macOS** | .dmg, .pkg | Native | ~110MB | Apple Developer ID |
+| **Linux** | .AppImage, .deb, .rpm | Native | ~115MB | GPG |
+
+#### Build Configuration
+
+```yaml
+# electron-builder.yml - Proposed packaging configuration
+appId: com.devdocai.app
+productName: DevDocAI
+directories:
+  output: dist
+  buildResources: build
+
+mac:
+  category: public.app-category.developer-tools
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  notarize:
+    teamId: "TEAM_ID"
+
+win:
+  target:
+    - nsis
+    - msi
+  certificateFile: certificate.pfx
+  verifyUpdateCodeSignature: true
+
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  category: Development
+  desktop:
+    StartupWMClass: devdocai
+```
+
+### Distribution Strategy
+
+#### Primary Distribution Channels
+
+##### 1. GitHub Releases (Phase 1)
+
+**Purpose**: Direct distribution for early adopters and open source community
+**Features**:
+
+- Automated releases via GitHub Actions
+- Pre-release and stable channels
+- Automatic changelog generation
+- Download statistics tracking
+- GPG signature verification
+
+##### 2. VS Code Marketplace (Phase 1)
+
+**Purpose**: Distribution of VS Code extension component
+**Features**:
+
+- Automatic publishing on release
+- Extension pack with dependencies
+- Integrated update notifications
+- User ratings and reviews
+
+##### 3. Package Managers (Phase 2)
+
+**Purpose**: Simplified installation for developers
+
+| Platform | Package Manager | Command |
+|----------|----------------|---------|
+| **macOS** | Homebrew | `brew install devdocai` |
+| **Windows** | Chocolatey | `choco install devdocai` |
+| **Windows** | Winget | `winget install devdocai` |
+| **Linux** | Snap | `snap install devdocai` |
+| **Linux** | Flatpak | `flatpak install devdocai` |
+| **Cross-platform** | npm | `npm install -g devdocai-cli` |
+
+##### 4. Application Stores (Phase 3)
+
+**Purpose**: Broader distribution to non-technical users
+
+- **Mac App Store**: Sandboxed version with limited features
+- **Microsoft Store**: UWP or packaged Win32 app
+- **Ubuntu Software Center**: Snap package
+
+### Update Mechanism
+
+#### Auto-Update Architecture
+
+```mermaid
+graph LR
+    A[DevDocAI App] --> B{Check Updates}
+    B -->|Update Available| C[Download Differential]
+    C --> D[Verify Signature]
+    D -->|Valid| E[Stage Update]
+    E --> F[Apply on Restart]
+    F --> G[Rollback on Failure]
+    B -->|Current| H[Continue]
+    D -->|Invalid| H
+```
+
+##### Technology Selection Rationale for Updates
+
+**Primary Technology**: Electron-updater with differential updates
+**Alternatives Considered**: Squirrel, Manual updates, App store only
+**Selection Criteria**:
+
+- **Performance**: Delta updates reduce bandwidth by 80%
+- **Scalability**: CDN distribution support
+- **Developer Experience**: Integrated with Electron Builder
+- **Cost**: Open source, CDN costs only
+- **Security**: Code signing verification required
+- **Maturity**: Battle-tested in production apps
+**Decision Justification**:
+Electron-updater provides seamless background updates with rollback capability, essential for maintaining security and delivering features rapidly to users.
+**Risk Mitigation**:
+Implement staged rollouts to detect issues early. Maintain multiple update channels (stable, beta, nightly) for different user segments.
+
+### Installation Requirements
+
+#### System Prerequisites
+
+```bash
+# Installation script will verify prerequisites
+#!/bin/bash
+check_prerequisites() {
+    # Check OS version
+    # Check available RAM (minimum 2GB for Baseline Mode)
+    # Check disk space (2GB + optional 10GB for local models)
+    # Check Python 3.8+ (for CLI)
+    # Check Node.js 16+ (for extension development)
+    # Check Git (for version control features)
+}
+```
+
+#### Installation Workflows
+
+##### Quick Install (Recommended)
+
+```bash
+# One-line installer for each platform
+# macOS/Linux
+curl -fsSL https://get.devdocai.com | bash
+
+# Windows PowerShell
+iwr -useb https://get.devdocai.com/install.ps1 | iex
+```
+
+##### Manual Installation
+
+1. Download appropriate package from GitHub Releases
+2. Verify GPG/code signature
+3. Run platform-specific installer
+4. Configure via setup wizard
+5. Optional: Install VS Code extension
+
+### Deployment Automation
+
+#### CI/CD Release Pipeline
+
+```yaml
+# .github/workflows/release.yml - Proposed release automation
+name: Release Pipeline
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    
+    steps:
+      - name: Build Application
+        run: npm run build:${{ matrix.os }}
+      
+      - name: Sign Binaries
+        run: |
+          # Platform-specific signing
+          # Windows: SignTool with EV certificate
+          # macOS: codesign with notarization
+          # Linux: GPG signing
+      
+      - name: Create Packages
+        run: npm run package:${{ matrix.os }}
+      
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+      
+      - name: Publish to Package Managers
+        run: |
+          # Homebrew tap update
+          # Chocolatey push
+          # Snap store upload
+```
+
+### Security Considerations
+
+#### Code Signing Strategy
+
+- **Windows**: EV Code Signing Certificate for SmartScreen reputation
+- **macOS**: Apple Developer ID with notarization for Gatekeeper
+- **Linux**: GPG signatures with published public key
+
+#### Supply Chain Security
+
+- SBOM generation for each release
+- Dependency scanning with Dependabot
+- Reproducible builds with locked dependencies
+- Signed commits and tags
 
 ## Proposed Architecture: Testing and Quality Assurance
 
@@ -1347,16 +1752,16 @@ This proposed architecture directly supports the PRD Section 13 Implementation R
 
 ## Document Governance
 
-**Document Status**: FINAL - v3.5.0 Suite Aligned (PROPOSED ARCHITECTURE)  
-**Version**: 3.5.0  
-**Last Updated**: August 21, 2025  
-**Next Review**: September 21, 2025  
+**Document Status**: FINAL - v3.5.1 Suite Aligned (PROPOSED ARCHITECTURE)  
+**Version**: 3.5.1  
+**Last Updated**: December 19, 2024  
+**Next Review**: January 19, 2025  
 **Alignment Status**:
 
 - ✅ User Stories v3.5.0 - Full backward traceability including US-019/020/021
 - ✅ PRD v3.5.0 - Complete consistency with all requirements
 - ✅ SRS v3.5.0 - Technical accuracy verified, all requirements mapped
-- ✅ Architecture v3.5.0 - Synchronized with full documentation suite
+- ✅ Architecture v3.5.1 - Enhanced based on review recommendations
 **Quality Metrics**:
 - Readability Score: Grade 10 (Accessible)
 - Technical Accuracy: 100%
@@ -1365,7 +1770,7 @@ This proposed architecture directly supports the PRD Section 13 Implementation R
 **v3.5.0 Compliance Checklist**:
 - ✅ Version harmonization to v3.5.0 complete
 - ✅ Backward traceability verified for all user stories (US-001 to US-021)
-- ✅ Memory modes standardized (Baseline/Standard/Enhanced/Performance)
+- ✅ Memory modes standardized (Baseline <2GB/Standard 2-4GB/Enhanced 4-8GB/Performance >8GB)
 - ✅ Architecture to requirements alignment documented
 - ✅ Terminology aligned with glossary as authoritative source
 - ✅ Complexity reduced with phase markers and future enhancements noted
@@ -1376,6 +1781,9 @@ This proposed architecture directly supports the PRD Section 13 Implementation R
 - ✅ Technology Selection Rationales added for all major components
 - ✅ Architecture Decision Records documented
 - ✅ Technology Decision Summary table created
+- ✅ Internal API Boundaries section added with interface specifications
+- ✅ Packaging and Distribution Strategy fully specified
+- ✅ Document Enhancement sequence diagram added for workflow clarity
 **Review Board Approval**:
 - Architecture Team: Approved v3.5.0 (Proposed)
 - Requirements Team: Approved v3.5.0 (Proposed)

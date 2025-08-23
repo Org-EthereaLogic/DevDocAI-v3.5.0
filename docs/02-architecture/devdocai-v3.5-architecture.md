@@ -1,3 +1,47 @@
+---
+document_id: DOC-ARCH-SYS-3.5
+title: DevDocAI Architecture Blueprint
+version: 3.5.0
+status: Active
+category: 02-architecture
+type: architecture
+created_date: 2024-08-21
+last_updated: 2024-08-21
+authors:
+  - name: DevDocAI Team
+    role: System Architect
+reviewers:
+  - name: Technical Lead
+    role: Principal Engineer
+stakeholders:
+  - name: Development Team
+    role: Implementation
+  - name: DevOps Team
+    role: Deployment
+complexity_level: Advanced
+reading_time: 60 minutes
+prerequisites:
+  - Understanding of modular architecture
+  - Familiarity with AI/LLM concepts
+  - Knowledge of plugin systems
+related_documents:
+  - document_id: DOC-REQ-PRD-3.5
+    relationship: implements
+  - document_id: DOC-ARCH-SDD-3.5
+    relationship: extends
+  - document_id: DOC-SPEC-API-3.5
+    relationship: references
+keywords:
+  - architecture
+  - system design
+  - modular components
+  - MIAIR engine
+  - plugin system
+module_mappings:
+  - module_id: M001-M013
+    relevance: primary
+---
+
 # DevDocAI v3.5.0 Architecture Blueprint
 
 ## Version History

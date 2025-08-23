@@ -8,9 +8,10 @@ DevDocAI v3.5.0 is an AI-powered documentation system for solo developers that t
 
 ### Project Status
 - **Version**: 3.5.0
-- **Stage**: Development
+- **Stage**: Documentation/Specification Phase (Implementation Pending)
 - **License**: Apache-2.0 (Core), MIT (Plugin SDK)
 - **Target Audience**: Solo developers and small development teams
+- **Documentation**: Fully reorganized with hierarchical structure (Dec 2024)
 
 ## Core Architecture
 
@@ -58,7 +59,9 @@ All documentation must achieve exactly 85% quality score across four dimensions:
 
 ## Build and Development Commands
 
-### Initial Setup
+**Note**: The commands below are specifications for the future implementation. The project is currently in the documentation/specification phase.
+
+### Initial Setup (When Implementation Begins)
 ```bash
 # Clone and install dependencies
 git clone https://github.com/devdocai/devdocai-v3.5.git
@@ -280,11 +283,39 @@ class CustomPlugin extends Plugin {
 - Attach relevant logs
 - Specify environment details
 
+## Documentation Structure
+
+The documentation has been reorganized into a hierarchical, module-based structure:
+
+```
+docs/
+├── 01-requirements/      # PRDs, user stories, requirements
+├── 02-architecture/      # System design, architecture docs
+├── 03-specifications/    # API docs, data models, schemas
+├── 04-deployment/        # Installation, configuration, CI/CD
+├── 05-testing/          # Test plans, QA strategies
+├── 06-user-guides/      # User manuals, tutorials, FAQs
+├── meta/                # Documentation standards, templates
+├── modules/             # Module definitions (M001-M013)
+├── DOCUMENT_INDEX.md    # Master catalog of all documentation
+├── TAXONOMY.md          # Document classification system
+├── NAVIGATION.md        # Navigation guide and quick paths
+└── AI_AGENT_GUIDE.md    # Optimized guide for AI assistants
+```
+
+### Key Documentation Files
+
+- **Requirements**: `/docs/01-requirements/devdocai-v3.5-prd.md`
+- **Architecture**: `/docs/02-architecture/devdocai-v3.5-architecture.md`
+- **Build Instructions**: `/docs/04-deployment/devdocai-v3.5-build-instructions.md`
+- **Module Definitions**: `/docs/modules/MODULE_DEFINITIONS.md`
+
 ## Support and Resources
 
-- **Documentation**: Available in `/docs` directory
-- **API Reference**: Generated from TypeScript definitions
-- **Examples**: See `/examples` for usage patterns
+- **Documentation Index**: `/docs/DOCUMENT_INDEX.md`
+- **Navigation Guide**: `/docs/NAVIGATION.md`
+- **API Reference**: Generated from TypeScript definitions (when implemented)
+- **Examples**: See `/examples` for usage patterns (when available)
 - **Community**: GitHub Discussions for Q&A
 
 ## Quick Start

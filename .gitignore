@@ -1,4 +1,296 @@
 
+# DevDocAI v3.5.0 .gitignore
 
-#Ignore vscode AI rules
-.github/instructions/codacy.instructions.md
+# ========================================
+# Node.js & TypeScript
+# ========================================
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.turbo/
+
+# TypeScript cache
+*.tscache
+tsconfig.tsbuildinfo
+
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+*.egg-info/
+dist/
+*.egg
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# ========================================
+# IDE & Editor Files
+# ========================================
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ========================================
+# DevDocAI Specific
+# ========================================
+# Generated documentation (except in Docs folder)
+/generated-docs/
+/output/
+/temp-docs/
+*.generated.md
+!Docs/**/*.md
+
+# AI Model caches
+.ai-cache/
+.model-cache/
+.embeddings/
+.vector-db/
+
+# Plugin development
+plugins/*/node_modules/
+plugins/*/dist/
+plugins/*/.env
+plugins/*/coverage/
+
+# SBOM files (regenerated frequently)
+sbom.json
+sbom.xml
+.sbom-cache/
+
+# PII detection logs
+.pii-scan-logs/
+pii-detection-*.log
+
+# DSR processing
+.dsr-queue/
+.dsr-processed/
+
+# Compliance reports (contain sensitive data)
+compliance-reports/
+audit-logs/
+*.audit.json
+
+# Performance profiling
+.profile/
+*.heapprofile
+*.heapsnapshot
+*.cpuprofile
+
+# ========================================
+# Environment & Config
+# ========================================
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
+*.env
+
+# Config with secrets
+config/secrets.yaml
+config/private.yaml
+*-credentials.json
+
+# ========================================
+# Operating System
+# ========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+
+# ========================================
+# Logs & Temporary Files
+# ========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+tmp/
+temp/
+*.tmp
+*.temp
+*.pid
+*.seed
+*.pid.lock
+
+# ========================================
+# Testing & Coverage
+# ========================================
+coverage/
+.nyc_output/
+test-results/
+junit.xml
+test-report.xml
+*.lcov
+.jest/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# ========================================
+# Database & Storage
+# ========================================
+*.sqlite
+*.sqlite3
+*.db
+.database/
+data/
+!Docs/data/
+
+# Redis
+dump.rdb
+
+# ========================================
+# Security & Credentials
+# ========================================
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+.ssh/
+secrets/
+credentials/
+
+# ========================================
+# Documentation Generation
+# ========================================
+# Keep source docs, ignore generated
+!Docs/
+.docusaurus/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# ========================================
+# Package Files
+# ========================================
+*.tar
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.dmg
+*.iso
+*.jar
+*.war
+
+# ========================================
+# DevDocAI Specific Exceptions
+# ========================================
+# Keep these specific files
+!.github/workflows/
+!.github/ISSUE_TEMPLATE/
+!.github/PULL_REQUEST_TEMPLATE/
+!.github/instructions/codacy.instructions.md
+!Docs/**/*
+!CONTRIBUTING.md
+!README.md
+!LICENSE
+!package.json
+!package-lock.json
+!tsconfig.json
+!.eslintrc.json
+!.prettierrc
+
+# ========================================
+# Claude-specific
+# ========================================
+.claude/
+claudedocs/
+*.claude.md
+
+# ========================================
+# Miscellaneous
+# ========================================
+.sass-cache/
+*.css.map
+*.js.map
+.grunt/
+bower_components/
+.lock-wscript/
+.yarn/
+.pnp.*
+.yarn-integrity

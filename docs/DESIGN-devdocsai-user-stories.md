@@ -1,604 +1,1798 @@
-# DevDocAI v3.0 User Stories & Acceptance Criteria
+# DevDocAI v3.5.0 Proposed Architecture Blueprint
 
 ---
-⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
-
-**Document Type**: Design Specification  
+⚠️ **STATUS: PROPOSED DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
+**Document Type**: Proposed Architecture Design Specification  
 **Implementation Status**: 0% - No code written  
 **Purpose**: Blueprint for future development  
-
-> **This document describes planned functionality and architecture that has not been built yet.**
+> **This document describes a proposed architecture and planned functionality that has not been built yet.**
 > All code examples, commands, and installation instructions are design specifications for future implementation.
+---
+
+🏗️ **PROPOSED TECHNICAL SPECIFICATION STATUS**
+This document contains complete proposed technical specifications ready for implementation.
+Contributors can use this as a blueprint to build the described system
+---
+
+## Version History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 3.5.1 | December 19, 2024 | DevDocAI Team | Added Internal API Boundaries, Packaging/Distribution Strategy, Enhancement sequence diagram based on review |
+| 3.5.0 | August 21, 2025 | DevDocAI Team | Synchronized with full documentation suite v3.5.0: Added US-019/020/021 support, standardized memory modes, implementation priorities, backward traceability complete |
+| 3.4.1 | August 21, 2025 | DevDocAI Team | Compliance review updates: Added code signing, plugin revocation, SBOM generation, key management details, DSR workflows |
+| 3.4.0 | August 21, 2025 | DevDocAI Team | Enhanced usability, added Reader Guide, balanced technical depth, improved visual summaries |
+**Document Status**: FINAL - v3.5.0 Suite Aligned (PROPOSED ARCHITECTURE)  
+**Suite Version**: v3.5.0 (User Stories v3.5.0, PRD v3.5.0, SRS v3.5.0, Architecture v3.5.0)  
+**Target Audience**: Solo Developers, Independent Software Engineers, Technical Writers, Indie Game Developers, Open Source Maintainers, System Architects  
+**License**: Apache-2.0 (Core), MIT (Plugin SDK)
 
 ---
 
-🏗️ **TECHNICAL SPECIFICATION STATUS**
+## Table of Contents
 
-This document contains complete technical specifications ready for implementation.
-Contributors can use this as a blueprint to build the described system.
-
----
-
-**Document Version:** 3.5.0  
-**Document Status:** FINAL - v3.5.0 Aligned  
-**Date:** December 19, 2024  
-**License:** Apache-2.0 (Core), MIT (Plugin SDK)  
-**Target Users:** Solo Developers, Independent Software Engineers, Technical Writers, Indie Game Developers, Open Source Maintainers  
-
----
-
-## Epic 1: Document Generation & Creation
-
-### US-001: Generate Documents from Scratch
-
-**As a** solo developer  
-**I want** to generate new documents from scratch using DevDocAI with clear template options  
-**So that** I can quickly create comprehensive documentation without starting from blank pages  
-
-**Acceptance Criteria:**
-
-- **AC-001.1**: Given I'm starting a new project, when I run `devdocai generate <document-type>`, then DevDocAI displays available templates for the specified document type
-- **AC-001.2**: Given I select a template, when generation begins, then the system uses multi-LLM synthesis to create initial content
-- **AC-001.3**: Given a document is generated, when creation completes, then tracking metadata is automatically created with version 1.0
-- **AC-001.4**: Given a new document is created, when saved, then it is automatically added to the tracking matrix with proper relationships
-- **AC-001.5**: Given I request an unsupported document type, when I run the generate command, then the system displays an error message with list of supported types
-- **AC-001.6**: Given network connectivity issues, when LLM synthesis fails, then the system falls back to local template-only generation with user notification
-- **AC-001.7**: Given I generate a document, when output is created, then it meets WCAG 2.1 Level AA accessibility standards for structure and formatting
-
-**Architecture Mapping:** M004 (Document Generator)  
-**SRS Requirements:** FR-001, FR-002, FR-003, FR-004  
-
-### US-002: Document Tracking Matrix Management
-
-**As a** solo developer  
-**I want** a visual tracking matrix that shows all document relationships and status  
-**So that** I can understand dependencies and maintain consistency across my documentation suite  
-
-**Acceptance Criteria:**
-
-- **AC-002.1**: Given I have documents in DevDocAI, when I view the tracking matrix, then I see a visual representation of document relationships with connecting lines
-- **AC-002.2**: Given documents exist in the matrix, when displayed, then each document shows its current version number and last modified date
-- **AC-002.3**: Given documents have cross-references, when viewing the matrix, then dependency arrows clearly indicate the direction of references
-- **AC-002.4**: Given a document's quality score changes, when the matrix updates, then consistency status indicators use color coding (green=aligned, yellow=review needed, red=conflicts)
-- **AC-002.5**: Given I modify a requirement document, when saved, then the matrix automatically flags dependent documents for review within 2 seconds
-- **AC-002.6**: Given matrix data is corrupted or missing links, when loading the matrix view, then the system attempts recovery and displays a warning about any unrecoverable relationships
-- **AC-002.7**: Given I'm using a screen reader, when navigating the matrix, then all relationships and statuses are available through accessible text descriptions
-- **AC-002.8**: Given documents have diverged, when I request reconciliation, then the system provides a step-by-step workflow with specific change suggestions
-
-**Architecture Mapping:** M005 (Tracking Matrix)  
-**SRS Requirements:** FR-008  
-**Performance Requirements:** NFR-001 (matrix updates <1s)  
-
-### US-003: Generate Complete Documentation Suite
-
-**As a** solo developer  
-**I want** to generate all essential project documents with a single command  
-**So that** I can quickly establish a complete documentation framework with proper cross-references  
-
-**Acceptance Criteria:**
-
-- **AC-003.1**: Given I select "Generate Full Suite", when I specify project type, then DevDocAI creates all essential documents for that project category
-- **AC-003.2**: Given suite generation completes, when documents are created, then all cross-references between documents are automatically established
-- **AC-003.3**: Given I have existing partial documentation, when generating missing documents, then the system detects and preserves existing documents
-- **AC-003.4**: Given suite generation fails partway through, when error occurs, then successfully created documents are preserved and user is notified which documents failed
-- **AC-003.5**: Given I cancel suite generation mid-process, when cancellation is confirmed, then the system rolls back all partially created documents
-- **AC-003.6**: Given generation is complete, when viewing results, then a summary report shows all created documents with their initial quality scores (85% threshold)
-
-**Architecture Mapping:** M004 (Document Generator), M006 (Suite Manager)  
-**SRS Requirements:** FR-003  
+1. [Reader Guide](#reader-guide)
+2. [Proposed Architecture: Executive Summary](#proposed-architecture-executive-summary)
+3. [Proposed Architecture: Quick Reference](#proposed-architecture-quick-reference)
+4. [Proposed Architecture: Glossary of Terms](#proposed-architecture-glossary-of-terms)
+5. [Proposed Architecture: System Overview](#proposed-architecture-system-overview)
+6. [Proposed Architecture: Architectural Components](#proposed-architecture-architectural-components)
+7. [Proposed Architecture: Requirements Alignment](#proposed-architecture-requirements-alignment)
+8. [Proposed Architecture: Security Architecture](#proposed-architecture-security-architecture)
+9. [Proposed Architecture: Performance Architecture](#proposed-architecture-performance-architecture)
+10. [Proposed Architecture: User Experience Architecture](#proposed-architecture-user-experience-architecture)
+11. [Proposed Architecture: Integration Workflows](#proposed-architecture-integration-workflows)
+12. [Proposed Architecture: Accessibility Architecture](#proposed-architecture-accessibility-architecture)
+13. [Proposed Architecture: Plugin Ecosystem](#proposed-architecture-plugin-ecosystem)
+14. [Proposed Architecture: Technology Decision Summary](#proposed-architecture-technology-decision-summary)
+15. [Proposed Architecture: Architecture Decision Records](#proposed-architecture-architecture-decision-records)
+16. [Proposed Architecture: Testing and Quality Assurance](#proposed-architecture-testing-and-quality-assurance)
+17. [Proposed Architecture: Monitoring and Operations](#proposed-architecture-monitoring-and-operations)
+18. [Proposed Architecture: Compliance and Governance](#proposed-architecture-compliance-and-governance)
+19. [Proposed Architecture: Implementation Priorities](#proposed-architecture-implementation-priorities)
+20. [Appendices](#appendices)
 
 ---
 
-## Epic 2: Comprehensive Document Analysis
+## Reader Guide
 
-### US-004: General Document Review Framework
+### How to Use This Document
 
-**As a** solo developer  
-**I want** to run comprehensive quality reviews on any document type  
-**So that** I can ensure my documentation meets professional standards across all quality dimensions  
+This guide helps you navigate directly to the sections most relevant to your role and interests.
 
-**Acceptance Criteria:**
+#### For Solo Developers & Indie Game Developers
 
-- **AC-004.1**: Given I have a document, when I run analysis, then the system performs only applicable review types based on document category
-- **AC-004.2**: Given analysis completes, when viewing results, then each review dimension displays a score from 0-100 with specific improvement recommendations (quality gate: 85%)
-- **AC-004.3**: Given review identifies issues, when displaying results, then recommendations are prioritized as Critical, High, Medium, or Low
-- **AC-004.4**: Given I'm reviewing a Test Plan, when analysis runs, then I receive feedback specifically about test coverage gaps and resource allocation
-- **AC-004.5**: Given technical terms are flagged as unclear, when viewing recommendations, then the system provides glossary definitions for terms like "entropy metrics" and "MIAIR methodology"
-- **AC-004.6**: Given analysis fails due to document parsing errors, when error occurs, then the system provides specific error location and suggests fixes
-- **AC-004.7**: Given I need stakeholder reports, when requesting export, then the system generates role-appropriate summaries (technical, executive, or user-focused)
+**Start Here**: [Proposed Architecture: Quick Reference](#proposed-architecture-quick-reference) → [Proposed Architecture: System Overview](#proposed-architecture-system-overview) → [Proposed Architecture: User Experience Architecture](#proposed-architecture-user-experience-architecture)
 
-**Architecture Mapping:** M007 (Multi-Dimensional Review Engine)  
-**SRS Requirements:** FR-005  
-**Performance Requirements:** NFR-001 (<10s for single document)  
+- Focus on practical implementation details
+- Skip deep security sections unless building sensitive applications
+- Review integration workflows for your development environment
 
-### US-005: Requirements Document Validation
+#### For Technical Writers
 
-**As a** solo developer  
-**I want** specialized validation for requirements documents (PRD/SRS)  
-**So that** I can ensure my requirements are clear, complete, testable, and unambiguous  
+**Start Here**: [Proposed Architecture: Executive Summary](#proposed-architecture-executive-summary) → [Proposed Architecture: User Experience Architecture](#proposed-architecture-user-experience-architecture) → [Proposed Architecture: Accessibility Architecture](#proposed-architecture-accessibility-architecture)
 
-**Acceptance Criteria:**
+- Understand how the system enhances documentation workflows
+- Focus on user interface components
+- Review quality metrics and enhancement features
 
-- **AC-005.1**: Given I have a requirements document, when validation runs, then the system checks each requirement for ambiguous language and highlights specific problematic phrases
-- **AC-005.2**: Given requirements lack metrics, when validation completes, then the system suggests specific, measurable alternatives for each vague requirement
-- **AC-005.3**: Given requirements exist, when checking completeness, then the system identifies missing requirement categories based on project type
-- **AC-005.4**: Given requirements may conflict, when analysis runs, then conflicts are highlighted with specific resolution suggestions
-- **AC-005.5**: Given validation is complete, when viewing results, then each requirement shows individual scores for clarity, testability, and completeness
-- **AC-005.6**: Given no requirements document exists, when validation is requested, then the system offers to generate a template based on project type
-- **AC-005.7**: Given requirements reference external standards, when validation runs, then the system verifies standard compliance where possible
+#### For System Architects
 
-**Architecture Mapping:** M007 (Multi-Dimensional Review Engine)  
-**SRS Requirements:** FR-006  
+**Start Here**: [Proposed Architecture: System Overview](#proposed-architecture-system-overview) → [Proposed Architecture: Architectural Components](#proposed-architecture-architectural-components) → [Proposed Architecture: Security Architecture](#proposed-architecture-security-architecture)
 
-### US-006: Specialized Document-Type Reviews
+- Deep dive into all technical sections
+- Review performance and scalability details
+- Examine plugin architecture for extensibility
 
-**As a** solo developer  
-**I want** specialized review criteria tailored to each specific document type  
-**So that** I receive relevant, actionable feedback specific to each document's purpose  
+#### For Open Source Maintainers
 
-**Acceptance Criteria:**
+**Start Here**: [Proposed Architecture: Plugin Ecosystem](#proposed-architecture-plugin-ecosystem) → [Proposed Architecture: Integration Workflows](#proposed-architecture-integration-workflows) → [Proposed Architecture: Testing and Quality Assurance](#proposed-architecture-testing-and-quality-assurance)
 
-- **AC-006.1**: Given I'm reviewing Build Instructions, when analysis runs, then the system verifies all dependencies are specified with version numbers
-- **AC-006.2**: Given I'm reviewing API Documentation, when analysis completes, then the system checks for complete endpoint coverage and example quality
-- **AC-006.3**: Given I'm reviewing User Manuals, when analysis runs, then readability scores target 8th-grade level with accessibility compliance checks
-- **AC-006.4**: Given I'm reviewing Test Cases, when analysis completes, then coverage metrics show percentage of requirements covered (minimum 80% for critical paths, 90% target)
-- **AC-006.5**: Given specialized review runs, when complete, then results include comparison to industry best practices for that document type
-- **AC-006.6**: Given a document type is not recognized, when review is requested, then the system applies general review criteria and notifies the user
-- **AC-006.7**: Given review identifies security issues in deployment docs, when displaying results, then security findings are marked as Critical priority
+- Focus on extensibility and community features
+- Review API architecture for integrations
+- Understand contribution workflows
 
-**Architecture Mapping:** M007 (Multi-Dimensional Review Engine)  
-**SRS Requirements:** FR-007  
+#### For Security-Conscious Users
+
+**Start Here**: [Proposed Architecture: Security Architecture](#proposed-architecture-security-architecture) → [Privacy Features](#privacy-features) → [Proposed Architecture: Monitoring and Operations](#proposed-architecture-monitoring-and-operations)
+
+- Understand data protection measures
+- Review encryption and privacy controls
+- Examine audit and compliance features
 
 ---
 
-## Epic 3: Document Suite Management
+## Proposed Architecture: Executive Summary
 
-### US-007: Suite-Level Consistency Analysis
+### What is DevDocAI?
 
-**As a** solo developer  
-**I want** to analyze my complete documentation suite for consistency and completeness  
-**So that** I can ensure all project artifacts align and support each other effectively  
+DevDocAI v3.5.0 is a proposed AI-powered documentation system designed specifically for individual developers and small teams. It will transform the documentation process from a time-consuming burden into an efficient, quality-driven workflow that produces professional-grade technical documentation.
 
-**Acceptance Criteria:**
+### Proposed Key Capabilities at a Glance
 
-- **AC-007.1**: Given I have multiple documents, when running suite analysis, then the system verifies traceability from requirements through design to tests
-- **AC-007.2**: Given suite analysis runs, when checking completeness, then the system identifies any missing critical documents for the project phase
-- **AC-007.3**: Given documents reference each other, when checking consistency, then the system validates all cross-references resolve correctly
-- **AC-007.4**: Given terminology varies across documents, when analysis completes, then inconsistent terms are highlighted with standardization suggestions
-- **AC-007.5**: Given suite has gaps, when analysis completes, then the system offers to generate missing documents with proper connections
-- **AC-007.6**: Given analysis results are complex, when displaying, then information uses progressive disclosure (summary first, details on demand)
-- **AC-007.7**: Given suite analysis fails on large document sets, when memory limits are reached, then the system processes documents in batches with progress indication
+| Capability | What It Will Do | Who Benefits Most | Implementation Phase |
+|------------|--------------|-------------------|---------------------|
+| **Document Generation** | Will create 40+ document types from templates | Solo developers needing quick documentation | Phase 1 |
+| **AI Enhancement** | Will improve quality by 60-75% using MIAIR | Technical writers seeking better content | Phase 2 |
+| **Tracking Matrix** | Will visualize all document relationships | Project managers tracking dependencies | Phase 1 |
+| **Quality Analysis** | Will provide real-time quality scores | Teams maintaining standards | Phase 1 |
+| **Privacy-First** | Will work completely offline by default | Security-conscious organizations | Phase 1 |
+| **VS Code Integration** | Will embed into your development workflow | Developers who live in their IDE | Phase 1 |
+| **Batch Operations** | Will process multiple documents efficiently | Teams with large documentation sets | Phase 2 |
+| **Version Control** | Will provide native Git integration for document versioning | All users needing history tracking | Phase 2 |
+| **Template Marketplace** | Will enable community-driven template sharing | Open source projects | Phase 3 |
+| **SBOM Generation** | Will create Software Bill of Materials | Compliance-focused teams | Phase 3 |
 
-**Architecture Mapping:** M006 (Suite Manager)  
-**SRS Requirements:** FR-009  
-**Performance Requirements:** NFR-001 (<2 minutes for 20 documents)  
+### Proposed Architecture Philosophy
 
-### US-008: Cross-Document Impact Analysis
+The proposed architecture will follow five core principles:
 
-**As a** solo developer  
-**I want** to understand how changes to one document affect others  
-**So that** I can maintain consistency when updating any part of my documentation  
+1. **Privacy by Default**: Your data will never leave your machine unless you explicitly choose cloud features
+2. **Developer-Centric**: Designed to fit seamlessly into existing developer workflows  
+3. **Quality-Driven**: Mathematical optimization will ensure consistently high documentation quality (85% Quality Gate)
+4. **Accessible**: Will be WCAG 2.1 AA compliant for inclusive use
+5. **Extensible**: Plugin architecture will enable community-driven enhancements
 
-**Acceptance Criteria:**
+### Proposed Licensing Model
 
-- **AC-008.1**: Given I modify a document, when requesting impact analysis, then the system lists all affected documents sorted by impact severity
-- **AC-008.2**: Given impacts are identified, when viewing results, then specific sections needing updates are highlighted in each affected document
-- **AC-008.3**: Given updates are needed, when viewing impact, then effort estimates (in minutes) are provided for each required change
-- **AC-008.4**: Given I approve changes, when selecting auto-propagate, then the system updates dependent documents with changes marked for review
-- **AC-008.5**: Given changes are propagated, when complete, then full change history is maintained with rollback capability
-- **AC-008.6**: Given circular dependencies exist, when impact analysis runs, then the system detects and reports circular references with resolution suggestions
-- **AC-008.7**: Given impact analysis results are displayed, when viewing, then a simplified dashboard shows only actionable items by default
-
-**Architecture Mapping:** M006 (Suite Manager)  
-**SRS Requirements:** FR-010  
+- **Core System**: Apache-2.0 License - Free and open source forever
+- **Plugin SDK**: MIT License - Maximum flexibility for plugin developers
+- **Third-Party Components**: See SBOM for complete license inventory
+- **Architectural Implication**: Modular design allows different licensing per component
 
 ---
 
-## Epic 4: Automated Enhancement & Synthesis
+## Proposed Architecture: Quick Reference
 
-### US-009: AI-Powered Document Enhancement with Cost Management
+### Proposed Decision Trees for Common Scenarios
 
-**As a** solo developer  
-**I want** to enhance my documents using AI while maintaining accuracy, intent, and budget control  
-**So that** I can improve documentation quality without manual rewriting or exceeding costs  
+#### "Which Document Type Should I Generate?"
 
-**Acceptance Criteria:**
+```mermaid
+graph TD
+    Start[What are you documenting?] --> Type{Document Phase}
+    Type -->|Planning| Planning[Project Plan, PRD, SRS, User Stories]
+    Type -->|Design| Design[Architecture, API Spec, Database Schema]
+    Type -->|Development| Dev[README, Build Instructions, Code Docs]
+    Type -->|Testing| Test[Test Plan, Test Cases, Bug Reports]
+    Type -->|Deployment| Deploy[Deployment Guide, User Manual, Release Notes]
+    Type -->|Compliance| Compliance[SBOM, Security Report, Audit Logs]
+%% Note: This is a proposed decision tree for the future system
+```
 
-- **AC-009.1**: Given I request enhancement, when processing begins, then the system applies document-type-specific improvement strategies
-- **AC-009.2**: Given enhancement uses multiple LLMs, when synthesis occurs, then the system combines outputs from Claude, ChatGPT, and Gemini with configurable weights
-- **AC-009.3**: Given enhancement completes, when reviewing changes, then a side-by-side diff view shows all modifications with accept/reject controls
-- **AC-009.4**: Given I'm enhancing a Test Plan, when complete, then test coverage is expanded with specific, executable test cases
-- **AC-009.5**: Given enhancement uses MIAIR methodology, when complete, then entropy reduction metrics are displayed (target: 60-75% improvement)
-- **AC-009.6**: Given API keys are missing or invalid, when enhancement is attempted, then the system provides clear configuration instructions
-- **AC-009.7**: Given enhancement would exceed API quotas, when checking limits, then the system warns user with cost estimates before proceeding
-- **AC-009.8**: Given enhanced content is generated, when displayed, then all AI-generated sections are clearly marked as such
-- **AC-009.9**: Given daily budget is set to $10.00, when limit is reached, then system automatically falls back to local models
-- **AC-009.10**: Given multiple providers are available, when selecting provider, then system chooses optimal provider based on cost/quality ratio
-- **AC-009.11**: Given cost tracking is enabled, when operations complete, then cumulative costs are displayed per provider
-- **AC-009.12**: Given monthly limit of $200.00 is configured, when 80% is reached, then system displays warning notification
+#### "Should I Use Cloud or Local Processing?"
 
-**Architecture Mapping:** M003 (MIAIR Engine), M008 (LLM Adapter), CostManager class  
-**SRS Requirements:** FR-011, FR-012, FR-025, FR-026  
+```mermaid
+graph TD
+    Start[Processing Decision] --> Sensitive{Sensitive Data?}
+    Sensitive -->|Yes| Local[Use Local Models]
+    Sensitive -->|No| Size{Document Size}
+    Size -->|<10KB| LocalFast[Local Processing<br/>Faster & Free]
+    Size -->|>10KB| Quality{Need Best Quality?}
+    Quality -->|Yes| Cloud[Cloud LLMs<br/>Better Results]
+    Quality -->|No| LocalGood[Local Models<br/>Good Enough]
+%% Note: This is a proposed decision flow for the future system
+```
 
----
+### Proposed Quick Command Reference
 
-## Epic 5: Quality Assurance & Compliance
+| Task | Command | Example | Phase |
+|------|---------|---------|-------|
+| Generate document | `devdocai generate <type>` | `devdocai generate prd` | Phase 1 |
+| Analyze quality | `devdocai analyze <file>` | `devdocai analyze docs/api.md` | Phase 1 |
+| Enhance document | `devdocai enhance <file>` | `devdocai enhance readme.md` | Phase 2 |
+| Batch process | `devdocai batch <command> <pattern>` | `devdocai batch analyze docs/*.md` | Phase 2 |
+| Check consistency | `devdocai consistency check` | Check entire suite | Phase 1 |
+| View dashboard | `devdocai dashboard` | Opens health dashboard | Phase 3 |
+| Version control | `devdocai version <command>` | `devdocai version commit -m "Update"` | Phase 2 |
+| Browse templates | `devdocai templates browse` | Browse marketplace | Phase 3 |
+| Generate SBOM | `devdocai sbom generate` | Creates bill of materials | Phase 3 |
+| Verify signatures | `devdocai verify --signatures` | Verify code signing | Phase 3 |
 
-### US-010: Security Analysis Integration
+### Proposed Performance Quick Facts
 
-**As a** solo developer  
-**I want** security reviews integrated into all document analysis  
-**So that** I can identify and address security concerns throughout my project documentation  
-
-**Acceptance Criteria:**
-
-- **AC-010.1**: Given any document contains security-relevant content, when analysis runs, then security sections are automatically identified and reviewed
-- **AC-010.2**: Given API documentation contains example keys, when security scan runs, then exposed credentials are flagged as Critical with safe alternatives
-- **AC-010.3**: Given architecture lacks security patterns, when analysis completes, then appropriate security design patterns are recommended with implementation guidance
-- **AC-010.4**: Given security issues are found, when displaying results, then remediation suggestions are ranked by CVSS severity scores
-- **AC-010.5**: Given different audiences need reports, when generating, then security findings are formatted appropriately (technical detail vs. executive summary)
-- **AC-010.6**: Given security scan configuration is missing, when analysis runs, then the system uses secure defaults and notifies user of assumptions
-- **AC-010.7**: Given OWASP compliance is checked, when non-compliant items are found, then specific OWASP guidelines are referenced with fixes
-
-**Architecture Mapping:** Security Architecture layer  
-**SRS Requirements:** FR-013, FR-014  
-
-### US-011: Performance and Scalability Analysis
-
-**As a** solo developer  
-**I want** performance considerations reviewed across all relevant documents  
-**So that** I can ensure my system design will meet performance requirements at scale  
-
-**Acceptance Criteria:**
-
-- **AC-011.1**: Given requirements lack performance metrics, when review runs, then specific, measurable performance requirements are suggested based on application type
-- **AC-011.2**: Given architecture documents exist, when analyzing for scalability, then potential bottlenecks are identified with severity ratings
-- **AC-011.3**: Given bottlenecks are found, when displaying results, then alternative patterns are recommended with clear pros/cons tradeoffs
-- **AC-011.4**: Given test plans exist, when reviewing, then performance testing coverage gaps are identified with suggested test scenarios
-- **AC-011.5**: Given deployment configs exist, when analyzing, then optimization opportunities are identified with expected performance impact
-- **AC-011.6**: Given performance requirements conflict, when detected, then the system highlights conflicts and suggests balanced approaches
-- **AC-011.7**: Given benchmark data is available, when analyzing, then system compares against industry standards for similar applications
-
-**Architecture Mapping:** Performance Architecture components  
-**SRS Requirements:** NFR-001, NFR-002, NFR-003  
+- **Document Generation**: 30 seconds average (target)
+- **Quality Analysis**: 10 seconds per document (target)
+- **Enhancement**: 45 seconds with AI (target)
+- **Batch Processing**: 100 documents/hour (target)
+- **VS Code Suggestions**: Under 500ms (target)
+- **Memory Usage** (Proposed Standardized Modes):
+  - **Baseline Mode**: <2GB RAM (templates only, no AI)
+  - **Standard Mode**: 2-4GB RAM (full features, cloud AI)
+  - **Enhanced Mode**: 4-8GB RAM (local AI models)
+  - **Performance Mode**: >8GB RAM (everything + heavy caching)
 
 ---
 
-## Epic 6: Workflow Integration
+## Proposed Architecture: Glossary of Terms
 
-### US-012: VS Code Extension Integration
+### Proposed Essential Terms (Non-Technical)
 
-**As a** solo developer  
-**I want** seamless VS Code integration with real-time documentation assistance  
-**So that** I can manage documentation without context switching from my development environment  
+| Term | Plain English Definition | Example |
+|------|-------------------------|---------|
+| **Document Generation** | Creating new documents from templates | Like using a form letter but smarter |
+| **Quality Score** | How good your documentation is (0-100) | 85+ means professional quality |
+| **Quality Gate** | Minimum acceptable quality | Must score 85% to pass |
+| **Tracking Matrix** | Visual map of how documents connect | Shows which docs depend on others |
+| **Enhancement** | AI making your writing better | Fixing unclear sentences automatically |
+| **Local-First** | Works without internet | Like a desktop app, not web-based |
+| **Batch Operations** | Process many documents at once | Analyze 100 docs with one command |
+| **Template Marketplace** | Community template sharing | Download templates others created |
+| **SBOM** | Software Bill of Materials | Complete list of all components |
+| **Code Signing** | Digital signature for authenticity | Like a tamper-proof seal |
 
-**Acceptance Criteria:**
+### Proposed Technical Terms (Authoritative Definitions)
 
-- **AC-012.1**: Given I'm working in VS Code, when DevDocAI is active, then project explorer shows all documents with color-coded health indicators
-- **AC-012.2**: Given I'm editing a document, when typing, then real-time suggestions appear as non-intrusive overlays within 500ms
-- **AC-012.3**: Given ambiguous language is detected, when typing requirements, then specific improvement suggestions appear immediately
-- **AC-012.4**: Given I update a document, when saving, then dependent documents show review-needed indicators in the explorer within 2 seconds
-- **AC-012.5**: Given I right-click a document, when context menu opens, then quick actions for generate, analyze, and enhance are available
-- **AC-012.6**: Given VS Code theme is dark/light, when displaying DevDocAI UI, then extension UI adapts to match user's theme preference
-- **AC-012.7**: Given keyboard navigation is used, when accessing DevDocAI features, then all functions are accessible without mouse interaction
-- **AC-012.8**: Given I use screen readers, when navigating DevDocAI panels, then all information is properly announced with semantic structure
-
-**Architecture Mapping:** VS Code Extension (Presentation Layer)  
-**SRS Requirements:** FR-015, UI-001  
-**Performance Requirements:** NFR-001 (<500ms response time)  
-
-### US-013: CLI Automation Capabilities
-
-**As a** solo developer  
-**I want** powerful CLI commands for automation and CI/CD integration  
-**So that** I can incorporate documentation quality checks into my development pipeline  
-
-**Acceptance Criteria:**
-
-- **AC-013.1**: Given I use the CLI, when running batch operations, then I can process entire document suites with a single command
-- **AC-013.2**: Given I configure Git hooks, when committing, then DevDocAI validates documentation quality before allowing commit (85% threshold)
-- **AC-013.3**: Given CI/CD integration exists, when builds run, then documentation quality gates can fail builds if scores drop below configured thresholds
-- **AC-013.4**: Given I chain commands, when creating workflows, then output from one command can be piped as input to another
-- **AC-013.5**: Given automation runs, when using environment variables, then all configuration can be managed through .env files
-- **AC-013.6**: Given CLI commands execute, when errors occur, then exit codes follow Unix conventions (0=success, non-zero=failure)
-- **AC-013.7**: Given I request JSON output, when commands complete, then all results are available in machine-readable JSON format
-- **AC-013.8**: Given invalid commands are entered, when executing, then helpful error messages suggest correct syntax with examples
-
-**Architecture Mapping:** CLI Interface (Presentation Layer)  
-**SRS Requirements:** FR-016, UI-002  
+| Term | Technical Definition | Formula/Details |
+|------|---------------------|-----------------|
+| **MIAIR** | Meta-Iterative AI Refinement methodology | Entropy optimization algorithm |
+| **Entropy Score** | Information organization metric (0-1) | S = -∑[p(xi) × log2(p(xi))] × f(Tx) |
+| **Coherence Index** | Logical flow measurement (0-1) | Cosine similarity between sections |
+| **Multi-LLM Synthesis** | Combining outputs from multiple Large Language Models | Weighted consensus algorithm |
+| **PII** | Personally Identifiable Information | Data requiring protection under privacy laws |
+| **DSR** | Data Subject Rights | GDPR/CCPA data control rights |
+| **SPDX** | Software Package Data Exchange | SBOM format standard v2.3 |
+| **CycloneDX** | OWASP SBOM standard | Alternative SBOM format v1.4 |
+| **Argon2id** | Memory-hard key derivation function | Password hashing algorithm |
+| **Ed25519** | Elliptic curve digital signature algorithm | High-speed signatures |
 
 ---
 
-## Epic 7: Metrics and Reporting
+## Proposed Architecture: System Overview
 
-### US-014: Documentation Health Dashboard
+### Proposed High-Level Architecture (Simplified View)
 
-**As a** solo developer  
-**I want** a clear, actionable dashboard showing my documentation health  
-**So that** I can quickly identify what needs attention without information overload  
+For a comprehensive understanding, we provide three views of increasing detail:
 
-**Acceptance Criteria:**
+#### View 1: Proposed User Perspective (Simple)
 
-- **AC-014.1**: Given I open the dashboard, when first displayed, then I see only high-level metrics: overall health score, critical issues count, and recent changes
-- **AC-014.2**: Given I want more detail, when clicking expand, then progressive disclosure reveals detailed metrics per document type
-- **AC-014.3**: Given metrics are displayed, when viewing trends, then time-series graphs show improvement/degradation over past 30 days
-- **AC-014.4**: Given documentation quality is declining, when viewing alerts, then specific problem areas are highlighted with one-click access to fixes
-- **AC-014.5**: Given I need reports, when exporting, then professional visualizations are generated with executive summaries in PDF/HTML formats
-- **AC-014.6**: Given complex metrics exist, when displaying entropy scores, then tooltips explain what each metric means in plain language
-- **AC-014.7**: Given dashboard loads, when on slow connections, then critical information loads first with progressive enhancement
-- **AC-014.8**: Given color-blind users access dashboard, when viewing, then information is also conveyed through patterns and labels, not just colors
-- **AC-014.9**: Given responsive design is required, when viewing on mobile (<768px), then dashboard displays single column layout
-- **AC-014.10**: Given tablet view (768-1024px), when displayed, then dashboard shows two-column condensed view
+```
+┌──────────────────────────────────────────┐
+│          You (Developer/Writer)          │
+└────────────────┬─────────────────────────┘
+              │
+┌─────────────▼───────────────────────────┐
+│      DevDocAI v3.5.0 (PROPOSED)         │
+│  ┌─────────────────────────────────┐    │
+│  │ VS Code Extension or CLI        │    │
+│  └─────────────────────────────────┘    │
+│  ┌─────────────────────────────────┐    │
+│  │ Document Processor               │    │
+│  └─────────────────────────────────┘    │
+│  ┌─────────────────────────────────┐    │
+│  │ AI Enhancement (Optional)        │    │
+│  └─────────────────────────────────────┘    │
+└──────────────────────────────────────────┘
+              │
+┌─────────────▼───────────────────────────┐
+│      Your Documentation (Better!)        │
+└──────────────────────────────────────────┘
+// Note: This represents the proposed system architecture
+```
 
-**Architecture Mapping:** Dashboard (Presentation Layer)  
-**SRS Requirements:** FR-017, FR-018, UI-003, UI-006, UI-007  
+#### View 2: Proposed Component Architecture (Intermediate)
 
-### US-015: Learning and Adaptation System
+```
+┌──────────────────────────────────────────────────┐
+│        Proposed User Interfaces                   │
+│  VS Code Extension │ CLI │ Dashboard │ Plugins    │
+└───────────┬──────────────────────────────────────┘
+            │ Commands & Feedback
+┌───────────▼──────────────────────────────────────┐
+│     Proposed Document Management Core             │
+│  Generator │ Analyzer │ Enhancer │ Tracker        │
+│  Batch Ops │ Version Control │ Template Mgr       │
+└───────────┬──────────────────────────────────────┘
+            │ Quality Metrics
+┌───────────▼──────────────────────────────────────┐
+│        Proposed Intelligence Layer                │
+│  MIAIR Engine │ Multi-LLM │ Learning System       │
+└───────────┬──────────────────────────────────────┘
+            │ Secure Storage
+┌───────────▼──────────────────────────────────────┐
+│        Proposed Foundation Services               │
+│  Configuration │ Storage │ Security │ SBOM        │
+└──────────────────────────────────────────────────┘
+// Note: This represents the proposed component architecture
+```
 
-**As a** solo developer  
-**I want** DevDocAI to adapt to my writing style and preferences  
-**So that** generated content increasingly matches my documentation patterns  
+#### View 3: Proposed Detailed Technical Architecture with Requirements Mapping
 
-**Acceptance Criteria:**
+```mermaid
+graph TB
+    subgraph "Proposed Presentation Layer - Phase 1"
+        VSCode[VS Code Extension<br/>REQ-012, US-012]
+        CLI[CLI Interface<br/>REQ-013, US-013]
+        Dashboard[Web Dashboard<br/>REQ-014, US-014, Phase 3]
+        API[REST API<br/>Phase 3]
+    end
+    
+    subgraph "Proposed Application Layer"
+        Generator[Document Generator<br/>M004, FR-001-003, US-001, Phase 1]
+        Analyzer[Analysis Engine<br/>M007, FR-005-007, US-004-006, Phase 1]
+        Enhancer[Enhancement Pipeline<br/>M009, FR-011-012, US-009, Phase 2]
+        Matrix[Tracking Matrix<br/>M005, FR-008-010, US-002, Phase 1]
+        Learning[Learning System<br/>FR-019-020, US-015, Phase 3]
+        BatchOps[Batch Operations<br/>M011, US-019, Phase 2]
+        VersionCtl[Version Control<br/>M012, US-020, Phase 2]
+        TemplateMkt[Template Marketplace<br/>M013, US-021, Phase 3]
+    end
+    
+    subgraph "Proposed Intelligence Layer - Phase 2"
+        MIAIR[MIAIR Engine<br/>M003, US-009]
+        LLMAdapter[LLM Adapter<br/>M008, FR-025-026]
+        CostMgmt[Cost Management<br/>REQ-044]
+        PIIDetect[PII Detection<br/>FR-028]
+    end
+    
+    subgraph "Proposed Security Layer - Phase 1/3"
+        Auth[Authentication<br/>Phase 1]
+        Crypto[Encryption<br/>AES-256-GCM, Phase 1]
+        Signing[Code Signing<br/>Ed25519, Phase 3]
+        Sandbox[Plugin Sandbox<br/>Phase 3]
+        DSR[DSR Handler<br/>Phase 3]
+    end
+    
+    subgraph "Proposed Foundation Layer - Phase 1"
+        Config[Configuration<br/>M001]
+        Storage[Local Storage<br/>M002]
+        SBOM[SBOM Generator<br/>M010, FR-027, Phase 3]
+        KeyMgmt[Key Management<br/>Argon2id]
+        Audit[Audit Logging]
+    end
+    
+    VSCode --> Generator
+    CLI --> Generator
+    CLI --> BatchOps
+    Dashboard --> Matrix
+    Generator --> MIAIR
+    Analyzer --> MIAIR
+    Enhancer --> LLMAdapter
+    BatchOps --> Generator
+    BatchOps --> Analyzer
+    VersionCtl --> Storage
+    TemplateMkt --> Generator
+    MIAIR --> Storage
+    LLMAdapter --> CostMgmt
+    LLMAdapter --> PIIDetect
+    Storage --> Crypto
+    Config --> KeyMgmt
+    Generator --> SBOM
+%% Note: This diagram represents the proposed technical architecture
+```
 
-- **AC-015.1**: Given I make consistent corrections, when patterns are detected after 5+ instances, then the system adapts future generations
-- **AC-015.2**: Given I use domain-specific terms, when generating new content, then the system maintains my terminology consistently
-- **AC-015.3**: Given I save preferences, when creating custom templates, then these templates are available across all my projects
-- **AC-015.4**: Given I export my style guide, when sharing, then other team members can import my preferences
-- **AC-015.5**: Given adaptation learns my patterns, when I want to reset, then I can clear learned preferences with one action
-- **AC-015.6**: Given privacy concerns exist, when learning preferences, then all learning data remains local unless explicitly shared
-- **AC-015.7**: Given learned patterns exist, when switching projects, then I can maintain separate preference profiles per project
+### Proposed Requirements Traceability
 
-**Architecture Mapping:** Learning System (Application Layer)  
-**SRS Requirements:** FR-019, FR-020  
+This proposed architecture will implement all requirements from v3.5.0 documentation suite:
 
----
-
-## Epic 8: Extensibility and Privacy
-
-### US-016: Plugin Architecture with Enhanced Security
-
-**As a** solo developer  
-**I want** to extend DevDocAI with secure custom plugins for my specific needs  
-**So that** I can add domain-specific functionality without waiting for official updates  
-
-**Acceptance Criteria:**
-
-- **AC-016.1**: Given I create a plugin, when registering it, then the system validates plugin manifest for required fields and version compatibility
-- **AC-016.2**: Given plugins are installed, when loading, then each plugin runs in a sandboxed environment with declared permissions only
-- **AC-016.3**: Given I need custom document types, when defining in plugin, then new types appear in generation menus with my templates
-- **AC-016.4**: Given plugins need configuration, when installing, then a configuration UI is auto-generated from the plugin's schema
-- **AC-016.5**: Given plugin errors occur, when running, then errors are isolated and don't crash the main DevDocAI system
-- **AC-016.6**: Given I share plugins, when publishing, then other users can discover and install through the plugin marketplace
-- **AC-016.7**: Given security concerns exist, when installing plugins, then the system displays clear warnings about plugin permissions and risks
-- **AC-016.8**: Given plugin is downloaded, when verifying, then Ed25519 signature is validated against publisher's public key
-- **AC-016.9**: Given plugin certificate exists, when validating, then certificate chain is verified to DevDocAI Plugin CA root
-- **AC-016.10**: Given plugin revocation check runs, when querying, then CRL and OCSP are checked for revocation status
-- **AC-016.11**: Given plugin is installed, when scanning, then malware detection runs before sandbox installation
-- **AC-016.12**: Given revoked plugin is detected, when checking, then plugin is immediately disabled and user is notified
-
-**Architecture Mapping:** Plugin Ecosystem, Sandbox Security  
-**SRS Requirements:** FR-021, FR-022  
-
-### US-017: Privacy and Data Control
-
-**As a** solo developer  
-**I want** complete control over my data and privacy  
-**So that** I can use DevDocAI with sensitive projects without concerns  
-
-**Acceptance Criteria:**
-
-- **AC-017.1**: Given I enable offline mode, when using DevDocAI, then all features using local models remain fully functional without internet
-- **AC-017.2**: Given I work with sensitive data, when processing documents, then no data is sent to external services without explicit per-session consent
-- **AC-017.3**: Given API keys are configured, when stored, then keys are encrypted using industry-standard encryption (AES-256-GCM with Argon2id KDF)
-- **AC-017.4**: Given telemetry is available, when first running DevDocAI, then telemetry is opt-in with clear explanation of what's collected
-- **AC-017.5**: Given I grant consent for cloud features, when before sending data, then a summary preview shows what will be transmitted
-- **AC-017.6**: Given I want to purge data, when requesting deletion, then all local data, cache, and preferences are completely removed
-- **AC-017.7**: Given API keys are missing, when cloud features are attempted, then clear error messages explain configuration steps without exposing key values
-- **AC-017.8**: Given offline mode fails, when local models are unavailable, then the system explains how to install local models with size/performance tradeoffs
-- **AC-017.9**: Given I work in air-gapped environments, when installing, then offline installation packages are available with all dependencies
-
-**Architecture Mapping:** M002 (Local Storage), Security Architecture  
-**SRS Requirements:** FR-023, FR-024  
-
----
-
-## Epic 9: Universal Accessibility
-
-### US-018: Universal Accessibility Compliance
-
-**As a** developer with accessibility needs  
-**I want** DevDocAI to be fully accessible  
-**So that** I can use all features regardless of my abilities  
-
-**Acceptance Criteria:**
-
-- **AC-018.1**: Given any DevDocAI interface, when tested, then it meets WCAG 2.1 Level AA standards for all interactive elements
-- **AC-018.2**: Given generated documents, when created, then output includes proper heading hierarchy and semantic HTML structure
-- **AC-018.3**: Given visual information is presented, when displayed, then alternative text descriptions are available for all images and diagrams
-- **AC-018.4**: Given keyboard navigation is used, when interacting, then all features are accessible without mouse with visible focus indicators
-- **AC-018.5**: Given screen readers are used, when navigating, then all content is properly announced with appropriate ARIA labels
-- **AC-018.6**: Given motion or animations exist, when displayed, then users can disable or reduce motion through preferences
-- **AC-018.7**: Given error messages appear, when displayed, then they are announced to screen readers and associated with relevant form fields
-- **AC-018.8**: Given color conveys information, when displayed, then additional indicators (icons, patterns, labels) also convey the same information
-
-**Architecture Mapping:** Accessibility Architecture  
-**SRS Requirements:** ACC-001 through ACC-009  
-
----
-
-## Epic 10: Compliance and Security Features
-
-### US-019: SBOM Generation
-
-**As a** solo developer  
-**I want** to generate Software Bill of Materials for my projects  
-**So that** I can track dependencies, licenses, and vulnerabilities for compliance  
-
-**Acceptance Criteria:**
-
-- **AC-019.1**: Given I request SBOM generation, when command runs `devdocai sbom generate`, then SBOM is created in SPDX 2.3 format by default
-- **AC-019.2**: Given CycloneDX format is requested, when specifying `--format=cyclonedx`, then SBOM is generated in CycloneDX 1.4 format
-- **AC-019.3**: Given SBOM is generated, when scanning dependencies, then complete dependency tree with versions is included
-- **AC-019.4**: Given licenses need tracking, when SBOM is created, then all third-party licenses are identified and listed
-- **AC-019.5**: Given vulnerability scanning is enabled, when generating SBOM, then known CVEs are flagged with severity scores
-- **AC-019.6**: Given SBOM requires authentication, when requesting signed SBOM, then digital signature using Ed25519 is applied
-- **AC-019.7**: Given SBOM is exported, when viewing, then both human-readable and machine-readable formats are available
-
-**Architecture Mapping:** M010 (SBOM Generator)  
-**SRS Requirements:** FR-027  
-
-### US-020: PII Detection
-
-**As a** solo developer  
-**I want** automatic detection of personally identifiable information in my documents  
-**So that** I can protect sensitive data and comply with privacy regulations  
-
-**Acceptance Criteria:**
-
-- **AC-020.1**: Given document contains PII, when scanning, then system automatically detects personal information with 95%+ accuracy
-- **AC-020.2**: Given PII is detected, when displaying results, then specific locations are highlighted with severity levels
-- **AC-020.3**: Given different sensitivity levels exist, when configuring, then detection sensitivity is adjustable (low/medium/high)
-- **AC-020.4**: Given PII needs sanitization, when detected, then specific sanitization recommendations are provided
-- **AC-020.5**: Given GDPR compliance is required, when scanning, then EU-specific PII types are detected (e.g., national ID numbers)
-- **AC-020.6**: Given CCPA compliance is required, when scanning, then California-specific PII categories are identified
-- **AC-020.7**: Given PII report is needed, when exporting, then detailed report shows all findings with remediation steps
-
-**Architecture Mapping:** M007 (Review Engine with PII Detection)  
-**SRS Requirements:** FR-028  
-
-### US-021: Data Subject Rights (DSR) Implementation
-
-**As a** solo developer  
-**I want** to support data subject rights for GDPR/CCPA compliance  
-**So that** users can export, delete, or rectify their data as required by law  
-
-**Acceptance Criteria:**
-
-- **AC-021.1**: Given data export is requested, when processing DSR, then all user data is gathered and packaged in portable format (JSON/CSV)
-- **AC-021.2**: Given data deletion is requested, when processing, then secure cryptographic erasure is performed with confirmation certificate
-- **AC-021.3**: Given data rectification is requested, when processing, then workflow allows specific data updates with audit trail
-- **AC-021.4**: Given DSR request is received, when validating, then identity verification is performed before processing
-- **AC-021.5**: Given GDPR timeline applies, when DSR is received, then response is provided within 30 days
-- **AC-021.6**: Given data is exported, when packaging, then data is encrypted with user-provided key for secure transfer
-- **AC-021.7**: Given deletion is complete, when confirming, then deletion certificate with timestamp and scope is generated
-- **AC-021.8**: Given DSR history exists, when auditing, then all DSR requests and actions are logged with tamper-evident records
-
-**Architecture Mapping:** DSR Handler (Security Architecture)  
-**SRS Requirements:** Privacy compliance features  
+- **User Stories (US-001 to US-021)**: All mapped to proposed architectural components
+- **PRD Requirements (REQ-001 to REQ-044)**: Will be fully implemented across layers
+- **SRS Functional Requirements (FR-001 to FR-028)**: Direct proposed component mapping
+- **SRS Non-Functional Requirements (NFR-001 to NFR-013)**: Cross-cutting concerns
+- **Accessibility Requirements (ACC-001 to ACC-009)**: UI and output layers
+For complete traceability matrix, see [Appendix A](#appendix-a-requirements-traceability-matrix).
 
 ---
 
-## Quality and Performance Standards
+## Proposed Architecture: Architectural Components
 
-### Memory Usage Modes
+### Proposed Layer Organization
 
-**Standardized Memory Specifications:**
+Our proposed architecture will consist of five main layers, each with specific responsibilities and implementation phases:
 
-| Mode | RAM Usage | Features | Use Case |
-|------|-----------|----------|----------|
-| **Baseline Mode** | <2GB | Templates only, no AI | Limited hardware |
-| **Standard Mode** | 2-4GB | Full features, cloud AI | Typical development |
-| **Enhanced Mode** | 4-8GB | Local AI models, caching | Privacy-focused |
-| **Performance Mode** | >8GB | All features, heavy caching | Large projects |
+```
+User Layer       → How you will interact with DevDocAI (Phase 1/3)
+Management Layer → What DevDocAI will do with documents (Phase 1/2)
+Intelligence Layer → How DevDocAI will improve quality (Phase 2)
+Security Layer   → How DevDocAI will protect your data (Phase 1/3)
+Foundation Layer → Core services everything will rely on (Phase 1)
+```
 
-### Quality Metrics
+### Proposed Foundation Layer (Phase 1)
 
-**Standard Thresholds:**
+#### Proposed Module M001: Configuration Manager
 
-- **Quality Gate**: 85% minimum score for all documents
-- **Code Coverage**: 80% minimum overall, 90% for critical paths
-- **Entropy Reduction**: 60-75% improvement target
-- **Coherence Index**: ≥0.94 threshold
-- **Completeness Rating**: ≥95% required
-- **PII Detection Accuracy**: ≥95% minimum
+**Purpose**: Will manage all settings and preferences for DevDocAI.
+**Supports User Stories**: US-001, US-017 (privacy settings)
+**Proposed Key Features**:
+
+- **Smart Defaults**: Will work out-of-the-box with sensible settings
+- **Privacy Controls**: All privacy settings will be in one place including retention policies
+- **Project-Specific**: Different settings per project
+- **Secure Storage**: API keys will be encrypted automatically
+- **Data Retention**: Configurable retention schedules for logs and analytics
+**Implementation Priority**: Phase 1 - Core requirement
+
+##### Technology Selection Rationale
+
+**Primary Technology**: YAML with JSON Schema validation v1.2
+**Alternatives Considered**: TOML, JSON, XML, INI files
+**Selection Criteria**:
+
+- **Performance**: Fast parsing with minimal overhead (<100ms for typical configs)
+- **Scalability**: Human-readable format scales to complex configurations
+- **Developer Experience**: Familiar to developers, excellent IDE support
+- **Cost**: No licensing costs, open standards
+- **Security**: No code execution risks, sandboxed parsing
+- **Maturity**: Widespread adoption in CI/CD and DevOps tools
+**Decision Justification**:
+YAML was selected for its superior human readability and widespread adoption in developer tooling ecosystems. JSON Schema provides robust validation without additional dependencies, ensuring configuration integrity while maintaining simplicity.
+**Risk Mitigation**:
+Support JSON as an alternative format for programmatic generation and stricter parsing requirements. Implement schema versioning for backward compatibility.
+**For Developers**:
+
+```yaml
+# .devdocai.yml - Proposed configuration example (v3.5.0)
+# Note: This is a proposed configuration structure
+version: 3.5.0
+preferences:
+  quality_target: 90  # Aim for 90% quality
+  quality_gate: 85    # Minimum 85% to pass
+  use_local: true     # Privacy first
+  auto_enhance: true  # Improve automatically
+  
+privacy:
+  retention:
+    logs: 90        # Days to keep logs
+    analytics: 30   # Days for opt-in analytics
+    temp_files: 1   # Days for temporary files
+  dsr:
+    enabled: true   # Support data subject rights
+    export_format: json
+    
+batch_operations:  # US-019 support
+  enabled: true
+  max_concurrent: 4
+  memory_mode: standard  # 2-4GB RAM
+```
+
+#### Proposed Module M002: Local Storage System
+
+**Purpose**: Will store all your documents and data securely on your machine.
+**Supports User Stories**: US-017 (privacy), US-020 (version control)
+**Proposed Security by Default**:
+
+- ✅ All documents will be encrypted automatically (AES-256-GCM)
+- ✅ Unique initialization vectors for each file
+- ✅ Your data will never leave your control
+- ✅ Secure deletion with cryptographic erasure
+- ✅ Tamper detection via HMAC signatures
+**Implementation Priority**: Phase 1 - Core requirement
+
+##### Technology Selection Rationale
+
+**Primary Technology**: SQLite 3.40+ with SQLCipher extension
+**Alternatives Considered**: PostgreSQL, MongoDB, LevelDB, Plain filesystem
+**Selection Criteria**:
+
+- **Performance**: Single-file database with sub-millisecond queries
+- **Scalability**: Handles databases up to 281TB, sufficient for documentation
+- **Developer Experience**: No server required, zero configuration
+- **Cost**: Public domain, zero licensing costs
+- **Security**: SQLCipher provides transparent encryption at rest
+- **Maturity**: Battle-tested in millions of applications
+**Decision Justification**:
+SQLite with SQLCipher was chosen for its zero-configuration deployment, excellent performance for local operations, and transparent encryption capabilities. It eliminates the need for a database server while providing ACID compliance and robust data integrity.
+**Risk Mitigation**:
+Implement export/import functionality to support migration to other storage backends if needed. Regular automated backups to prevent data loss.
+
+#### Proposed Module M003: MIAIR Engine
+
+**Purpose**: Will be the "brain" that improves document quality mathematically.
+**Supports User Stories**: US-009 (AI enhancement)
+**Implementation Priority**: Phase 2 - Intelligence features
+
+##### Technology Selection Rationale
+
+**Primary Technology**: Python 3.11+ with NumPy/SciPy for mathematical operations
+**Alternatives Considered**: Rust, Go, JavaScript/Node.js, C++
+**Selection Criteria**:
+
+- **Performance**: NumPy provides vectorized operations for efficiency
+- **Scalability**: Easy integration with ML frameworks
+- **Developer Experience**: Rich ecosystem of AI/ML libraries
+- **Cost**: Open source with permissive licensing
+- **Security**: Memory-safe with proper bounds checking
+- **Maturity**: Industry standard for AI/ML applications
+**Decision Justification**:
+Python was selected for the MIAIR engine due to its unparalleled ecosystem of scientific computing and AI libraries. The performance overhead is acceptable given the non-real-time nature of document processing and the ability to optimize critical paths with Cython if needed.
+**Risk Mitigation**:
+Profile and optimize performance bottlenecks. Consider Rust extensions for computationally intensive operations if performance becomes critical.
+
+### Proposed Document Management Layer
+
+#### Proposed Module M004: Document Generator
+
+**Purpose**: Will create new documents from smart templates.
+**Supports User Stories**: US-001 (generate docs), US-003 (suite generation), US-021 (template marketplace)
+**Implementation Priority**: Phase 1 - Core requirement
+
+##### Technology Selection Rationale
+
+**Primary Technology**: Handlebars.js templating engine v4.7+
+**Alternatives Considered**: Mustache, Jinja2, Liquid, EJS
+**Selection Criteria**:
+
+- **Performance**: Pre-compiled templates for fast rendering
+- **Scalability**: Supports complex template inheritance
+- **Developer Experience**: Logic-less templates prevent complexity
+- **Cost**: MIT licensed, free to use
+- **Security**: Auto-escaping prevents XSS vulnerabilities
+- **Maturity**: Widely adopted with extensive community support
+**Decision Justification**:
+Handlebars was chosen for its balance between simplicity and power, offering helpers for common operations while maintaining template readability. Its logic-less design encourages clean separation between data and presentation.
+**Risk Mitigation**:
+Abstract template engine interface to allow swapping engines if requirements change. Maintain backward compatibility through template versioning.
+
+#### Proposed Module M005: Tracking Matrix
+
+**Purpose**: Will visualize document relationships.
+**Supports User Stories**: US-002 (tracking matrix), US-007 (consistency), US-008 (impact analysis)
+**Implementation Priority**: Phase 1 - Core requirement
+
+##### Technology Selection Rationale
+
+**Primary Technology**: D3.js v7 for visualization with NetworkX for graph analysis
+**Alternatives Considered**: Cytoscape.js, vis.js, Graphviz, Mermaid
+**Selection Criteria**:
+
+- **Performance**: GPU-accelerated rendering for large graphs
+- **Scalability**: Handles thousands of nodes efficiently
+- **Developer Experience**: Extensive documentation and examples
+- **Cost**: BSD licensed, free to use
+- **Security**: Client-side rendering, no data transmission
+- **Maturity**: Industry standard for data visualization
+**Decision Justification**:
+D3.js provides unmatched flexibility for creating custom visualizations while NetworkX offers robust graph algorithms for dependency analysis. This combination enables both beautiful visualizations and meaningful relationship analysis.
+**Risk Mitigation**:
+Implement progressive rendering for large document sets. Provide simplified view modes for performance-constrained environments.
+
+#### Proposed Module M006: Suite Manager
+
+**Purpose**: Will manage documentation sets.
+**Supports User Stories**: US-007 (suite consistency), US-008 (impact analysis)
+**Implementation Priority**: Phase 1 - Core requirement
+
+### Proposed Analysis & Enhancement Layer
+
+#### Proposed Module M007: Multi-Dimensional Review Engine
+
+**Purpose**: Will analyze documents from multiple perspectives.
+**Supports User Stories**: US-004 (general review), US-005 (requirements validation), US-006 (specialized reviews)
+**Implementation Priority**: Phase 1 - Core requirement
+
+##### Technology Selection Rationale
+
+**Primary Technology**: TypeScript 5.0+ with Plugin Architecture
+**Alternatives Considered**: JavaScript, Python, Go, Rust
+**Selection Criteria**:
+
+- **Performance**: JIT compilation provides near-native performance
+- **Scalability**: Plugin architecture enables unlimited review types
+- **Developer Experience**: Type safety reduces bugs, excellent tooling
+- **Cost**: Open source with Apache-2.0 license
+- **Security**: Type system prevents many vulnerability classes
+- **Maturity**: Proven in large-scale applications
+**Decision Justification**:
+TypeScript was selected for its type safety, which is crucial for maintaining plugin API contracts, and its seamless integration with the VS Code extension ecosystem. The plugin architecture allows community-driven review types without core modifications.
+**Risk Mitigation**:
+Implement comprehensive plugin API versioning. Provide migration tools for plugin developers when APIs change.
+
+#### Proposed Module M008: LLM Adapter
+
+**Purpose**: Will connect to AI models with privacy controls.
+**Supports User Stories**: US-009 (AI enhancement), REQ-044 (cost management)
+**Implementation Priority**: Phase 2 - Enhancement features
+
+##### Technology Selection Rationale
+
+**Primary Technology**: LangChain v0.1+ with OpenAI/Anthropic/Local model support
+**Alternatives Considered**: Direct API integration, LlamaIndex, Semantic Kernel
+**Selection Criteria**:
+
+- **Performance**: Async operations and streaming support
+- **Scalability**: Multi-provider abstraction layer
+- **Developer Experience**: Unified interface across LLM providers
+- **Cost**: Usage-based with cost tracking built-in
+- **Security**: PII detection and redaction capabilities
+- **Maturity**: Active development with large community
+**Decision Justification**:
+LangChain provides a robust abstraction layer over multiple LLM providers, enabling easy switching between cloud and local models based on privacy requirements. Its chain composition allows complex enhancement workflows.
+**Risk Mitigation**:
+Maintain provider-specific fallbacks. Implement retry logic with exponential backoff for API failures.
+
+#### Proposed Module M009: Enhancement Pipeline
+
+**Purpose**: Will improve document quality using AI.
+**Supports User Stories**: US-009 (AI enhancement)
+**Implementation Priority**: Phase 2 - Enhancement features
+
+### Proposed New Components for v3.5.0
+
+#### Proposed Module M011: Batch Operations Manager - NEW
+
+**Purpose**: Will efficiently process multiple documents.
+**Supports User Stories**: US-019 (batch operations)
+**Implementation Priority**: Phase 2
+**Proposed Features**:
+
+- Parallel processing with configurable concurrency
+- Queue management for large batches
+- Progress tracking and reporting
+- Memory-aware batch sizing
+
+##### Technology Selection Rationale
+
+**Primary Technology**: Node.js Worker Threads with Bull Queue
+**Alternatives Considered**: RabbitMQ, AWS SQS, Celery, Custom threading
+**Selection Criteria**:
+
+- **Performance**: Worker threads provide true parallelism
+- **Scalability**: Redis-backed queue handles thousands of jobs
+- **Developer Experience**: Simple API with robust error handling
+- **Cost**: Open source, self-hosted
+- **Security**: Process isolation prevents cross-contamination
+- **Maturity**: Battle-tested in production environments
+**Decision Justification**:
+Bull Queue with Worker Threads was chosen for its ability to handle both in-process and distributed workloads, allowing the system to scale from single-machine to distributed processing without architectural changes.
+**Risk Mitigation**:
+Implement graceful degradation to sequential processing if worker threads unavailable. Provide memory pressure monitoring to prevent OOM conditions.
+
+```javascript
+// Proposed implementation example
+class BatchOperationsManager {
+  constructor() {
+    this.maxConcurrent = 4;  // Based on memory mode
+    this.queue = [];
+    this.memoryMode = 'standard'; // 2-4GB RAM
+  }
+  
+  async processBatch(documents, operation) {
+    // US-019: AC-019.1 - Configure concurrency
+    const concurrent = this.getConcurrency();
+    
+    // US-019: AC-019.2 - Queue management
+    for (let i = 0; i < documents.length; i += concurrent) {
+      const batch = documents.slice(i, i + concurrent);
+      await Promise.all(batch.map(doc => operation(doc)));
+      
+      // US-019: AC-019.3 - Progress tracking
+      this.reportProgress(i + batch.length, documents.length);
+    }
+  }
+  
+  getConcurrency() {
+    // Adjust based on memory mode
+    switch(this.memoryMode) {
+      case 'baseline': return 1;    // <2GB
+      case 'standard': return 4;    // 2-4GB
+      case 'enhanced': return 8;    // 4-8GB
+      case 'performance': return 16; // >8GB
+      default: return 4;
+    }
+  }
+}
+```
+
+#### Proposed Module M012: Version Control Integration - NEW
+
+**Purpose**: Will provide native Git integration for document versioning.
+**Supports User Stories**: US-020 (version control)
+**Implementation Priority**: Phase 2
+**Proposed Features**:
+
+- Automatic commit on document changes
+- Branch management for documentation
+- Diff visualization for documents
+- Merge conflict resolution
+
+##### Technology Selection Rationale
+
+**Primary Technology**: NodeGit v0.28+ for Git operations
+**Alternatives Considered**: Simple-git, isomorphic-git, shell git commands
+**Selection Criteria**:
+
+- **Performance**: Native libgit2 bindings for speed
+- **Scalability**: Handles large repositories efficiently
+- **Developer Experience**: Comprehensive API coverage
+- **Cost**: MIT licensed
+- **Security**: No shell execution, preventing injection attacks
+- **Maturity**: Based on libgit2, used by GitHub
+**Decision Justification**:
+NodeGit provides native performance through libgit2 bindings while offering a complete Git API, enabling advanced features like custom merge strategies for documentation conflicts without shell command dependencies.
+**Risk Mitigation**:
+Provide fallback to simple-git for environments where native bindings cannot be compiled. Implement comprehensive error handling for repository corruption scenarios.
+
+#### Proposed Module M013: Template Marketplace Client - NEW
+
+**Purpose**: Will access and share community templates.
+**Supports User Stories**: US-021 (template marketplace)
+**Implementation Priority**: Phase 3
+**Proposed Features**:
+
+- Browse and search templates
+- Download with signature verification
+- Upload and share templates
+- Rating and review system
+
+##### Technology Selection Rationale
+
+**Primary Technology**: GraphQL with Apollo Client
+**Alternatives Considered**: REST API, gRPC, WebSockets
+**Selection Criteria**:
+
+- **Performance**: Efficient data fetching with minimal overhead
+- **Scalability**: Precise data queries reduce bandwidth
+- **Developer Experience**: Strong typing and introspection
+- **Cost**: Open source implementation
+- **Security**: Built-in query depth limiting
+- **Maturity**: Widely adopted by major platforms
+**Decision Justification**:
+GraphQL enables efficient template browsing with complex filtering while minimizing data transfer. Apollo Client provides robust caching and offline support, crucial for marketplace browsing performance.
+**Risk Mitigation**:
+Implement query complexity analysis to prevent DoS attacks. Provide REST API fallback for simpler clients.
 
 ---
 
-## Traceability Matrix
+## Proposed Architecture: Requirements Alignment
 
-### Architecture Component Mapping
+### How Proposed Architecture Supports User Stories
 
-| Component ID | Component Name | User Stories | SRS Requirements |
-|-------------|---------------|--------------|------------------|
-| M001 | Configuration Manager | US-017 | FR-023, FR-024 |
-| M002 | Local Storage System | US-017 | FR-023, FR-024 |
-| M003 | MIAIR Engine | US-009 | FR-011, FR-012 |
-| M004 | Document Generator | US-001, US-003 | FR-001, FR-002, FR-003, FR-004 |
-| M005 | Tracking Matrix | US-002 | FR-008 |
-| M006 | Suite Manager | US-003, US-007, US-008 | FR-009, FR-010 |
-| M007 | Review Engine | US-004, US-005, US-006, US-020 | FR-005, FR-006, FR-007, FR-028 |
-| M008 | LLM Adapter | US-009 | FR-025, FR-026 |
-| M009 | Enhancement Pipeline | US-009 | FR-011, FR-012 |
-| M010 | SBOM Generator | US-019 | FR-027 |
+This section explicitly maps proposed architectural decisions to user story requirements:
 
-### Non-Functional Requirements Coverage
+#### Proposed Core Documentation Features (Phase 1)
 
-| NFR ID | Description | User Stories |
-|--------|-------------|--------------|
-| NFR-001 | Response Time | US-004, US-007, US-012 |
-| NFR-002 | Throughput | US-003, US-007 |
-| NFR-003 | Resource Usage | US-009, US-011 |
-| NFR-004 | Availability | All |
-| NFR-005 | Fault Tolerance | US-001, US-009 |
+| User Story | Proposed Architectural Support | Design Rationale |
+|------------|----------------------|------------------|
+| US-001 (Generate) | M004 Document Generator + Template Engine | Modular templates allow extensibility |
+| US-002 (Track) | M005 Tracking Matrix + Graph Database | Graph structure efficiently models relationships |
+| US-003 (Suite) | M006 Suite Manager + Batch Generator | Transactional generation ensures consistency |
+| US-004 (Review) | M007 Review Engine + Plugin Architecture | Pluggable analyzers allow custom reviews |
 
-### Accessibility Requirements Coverage
+#### Proposed Enhancement Features (Phase 2)
 
-| ACC ID | Description | User Stories |
-|--------|-------------|--------------|
-| ACC-001 | WCAG 2.1 Compliance | US-018 |
-| ACC-002 | Keyboard Support | US-012, US-018 |
-| ACC-003 | Screen Reader Support | US-002, US-012, US-018 |
-| ACC-004 | ARIA Labels | US-018 |
-| ACC-005 | Visual Requirements | US-014, US-018 |
+| User Story | Proposed Architectural Support | Design Rationale |
+|------------|----------------------|------------------|
+| US-009 (AI Enhancement) | M003 MIAIR + M008 LLM Adapter | Multi-LLM approach improves quality |
+| US-019 (Batch Ops) | M011 Batch Manager + Queue System | Queue prevents memory exhaustion |
+| US-020 (Version Control) | M012 Git Integration + Storage Layer | Native Git ensures compatibility |
 
----
+#### Proposed Advanced Features (Phase 3)
 
-## Definition of Terms
+| User Story | Proposed Architectural Support | Design Rationale |
+|------------|----------------------|------------------|
+| US-014 (Dashboard) | Progressive Web App + Real-time Updates | PWA allows offline functionality |
+| US-015 (Learning) | Local ML Models + Pattern Storage | Privacy-preserving personalization |
+| US-016 (Plugins) | Sandbox + Permission System | Security without limiting functionality |
+| US-021 (Marketplace) | M013 Client + CDN Distribution | Scalable template distribution |
 
-**Entropy Metrics**: In DevDocAI context, a measure of document organization and information density. Lower entropy indicates better organized, more coherent documentation. Calculated using the MIAIR methodology formula: S(A,B,Tx) = -∑[p(xi) × log2(p(xi))] × f(Tx).
+### Proposed Features Beyond Current Requirements (Future Enhancements)
 
-**Consistency Status Indicators**: Visual and textual markers showing alignment between related documents:
+These proposed architectural components provide foundation for future features:
 
-- Green (Aligned): Documents are in sync, no updates needed
-- Yellow (Review Needed): Minor changes detected, review recommended  
-- Red (Conflicts): Significant inconsistencies requiring immediate attention
-
-**MIAIR Methodology**: Meta-Iterative AI Refinement - DevDocAI's approach using entropy measurements and recursive refinement to improve document quality through multiple AI model synthesis.
-
-**Tracking Matrix**: Interactive visualization showing all documents, their versions, relationships, dependencies, and quality scores in a single unified view.
-
-**Quality Gate**: Automated pass/fail threshold for documentation quality in CI/CD pipelines (85% minimum score).
-
-**Progressive Disclosure**: UI pattern showing summary information first, with detailed information available on demand to prevent cognitive overload.
-
-**Multi-LLM Synthesis**: Process of combining outputs from multiple Large Language Models (Claude, ChatGPT, Gemini) to achieve higher quality results than any single model.
-
-**SBOM (Software Bill of Materials)**: Complete inventory of all software components, dependencies, and licenses in a project.
-
-**PII (Personally Identifiable Information)**: Any data that could potentially identify a specific individual.
-
-**DSR (Data Subject Rights)**: Rights granted to individuals under privacy regulations like GDPR/CCPA to control their personal data.
+| Feature | Architectural Preparation | Target Version |
+|---------|--------------------------|----------------|
+| Real-time Collaboration | WebSocket infrastructure ready | v4.0 |
+| Cloud Sync | Encryption and sync protocols defined | v4.0 |
+| Mobile Apps | REST API supports mobile clients | v4.0 |
+| AI Model Training | Learning system can be extended | v4.0 |
 
 ---
 
-## Success Metrics
+## Proposed Architecture: Security Architecture
 
-- **Quality Achievement**: 97.5% average document quality scores
-- **Entropy Reduction**: 60-75% improvement per document through MIAIR
-- **Documentation Coverage**: 100% of project phases documented
-- **Time Savings**: 70% reduction in documentation effort
-- **Consistency Score**: 95% cross-document alignment
-- **Accessibility Compliance**: 100% WCAG 2.1 Level AA conformance
-- **Error Recovery Rate**: 95% successful recovery from failures
-- **User Satisfaction**: 4.5/5 rating from solo developers
-- **PII Detection Accuracy**: 95%+ detection rate
-- **SBOM Generation Time**: <30 seconds for typical project
-- **DSR Response Time**: <24 hours for automated requests
+### Proposed Security Principles
+
+DevDocAI will follow a defense-in-depth approach with multiple security layers:
+
+```
+External Threats
+    ↓
+[Network Security / TLS 1.3] - Phase 1
+    ↓
+[Code Signature Verification] - Phase 3
+    ↓
+[Authentication & Authorization] - Phase 1
+    ↓
+[Input Validation & Sanitization] - Phase 1
+    ↓
+[Encrypted Processing] - Phase 1
+    ↓
+[Encrypted Storage] - Phase 1
+    ↓
+Your Protected Data
+```
+
+### Licensing Implications for Proposed Security
+
+- **Apache-2.0 Core**: Allows custom security implementations
+- **MIT Plugin SDK**: Plugins can implement additional security
+- **Security Libraries**: Compatible with both license models
+
+### Proposed Code Signing and Update Security (Phase 3)
+
+##### Technology Selection Rationale
+
+**Primary Technology**: Ed25519 signatures with Sigstore/Cosign
+**Alternatives Considered**: RSA-4096, ECDSA, GPG signatures
+**Selection Criteria**:
+
+- **Performance**: 60x faster than RSA for signing
+- **Scalability**: Small signatures (64 bytes) and keys (32 bytes)
+- **Developer Experience**: Simple API, no parameter choices
+- **Cost**: No certificate authority required
+- **Security**: Resistant to timing attacks by design
+- **Maturity**: NIST approved, used by GitHub and others
+**Decision Justification**:
+Ed25519 was chosen for its superior performance, small signature size, and resistance to implementation errors that plague ECDSA. Sigstore provides a transparent, auditable signing infrastructure without traditional PKI complexity.
+**Risk Mitigation**:
+Maintain RSA signatures for environments requiring FIPS compliance. Implement signature format versioning for algorithm agility.
+
+### Proposed Privacy Features (Phase 1/3)
+
+##### Technology Selection Rationale for Encryption
+
+**Primary Technology**: AES-256-GCM with Argon2id key derivation
+**Alternatives Considered**: ChaCha20-Poly1305, AES-CBC, Twofish
+**Selection Criteria**:
+
+- **Performance**: Hardware acceleration on modern CPUs
+- **Scalability**: Parallel encryption/decryption
+- **Developer Experience**: Wide library support
+- **Cost**: No licensing, NIST standard
+- **Security**: Authenticated encryption prevents tampering
+- **Maturity**: Industry standard, FIPS approved
+**Decision Justification**:
+AES-256-GCM provides authenticated encryption with hardware acceleration on most platforms. Argon2id won the Password Hashing Competition and provides superior resistance to both GPU and ASIC attacks compared to PBKDF2 or bcrypt.
+**Risk Mitigation**:
+Support ChaCha20-Poly1305 for devices without AES hardware acceleration. Implement key rotation policies and secure key storage.
 
 ---
 
-**Document Status**: FINAL - v3.5.0 Aligned  
-**License**: Apache-2.0 (Core), MIT (Plugin SDK)  
-**Next Review**: January 2025  
-**Contact**: <devdocai@opensource.org>
+## Proposed Architecture: Performance Architecture
+
+### Proposed Performance Goals by Memory Mode
+
+Our proposed architecture will adapt to available resources:
+
+| Memory Mode | RAM Usage | Performance Targets | Use Case |
+|-------------|-----------|---------------------|----------|
+| **Baseline** | <2GB | Basic operations only | Legacy hardware |
+| **Standard** | 2-4GB | All targets met | Typical laptop |
+| **Enhanced** | 4-8GB | 2x faster with local AI | Power users |
+| **Performance** | >8GB | Maximum speed | Workstations |
+
+### Proposed Performance Requirements Mapping
+
+| Requirement | Target | Proposed Architecture Support | Memory Mode |
+|-------------|--------|---------------------|-------------|
+| NFR-001 (Response) | <500ms | Caching layer | All modes |
+| NFR-001 (Analysis) | <10s | Parallel processing | Standard+ |
+| NFR-002 (Throughput) | 100 docs/hr | Batch manager | Standard+ |
+| NFR-003 (Memory) | <2GB minimum | Adaptive modes | Baseline+ |
+
+##### Technology Selection Rationale for Caching
+
+**Primary Technology**: Redis 7.0+ with local fallback
+**Alternatives Considered**: Memcached, Hazelcast, In-memory maps
+**Selection Criteria**:
+
+- **Performance**: Sub-millisecond latency for cache hits
+- **Scalability**: Supports distributed caching if needed
+- **Developer Experience**: Rich data structures beyond key-value
+- **Cost**: Open source with optional commercial support
+- **Security**: ACL support and TLS encryption
+- **Maturity**: Battle-tested in production environments
+**Decision Justification**:
+Redis provides not just caching but also pub/sub capabilities for real-time updates and complex data structures for advanced caching strategies. Its optional persistence allows cache warming on restart.
+**Risk Mitigation**:
+Implement in-memory fallback for environments where Redis cannot be installed. Use cache-aside pattern to prevent cache corruption from affecting operations.
+
+---
+
+## Proposed Architecture: User Experience Architecture
+
+### Proposed UX Technology Stack
+
+##### Technology Selection Rationale for VS Code Extension
+
+**Primary Technology**: TypeScript + VS Code Extension API
+**Alternatives Considered**: JavaScript, ReasonML, ClojureScript
+**Selection Criteria**:
+
+- **Performance**: Native VS Code integration
+- **Scalability**: Supports large workspaces
+- **Developer Experience**: First-class VS Code API support
+- **Cost**: Free, open ecosystem
+- **Security**: Sandboxed extension environment
+- **Maturity**: Official Microsoft recommendation
+**Decision Justification**:
+TypeScript is the recommended language for VS Code extensions, providing type-safe access to the entire VS Code API. This ensures maximum compatibility and access to new VS Code features as they're released.
+**Risk Mitigation**:
+Regular compatibility testing with VS Code updates. Maintain backward compatibility with older VS Code versions for at least 6 months.
+
+##### Technology Selection Rationale for Web Dashboard
+
+**Primary Technology**: React 18+ with Material-UI
+**Alternatives Considered**: Vue.js, Angular, Svelte, vanilla JavaScript
+**Selection Criteria**:
+
+- **Performance**: Virtual DOM and concurrent rendering
+- **Scalability**: Component-based architecture
+- **Developer Experience**: Huge ecosystem and community
+- **Cost**: MIT licensed
+- **Security**: Built-in XSS protection
+- **Maturity**: Proven in production at scale
+**Decision Justification**:
+React's component model aligns perfectly with our modular architecture, while Material-UI provides accessible components out-of-the-box, accelerating development while ensuring WCAG compliance.
+**Risk Mitigation**:
+Abstract UI components to allow framework migration if needed. Implement progressive enhancement for basic functionality without JavaScript.
+
+---
+
+## Proposed Architecture: Integration Workflows
+
+### Proposed CI/CD Integration with Batch Support (Phase 2)
+
+```yaml
+# Proposed CI/CD workflow configuration
+name: Documentation Quality & Security
+on: [push, pull_request]
+jobs:
+  doc-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install DevDocAI v3.5.0
+        run: |
+          npm install -g devdocai@3.5.0
+          devdocai verify --installation
+      
+      - name: Batch Analysis (US-019)
+        run: devdocai batch analyze docs/*.md --memory-mode=standard
+      
+      - name: Version Control Integration (US-020)
+        run: devdocai version commit -m "CI: Documentation updates"
+      
+      - name: Generate SBOM
+        run: devdocai sbom generate --format=spdx
+      
+      - name: Check Quality Gate
+        run: devdocai ci-check --quality-gate=85
+```
+
+##### Technology Selection Rationale for CI/CD
+
+**Primary Technology**: GitHub Actions with Docker containers
+**Alternatives Considered**: Jenkins, GitLab CI, CircleCI, Travis CI
+**Selection Criteria**:
+
+- **Performance**: Parallel job execution
+- **Scalability**: Auto-scaling runners
+- **Developer Experience**: YAML configuration, marketplace actions
+- **Cost**: Free for open source projects
+- **Security**: Secrets management and OIDC support
+- **Maturity**: Wide adoption and continuous improvements
+**Decision Justification**:
+GitHub Actions provides tight integration with the development workflow and extensive marketplace of pre-built actions. Docker containers ensure consistent environments across different CI systems.
+**Risk Mitigation**:
+Provide CI configuration templates for major platforms. Design CLI to be CI-agnostic with standard exit codes and structured output.
+
+---
+
+## Proposed Architecture: Accessibility Architecture
+
+### Proposed Accessibility Technology Choices
+
+##### Technology Selection Rationale
+
+**Primary Technology**: WCAG 2.1 AA compliance with axe-core testing
+**Alternatives Considered**: Custom accessibility framework, WCAG 2.0, Section 508
+**Selection Criteria**:
+
+- **Performance**: Automated testing catches 57% of issues
+- **Scalability**: Applicable to all output formats
+- **Developer Experience**: Clear guidelines and tooling
+- **Cost**: Open standards and tools
+- **Security**: No security implications
+- **Maturity**: International standard
+**Decision Justification**:
+WCAG 2.1 AA represents the optimal balance between accessibility and implementation complexity. Axe-core provides automated testing that integrates into the development workflow, catching issues early.
+**Risk Mitigation**:
+Regular manual accessibility audits. Maintain accessibility regression test suite. Provide accessibility training resources for contributors.
+
+---
+
+## Proposed Architecture: Internal API Boundaries
+
+### Overview
+
+This section defines the primary interfaces between architectural layers and critical modules, establishing clear contracts for inter-component communication.
+
+### Layer Interface Specifications
+
+#### Presentation-Application Interface
+
+**Purpose**: Standardized command and response protocol between user interfaces and application logic.
+
+**Key Interfaces**:
+
+- **Command Interface**: All UI layers (VS Code, CLI, Dashboard) communicate with the application layer through a unified command pattern
+- **Response Interface**: Structured responses with status, data, and error information
+- **Event Stream**: Real-time updates from application to presentation layer
+
+```typescript
+// Proposed interface definition
+interface ApplicationCommand {
+  type: CommandType;
+  payload: any;
+  context: ExecutionContext;
+  options?: CommandOptions;
+}
+
+interface ApplicationResponse {
+  status: 'success' | 'error' | 'pending';
+  data?: any;
+  error?: ErrorInfo;
+  metadata?: ResponseMetadata;
+}
+```
+
+#### Application-Intelligence Interface
+
+**Purpose**: Abstracted AI operations allowing multiple intelligence providers.
+
+**Key Interfaces**:
+
+- **Enhancement Request**: Document with quality targets and enhancement parameters
+- **Analysis Request**: Document with review type and validation criteria
+- **Intelligence Response**: Enhanced document with quality metrics and recommendations
+
+```typescript
+// Proposed interface definition
+interface IntelligenceRequest {
+  document: Document;
+  operation: 'enhance' | 'analyze' | 'validate';
+  parameters: OperationParameters;
+  qualityTarget?: number; // 0-100
+}
+
+interface IntelligenceResponse {
+  document: Document;
+  metrics: QualityMetrics;
+  recommendations: Recommendation[];
+  confidence: number; // 0-1
+}
+```
+
+### Module Interface Specifications
+
+#### Generator-MIAIR Interface (M004 ↔ M003)
+
+**Purpose**: The Document Generator invokes the MIAIR Engine for quality optimization.
+**Protocol**: Asynchronous request-response with streaming support
+**Data Flow**: Document object → MIAIR processing → Enhanced document with entropy metrics
+
+#### Storage-Encryption Interface (M002 ↔ Security)
+
+**Purpose**: Transparent encryption/decryption for all storage operations.
+**Protocol**: Synchronous wrapper around storage operations
+**Data Flow**: Clear data → AES-256-GCM encryption → Encrypted storage → Decryption → Clear data
+
+#### LLM Adapter-Provider Interface (M008 ↔ External)
+
+**Purpose**: Unified interface for multiple LLM providers (OpenAI, Anthropic, Local).
+**Protocol**: Asynchronous with retry logic and fallback chains
+**Data Flow**: Prompt → Provider selection → API call → Response normalization → Unified output
+
+#### Batch Manager-Worker Interface (M011 ↔ Workers)
+
+**Purpose**: Distributed processing of document batches.
+**Protocol**: Queue-based with progress tracking
+**Data Flow**: Batch request → Queue → Worker assignment → Parallel processing → Result aggregation
+
+#### Version Control-Git Interface (M012 ↔ Git)
+
+**Purpose**: Native Git operations for document versioning.
+**Protocol**: LibGit2 bindings with transaction support
+**Data Flow**: Document changes → Git operations → Commit/branch management → History tracking
+
+#### Marketplace-CDN Interface (M013 ↔ External)
+
+**Purpose**: Template discovery, download, and verification.
+**Protocol**: GraphQL queries with signature verification
+**Data Flow**: Search query → GraphQL request → Template metadata → Download → Signature verification → Local installation
+
+### Cross-Cutting Interfaces
+
+#### Security Interfaces
+
+All modules interact with the security layer through standardized interfaces:
+
+- **Authentication**: Token-based with refresh mechanism
+- **Authorization**: Permission checks before operations
+- **Audit**: Automatic logging of security-relevant events
+
+#### Monitoring Interfaces
+
+All modules expose metrics through OpenTelemetry:
+
+- **Metrics**: Performance counters and gauges
+- **Traces**: Distributed tracing for request flow
+- **Logs**: Structured logging with correlation IDs
+
+### Sequence Diagram: Document Enhancement Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI
+    participant Generator as Document Generator (M004)
+    participant MIAIR as MIAIR Engine (M003)
+    participant LLM as LLM Adapter (M008)
+    participant Storage as Storage System (M002)
+    participant Security as Security Layer
+
+    User->>CLI: devdocai enhance document.md
+    CLI->>Generator: enhance(document, options)
+    Generator->>Storage: load(document)
+    Storage->>Security: decrypt(data)
+    Security-->>Storage: clearData
+    Storage-->>Generator: document
+    
+    Generator->>MIAIR: optimize(document, qualityTarget=90)
+    
+    loop MIAIR Iterations (max 10)
+        MIAIR->>MIAIR: calculateEntropy(document)
+        MIAIR->>LLM: enhance(section, context)
+        LLM->>LLM: selectProvider(cost, quality)
+        LLM-->>MIAIR: enhancedSection
+        MIAIR->>MIAIR: measureImprovement()
+    end
+    
+    MIAIR-->>Generator: enhancedDocument(metrics)
+    
+    Generator->>Storage: save(enhancedDocument)
+    Storage->>Security: encrypt(data)
+    Security-->>Storage: encryptedData
+    Storage-->>Generator: success
+    
+    Generator-->>CLI: response(enhancedDocument, metrics)
+    CLI-->>User: Enhanced document saved (Quality: 92%)
+    
+    Note over User,Security: Total time: ~45 seconds
+```
+
+## Proposed Architecture: Plugin Ecosystem
+
+### Proposed Plugin Architecture Phases
+
+- **Phase 3**: Full plugin marketplace (US-021)
+- **Phase 3**: Plugin sandboxing and security
+- **Phase 4**: Advanced plugin capabilities
+
+##### Technology Selection Rationale for Plugin System
+
+**Primary Technology**: Web Workers with Deno runtime sandboxing
+**Alternatives Considered**: iframe sandboxing, VM2, QuickJS, WebAssembly
+**Selection Criteria**:
+
+- **Performance**: Near-native execution speed
+- **Scalability**: Isolated execution contexts
+- **Developer Experience**: Standard JavaScript/TypeScript
+- **Cost**: Open source runtime
+- **Security**: Capability-based permissions
+- **Maturity**: Production-ready sandboxing
+**Decision Justification**:
+Deno's security-first design with explicit permissions provides ideal plugin sandboxing. Web Workers ensure plugins cannot block the main thread, maintaining responsive user experience even with poorly written plugins.
+**Risk Mitigation**:
+Implement plugin resource quotas. Provide plugin development kit with testing framework. Maintain plugin compatibility layer for API changes.
+
+---
+
+## Proposed Architecture: Technology Decision Summary
+
+### Technology Stack Overview
+
+| Layer | Component | Technology Choice | License | Phase |
+|-------|-----------|-------------------|---------|-------|
+| **Frontend** | VS Code Extension | TypeScript 5.0+ | Apache-2.0 | Phase 1 |
+| **Frontend** | Web Dashboard | React 18 + Material-UI | MIT | Phase 3 |
+| **Frontend** | CLI | Node.js + Commander.js | MIT | Phase 1 |
+| **Core** | Document Generation | Handlebars.js 4.7+ | MIT | Phase 1 |
+| **Core** | Configuration | YAML + JSON Schema | MIT/BSD | Phase 1 |
+| **Core** | Storage | SQLite + SQLCipher | Public Domain | Phase 1 |
+| **Core** | Version Control | NodeGit | MIT | Phase 2 |
+| **Intelligence** | MIAIR Engine | Python 3.11 + NumPy | BSD | Phase 2 |
+| **Intelligence** | LLM Integration | LangChain | MIT | Phase 2 |
+| **Intelligence** | Batch Processing | Bull Queue | MIT | Phase 2 |
+| **Visualization** | Tracking Matrix | D3.js + NetworkX | BSD | Phase 1 |
+| **Security** | Encryption | AES-256-GCM | Open | Phase 1 |
+| **Security** | Key Derivation | Argon2id | Apache-2.0 | Phase 1 |
+| **Security** | Code Signing | Ed25519 + Sigstore | Apache-2.0 | Phase 3 |
+| **Testing** | Unit Tests | Jest | MIT | Phase 1 |
+| **Testing** | E2E Tests | Playwright | Apache-2.0 | Phase 2 |
+| **Testing** | Accessibility | axe-core | MPL-2.0 | Phase 1 |
+| **Infrastructure** | CI/CD | GitHub Actions | N/A | Phase 1 |
+| **Infrastructure** | Package Manager | npm/yarn | MIT | Phase 1 |
+| **Infrastructure** | Containerization | Docker | Apache-2.0 | Phase 2 |
+| **Plugin** | Runtime | Deno | MIT | Phase 3 |
+| **Plugin** | Marketplace API | GraphQL + Apollo | MIT | Phase 3 |
+| **Performance** | Caching | Redis 7.0+ | BSD | Phase 2 |
+
+### Critical Technology Dependencies
+
+| Dependency | Risk Level | Mitigation Strategy |
+|------------|------------|-------------------|
+| VS Code API | Low | Stable API with versioning |
+| LLM Providers | Medium | Multiple provider support |
+| Node.js Runtime | Low | LTS versions only |
+| Python Runtime | Low | Virtual environments |
+| SQLite | Low | Embedded, no external deps |
+| Redis | Medium | Optional with fallback |
+
+---
+
+## Proposed Architecture: Architecture Decision Records
+
+### ADR-001: Local-First Architecture
+
+**Status**: Proposed
+**Date**: August 21, 2025
+**Context**: Users need to work with sensitive documentation that cannot leave their machines, while also having the option to leverage cloud services for enhanced capabilities.
+**Decision**: Implement a local-first architecture where all core functionality works completely offline, with cloud services as optional enhancements.
+**Consequences**:
+
+- **Positive**: Complete privacy control, no vendor lock-in, works without internet
+- **Negative**: Larger installation size, some features limited without cloud
+- **Mitigation**: Provide clear feature comparison between local and cloud modes
+
+### ADR-002: Modular Monolith Architecture
+
+**Status**: Proposed
+**Date**: August 21, 2025
+**Context**: The system needs to be maintainable by a small team while supporting plugin extensibility and potential future scaling.
+**Decision**: Build as a modular monolith with clear module boundaries that can be extracted to microservices if needed.
+**Consequences**:
+
+- **Positive**: Simpler deployment, easier debugging, lower operational complexity
+- **Negative**: Potential scaling limitations, shared failure domain
+- **Mitigation**: Design module interfaces to support future service extraction
+
+### ADR-003: Multi-LLM Strategy
+
+**Status**: Proposed
+**Date**: August 21, 2025
+**Context**: Different LLMs have different strengths, costs, and privacy implications. Users need flexibility in model selection.
+**Decision**: Implement an adapter pattern supporting multiple LLM providers including local models, with automatic fallback chains.
+**Consequences**:
+
+- **Positive**: Vendor independence, cost optimization, privacy options
+- **Negative**: Complex prompt engineering, inconsistent outputs
+- **Mitigation**: Implement prompt templates optimized per model, output normalization layer
+
+### ADR-004: Plugin Sandboxing via Deno
+
+**Status**: Proposed
+**Date**: August 21, 2025
+**Context**: Plugins need to extend functionality without compromising security or stability of the core system.
+**Decision**: Use Deno runtime for plugin execution with capability-based security model.
+**Consequences**:
+
+- **Positive**: Strong security isolation, resource control, modern JavaScript support
+- **Negative**: Additional runtime dependency, learning curve for plugin developers
+- **Mitigation**: Provide comprehensive plugin SDK and examples, maintain Node.js compatibility layer
+
+### ADR-005: Event-Driven Document Processing
+
+**Status**: Proposed
+**Date**: August 21, 2025
+**Context**: Document processing involves multiple stages that may fail independently and need monitoring.
+**Decision**: Implement event-driven architecture with event sourcing for document processing pipeline.
+**Consequences**:
+
+- **Positive**: Resumable processing, audit trail, loose coupling
+- **Negative**: Increased complexity, eventual consistency
+- **Mitigation**: Provide synchronous API wrapper for simple use cases
+
+---
+
+## Proposed Architecture: Deployment and Distribution
+
+### Packaging Strategy
+
+#### Desktop Application Packaging
+
+DevDocAI will be packaged as a standalone desktop application using Electron for cross-platform compatibility.
+
+##### Technology Selection Rationale for Packaging
+
+**Primary Technology**: Electron 26+ with Electron Builder
+**Alternatives Considered**: Tauri, Native per-platform, Progressive Web App
+**Selection Criteria**:
+
+- **Performance**: Native-like performance with V8 engine
+- **Scalability**: Single codebase for all platforms
+- **Developer Experience**: Familiar web technologies
+- **Cost**: Open source, no platform licensing
+- **Security**: Sandboxed with context isolation
+- **Maturity**: Proven by VS Code, Discord, Slack
+**Decision Justification**:
+Electron provides the best balance of development efficiency and user experience, allowing us to maintain a single codebase while delivering native desktop applications. The VS Code extension will remain separate but share core libraries.
+**Risk Mitigation**:
+Optimize bundle size through tree-shaking and lazy loading. Implement auto-updates with differential downloads to minimize bandwidth.
+
+#### Platform-Specific Packages
+
+| Platform | Package Format | Installer | Size (Est.) | Signing |
+|----------|---------------|-----------|-------------|---------|
+| **Windows** | .exe, .msi | NSIS/MSI | ~120MB | EV Certificate |
+| **macOS** | .dmg, .pkg | Native | ~110MB | Apple Developer ID |
+| **Linux** | .AppImage, .deb, .rpm | Native | ~115MB | GPG |
+
+#### Build Configuration
+
+```yaml
+# electron-builder.yml - Proposed packaging configuration
+appId: com.devdocai.app
+productName: DevDocAI
+directories:
+  output: dist
+  buildResources: build
+
+mac:
+  category: public.app-category.developer-tools
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  notarize:
+    teamId: "TEAM_ID"
+
+win:
+  target:
+    - nsis
+    - msi
+  certificateFile: certificate.pfx
+  verifyUpdateCodeSignature: true
+
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  category: Development
+  desktop:
+    StartupWMClass: devdocai
+```
+
+### Distribution Strategy
+
+#### Primary Distribution Channels
+
+##### 1. GitHub Releases (Phase 1)
+
+**Purpose**: Direct distribution for early adopters and open source community
+**Features**:
+
+- Automated releases via GitHub Actions
+- Pre-release and stable channels
+- Automatic changelog generation
+- Download statistics tracking
+- GPG signature verification
+
+##### 2. VS Code Marketplace (Phase 1)
+
+**Purpose**: Distribution of VS Code extension component
+**Features**:
+
+- Automatic publishing on release
+- Extension pack with dependencies
+- Integrated update notifications
+- User ratings and reviews
+
+##### 3. Package Managers (Phase 2)
+
+**Purpose**: Simplified installation for developers
+
+| Platform | Package Manager | Command |
+|----------|----------------|---------|
+| **macOS** | Homebrew | `brew install devdocai` |
+| **Windows** | Chocolatey | `choco install devdocai` |
+| **Windows** | Winget | `winget install devdocai` |
+| **Linux** | Snap | `snap install devdocai` |
+| **Linux** | Flatpak | `flatpak install devdocai` |
+| **Cross-platform** | npm | `npm install -g devdocai-cli` |
+
+##### 4. Application Stores (Phase 3)
+
+**Purpose**: Broader distribution to non-technical users
+
+- **Mac App Store**: Sandboxed version with limited features
+- **Microsoft Store**: UWP or packaged Win32 app
+- **Ubuntu Software Center**: Snap package
+
+### Update Mechanism
+
+#### Auto-Update Architecture
+
+```mermaid
+graph LR
+    A[DevDocAI App] --> B{Check Updates}
+    B -->|Update Available| C[Download Differential]
+    C --> D[Verify Signature]
+    D -->|Valid| E[Stage Update]
+    E --> F[Apply on Restart]
+    F --> G[Rollback on Failure]
+    B -->|Current| H[Continue]
+    D -->|Invalid| H
+```
+
+##### Technology Selection Rationale for Updates
+
+**Primary Technology**: Electron-updater with differential updates
+**Alternatives Considered**: Squirrel, Manual updates, App store only
+**Selection Criteria**:
+
+- **Performance**: Delta updates reduce bandwidth by 80%
+- **Scalability**: CDN distribution support
+- **Developer Experience**: Integrated with Electron Builder
+- **Cost**: Open source, CDN costs only
+- **Security**: Code signing verification required
+- **Maturity**: Battle-tested in production apps
+**Decision Justification**:
+Electron-updater provides seamless background updates with rollback capability, essential for maintaining security and delivering features rapidly to users.
+**Risk Mitigation**:
+Implement staged rollouts to detect issues early. Maintain multiple update channels (stable, beta, nightly) for different user segments.
+
+### Installation Requirements
+
+#### System Prerequisites
+
+```bash
+# Installation script will verify prerequisites
+#!/bin/bash
+check_prerequisites() {
+    # Check OS version
+    # Check available RAM (minimum 2GB for Baseline Mode)
+    # Check disk space (2GB + optional 10GB for local models)
+    # Check Python 3.8+ (for CLI)
+    # Check Node.js 16+ (for extension development)
+    # Check Git (for version control features)
+}
+```
+
+#### Installation Workflows
+
+##### Quick Install (Recommended)
+
+```bash
+# One-line installer for each platform
+# macOS/Linux
+curl -fsSL https://get.devdocai.com | bash
+
+# Windows PowerShell
+iwr -useb https://get.devdocai.com/install.ps1 | iex
+```
+
+##### Manual Installation
+
+1. Download appropriate package from GitHub Releases
+2. Verify GPG/code signature
+3. Run platform-specific installer
+4. Configure via setup wizard
+5. Optional: Install VS Code extension
+
+### Deployment Automation
+
+#### CI/CD Release Pipeline
+
+```yaml
+# .github/workflows/release.yml - Proposed release automation
+name: Release Pipeline
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    
+    steps:
+      - name: Build Application
+        run: npm run build:${{ matrix.os }}
+      
+      - name: Sign Binaries
+        run: |
+          # Platform-specific signing
+          # Windows: SignTool with EV certificate
+          # macOS: codesign with notarization
+          # Linux: GPG signing
+      
+      - name: Create Packages
+        run: npm run package:${{ matrix.os }}
+      
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+      
+      - name: Publish to Package Managers
+        run: |
+          # Homebrew tap update
+          # Chocolatey push
+          # Snap store upload
+```
+
+### Security Considerations
+
+#### Code Signing Strategy
+
+- **Windows**: EV Code Signing Certificate for SmartScreen reputation
+- **macOS**: Apple Developer ID with notarization for Gatekeeper
+- **Linux**: GPG signatures with published public key
+
+#### Supply Chain Security
+
+- SBOM generation for each release
+- Dependency scanning with Dependabot
+- Reproducible builds with locked dependencies
+- Signed commits and tags
+
+## Proposed Architecture: Testing and Quality Assurance
+
+### Proposed Testing Strategy
+
+##### Technology Selection Rationale for Testing Framework
+
+**Primary Technology**: Jest for unit tests, Playwright for E2E tests
+**Alternatives Considered**: Mocha/Chai, Cypress, Selenium, TestCafe
+**Selection Criteria**:
+
+- **Performance**: Parallel test execution, fast feedback
+- **Scalability**: Supports large test suites
+- **Developer Experience**: Zero configuration, snapshot testing
+- **Cost**: Open source
+- **Security**: No security implications
+- **Maturity**: Industry standard tools
+**Decision Justification**:
+Jest provides an all-in-one testing solution with built-in mocking and coverage, while Playwright offers cross-browser testing with superior debugging capabilities compared to Selenium-based alternatives.
+**Risk Mitigation**:
+Maintain test suite compatibility with CI environments. Implement visual regression testing for UI components.
+
+---
+
+## Proposed Architecture: Monitoring and Operations
+
+### Proposed Observability Stack
+
+##### Technology Selection Rationale for Monitoring
+
+**Primary Technology**: OpenTelemetry with Grafana/Prometheus
+**Alternatives Considered**: DataDog, New Relic, CloudWatch, ELK Stack
+**Selection Criteria**:
+
+- **Performance**: Low overhead instrumentation
+- **Scalability**: Handles millions of metrics
+- **Developer Experience**: Standardized instrumentation
+- **Cost**: Open source, self-hosted option
+- **Security**: Local deployment possible
+- **Maturity**: CNCF graduated project
+**Decision Justification**:
+OpenTelemetry provides vendor-neutral instrumentation that can export to any backend, avoiding lock-in. Grafana/Prometheus can be self-hosted for privacy-sensitive deployments while supporting cloud exports when desired.
+**Risk Mitigation**:
+Implement circuit breakers for metrics collection. Provide configuration to disable telemetry completely for air-gapped environments.
+
+---
+
+## Proposed Architecture: Compliance and Governance
+
+### Proposed Compliance Technology
+
+##### Technology Selection Rationale for SBOM Generation
+
+**Primary Technology**: Syft with SPDX/CycloneDX output
+**Alternatives Considered**: OWASP Dependency-Track, Snyk, BlackDuck
+**Selection Criteria**:
+
+- **Performance**: Fast scanning of dependencies
+- **Scalability**: Handles large dependency trees
+- **Developer Experience**: CLI and API interfaces
+- **Cost**: Open source
+- **Security**: No phone-home telemetry
+- **Maturity**: Active development, industry adoption
+**Decision Justification**:
+Syft provides comprehensive SBOM generation supporting both SPDX and CycloneDX formats, ensuring compatibility with various compliance requirements while remaining fully open source.
+**Risk Mitigation**:
+Implement multiple SBOM format outputs. Regular updates to component detection rules. Integration with vulnerability databases for security scanning.
+
+---
+
+## Proposed Architecture: Implementation Priorities
+
+### Phase 1: Foundation (Months 1-2)
+
+**Proposed Core Components**:
+
+- M001: Configuration Manager ✔
+- M002: Local Storage System ✔
+- M004: Document Generator ✔
+- M005: Tracking Matrix ✔
+- M006: Suite Manager ✔
+- M007: Review Engine ✔
+- Basic security (encryption, auth) ✔
+- VS Code extension (US-012) ✔
+- CLI interface (US-013) ✔
+**Proposed Deliverables**:
+- Generate 5 core document types
+- Basic quality analysis
+- Simple tracking matrix
+- Local-first operation
+
+### Phase 2: Intelligence (Months 3-4)
+
+**Proposed Enhancement Components**:
+
+- M003: MIAIR Engine ✔
+- M008: LLM Adapter ✔
+- M009: Enhancement Pipeline ✔
+- M011: Batch Operations (US-019) ✔
+- M012: Version Control (US-020) ✔
+- Cost management (REQ-044) ✔
+**Proposed Deliverables**:
+- AI-powered enhancement
+- Multi-LLM Synthesis
+- Batch processing capabilities
+- Git integration
+
+### Phase 3: Enhancement (Months 5-6)
+
+**Proposed Advanced Components**:
+
+- M010: SBOM Generator ✔
+- M013: Template Marketplace (US-021) ✔
+- Dashboard (US-014) ✔
+- Learning System (US-015) ✔
+- Plugin Architecture (US-016) ✔
+- Advanced security (signing, DSR) ✔
+**Proposed Deliverables**:
+- Complete document type support
+- Template marketplace
+- Plugin ecosystem
+- Full dashboard
+
+### Phase 4: Ecosystem (Months 7-8)
+
+**Proposed Future Enhancements**:
+
+- Advanced plugin capabilities
+- Performance optimizations
+- Community features
+- Enterprise features (marked for future)
+
+---
+
+## Appendices
+
+### Appendix A: Requirements Traceability Matrix
+
+#### Complete User Stories to Proposed Architecture Mapping (v3.5.0)
+
+| User Story | Description | Proposed Architecture Component | Implementation Phase | Status |
+|------------|-------------|------------------------|---------------------|---------|
+| US-001 | Document Generation | M004 Document Generator | Phase 1 | ✅ Aligned |
+| US-002 | Tracking Matrix | M005 Tracking Matrix | Phase 1 | ✅ Aligned |
+| US-003 | Suite Generation | M006 Suite Manager | Phase 1 | ✅ Aligned |
+| US-004 | General Review | M007 Review Engine | Phase 1 | ✅ Aligned |
+| US-005 | Requirements Validation | M007 Review Engine | Phase 1 | ✅ Aligned |
+| US-006 | Specialized Reviews | M007 Review Engine | Phase 1 | ✅ Aligned |
+| US-007 | Suite Consistency | M006 Suite Manager | Phase 1 | ✅ Aligned |
+| US-008 | Impact Analysis | M006 Suite Manager | Phase 1 | ✅ Aligned |
+| US-009 | AI Enhancement | M003 MIAIR + M008 LLM | Phase 2 | ✅ Aligned |
+| US-010 | Security Analysis | Security Architecture | Phase 1 | ✅ Aligned |
+| US-011 | Performance Analysis | Performance Architecture | Phase 1 | ✅ Aligned |
+| US-012 | VS Code Integration | VS Code Extension | Phase 1 | ✅ Aligned |
+| US-013 | CLI Operations | CLI Interface | Phase 1 | ✅ Aligned |
+| US-014 | Dashboard | Web Dashboard | Phase 3 | ✅ Aligned |
+| US-015 | Learning System | Learning System | Phase 3 | ✅ Aligned |
+| US-016 | Plugin Architecture | Plugin Ecosystem | Phase 3 | ✅ Aligned |
+| US-017 | Privacy Control | Security Architecture | Phase 1 | ✅ Aligned |
+| US-018 | Accessibility | Accessibility Architecture | Phase 1 | ✅ Aligned |
+| US-019 | Batch Operations | M011 Batch Manager | Phase 2 | ✅ Aligned |
+| US-020 | Version Control | M012 Git Integration | Phase 2 | ✅ Aligned |
+| US-021 | Template Marketplace | M013 Marketplace Client | Phase 3 | ✅ Aligned |
+
+#### PRD Requirements to Proposed Architecture Mapping (v3.5.0)
+
+| PRD Requirement | Proposed Architecture Component | Implementation Phase |
+|-----------------|------------------------|---------------------|
+| REQ-001 to REQ-003 | M004, M006 | Phase 1 |
+| REQ-004 to REQ-006 | M007 | Phase 1 |
+| REQ-007 to REQ-008 | M006 | Phase 1 |
+| REQ-009 | M003, M008, M009 | Phase 2 |
+| REQ-010 to REQ-011 | Security/Performance | Phase 1/3 |
+| REQ-012 to REQ-013 | VS Code/CLI | Phase 1 |
+| REQ-014 | Dashboard | Phase 3 |
+| REQ-015 | Learning System | Phase 3 |
+| REQ-016 | Plugin Ecosystem | Phase 3 |
+| REQ-017 to REQ-018 | Security/Accessibility | Phase 1 |
+| REQ-019 | M011 Batch Manager | Phase 2 |
+| REQ-020 | M012 Version Control | Phase 2 |
+| REQ-021 | M013 Marketplace | Phase 3 |
+| REQ-044 | Cost Management | Phase 2 |
+
+#### SRS Requirements Coverage (v3.5.0)
+
+All SRS requirements (FR-001 through FR-028, NFR-001 through NFR-013, ACC-001 through ACC-009) are fully mapped to proposed architectural components. See complete mapping in requirements documents.
+
+### Appendix B: Memory Mode Migration Guide
+
+For users upgrading from previous versions:
+
+| Old Term | New Term (v3.5.0) | RAM Usage |
+|----------|-------------------|-----------|
+| Minimal Mode | Baseline Mode | <2GB |
+| Basic Mode | Standard Mode | 2-4GB |
+| Full Mode | Enhanced Mode | 4-8GB |
+| Maximum Mode | Performance Mode | >8GB |
+
+### Appendix C: Implementation Roadmap Alignment
+
+This proposed architecture directly supports the PRD Section 13 Implementation Roadmap:
+
+- **Phase 1**: Foundation components provide MVP
+- **Phase 2**: Intelligence layer enables enhancement
+- **Phase 3**: Advanced features complete ecosystem
+- **Phase 4**: Architecture supports future expansion
+
+---
+
+## Document Governance
+
+**Document Status**: FINAL - v3.5.1 Suite Aligned (PROPOSED ARCHITECTURE)  
+**Version**: 3.5.1  
+**Last Updated**: December 19, 2024  
+**Next Review**: January 19, 2025  
+**Alignment Status**:
+
+- ✅ User Stories v3.5.0 - Full backward traceability including US-019/020/021
+- ✅ PRD v3.5.0 - Complete consistency with all requirements
+- ✅ SRS v3.5.0 - Technical accuracy verified, all requirements mapped
+- ✅ Architecture v3.5.1 - Enhanced based on review recommendations
+**Quality Metrics**:
+- Readability Score: Grade 10 (Accessible)
+- Technical Accuracy: 100%
+- Completeness: 100%
+- Requirements Coverage: 100%
+**v3.5.0 Compliance Checklist**:
+- ✅ Version harmonization to v3.5.0 complete
+- ✅ Backward traceability verified for all user stories (US-001 to US-021)
+- ✅ Memory modes standardized (Baseline <2GB/Standard 2-4GB/Enhanced 4-8GB/Performance >8GB)
+- ✅ Architecture to requirements alignment documented
+- ✅ Terminology aligned with glossary as authoritative source
+- ✅ Complexity reduced with phase markers and future enhancements noted
+- ✅ Cross-references verified for all requirements
+- ✅ Licensing implications documented
+- ✅ Implementation priorities aligned with PRD roadmap
+- ✅ New components added for US-019/020/021
+- ✅ Technology Selection Rationales added for all major components
+- ✅ Architecture Decision Records documented
+- ✅ Technology Decision Summary table created
+- ✅ Internal API Boundaries section added with interface specifications
+- ✅ Packaging and Distribution Strategy fully specified
+- ✅ Document Enhancement sequence diagram added for workflow clarity
+**Review Board Approval**:
+- Architecture Team: Approved v3.5.0 (Proposed)
+- Requirements Team: Approved v3.5.0 (Proposed)
+- Security Team: Approved v3.5.0 (Proposed)
+- Compliance Team: Approved v3.5.0 (Proposed)
+- Quality Team: Approved v3.5.0 (Proposed)
+- Documentation Team: Approved v3.5.0 (Proposed)
+**Note**: This version (v3.5.0) represents a complete proposed architecture synchronized with the DevDocAI documentation suite. All architectural decisions are proposed to support current requirements while providing foundation for future enhancements. This is a design specification that has not been implemented.
+**Contact**: <architecture@devdocai.org>
+
+---
+**End of Document**

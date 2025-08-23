@@ -5,9 +5,9 @@
 ---
 ⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
 
-**Document Type**: Design Specification  
-**Implementation Status**: 0% - No code written  
-**Purpose**: Blueprint for future development  
+**Document Type**: Design Specification
+**Implementation Status**: 0% - No code written
+**Purpose**: Blueprint for future development
 
 > **This document describes planned functionality and architecture that has not been built yet.**
 > All code examples, commands, and installation instructions are design specifications for future implementation.
@@ -21,15 +21,15 @@ Contributors can use this as a blueprint to build the described system.
 
 ---
 
-**Document Version:** 3.6.0  
-**Date:** August 23, 2025  
-**Status:** FINAL - Test Coverage & Human Verification Enhanced  
-**License:** Apache-2.0 (Core), MIT (Plugin SDK)  
+**Document Version:** 3.6.0
+**Date:** August 23, 2025
+**Status:** FINAL - Test Coverage & Human Verification Enhanced
+**License:** Apache-2.0 (Core), MIT (Plugin SDK)
 
 **Document Alignment Status:**
 
 - ✅ User Stories v3.5.0 - All 21 stories (US-001 through US-021) mapped
-- ✅ PRD v3.5.0 - Complete consistency with all requirements  
+- ✅ PRD v3.5.0 - Complete consistency with all requirements
 - ✅ Architecture v3.5.0 - All components (M001-M013) integrated
 - ✅ Technical Alignment Complete
 - ✅ Test Coverage Enhanced - 100% mandatory coverage implemented
@@ -40,7 +40,7 @@ Contributors can use this as a blueprint to build the described system.
 ## Table of Contents
 
 - [Software Requirements Specification](#software-requirements-specification)
-  - [DevDocAI v3.5.0](#devdocai-v350)
+  - [DevDocAI v3.6.0](#devdocai-v360)
   - [Table of Contents](#table-of-contents)
   - [1. Introduction](#1-introduction)
     - [1.1 Purpose](#11-purpose)
@@ -135,6 +135,10 @@ Contributors can use this as a blueprint to build the described system.
       - [10.2.3 Compliance Testing](#1023-compliance-testing)
     - [10.3 Requirements to Test Traceability](#103-requirements-to-test-traceability)
     - [10.4 Human-in-the-Loop Testing](#104-human-in-the-loop-testing)
+      - [10.4.1 Verification Points](#1041-verification-points)
+      - [10.4.2 Golden Path Scenarios](#1042-golden-path-scenarios)
+      - [10.4.3 Human Validation Metrics](#1043-human-validation-metrics)
+      - [10.4.4 Continuous Improvement Process](#1044-continuous-improvement-process)
   - [11. Appendices](#11-appendices)
     - [A. API Specifications](#a-api-specifications)
       - [A.1 REST API Endpoints](#a1-rest-api-endpoints)
@@ -241,14 +245,14 @@ graph TB
         LocalLLM[Local Models]
         Compliance[SBOM/PII/DSR]
     end
-    
+
     subgraph "Optional Cloud (User Consent)"
         Claude[Claude API]
         ChatGPT[ChatGPT API]
         Gemini[Gemini API]
         CostMgr[Cost Manager]
     end
-    
+
     Core -.->|Opt-in Only| Claude
     Core -.->|Opt-in Only| ChatGPT
     Core -.->|Opt-in Only| Gemini
@@ -882,7 +886,7 @@ The dashboard SHALL display:
 
 - **Mandatory Review Requirements**: Architecture review, code quality audit, security baseline validation
 - **Required Approvals**: Technical Lead, QA Lead, Security Officer (3/3 required)
-- **Evidence Requirements**: 
+- **Evidence Requirements**:
   - 100% unit test coverage report with manual verification
   - Architecture compliance checklist with sign-offs
   - Security scan results with human-validated remediation
@@ -1063,7 +1067,7 @@ DevDocAI v3.6.0 SHALL enforce **mandatory 100% test coverage** across all compon
 **Human Verification Requirements:**
 
 - **Visual Review Dashboard**: All test results SHALL be displayed in human-readable dashboard format with pass/fail indicators
-- **Evidence Documentation**: Every test execution SHALL generate exportable PDF reports for audit trails  
+- **Evidence Documentation**: Every test execution SHALL generate exportable PDF reports for audit trails
 - **Reviewer Accountability**: Each verification SHALL be signed off by identified reviewer with timestamp
 - **Progression Gates**: No code SHALL advance to next phase without documented human verification completion
 - **Escalation Process**: Failed verifications SHALL trigger mandatory review cycles until resolution
@@ -1158,7 +1162,7 @@ Human-in-the-loop (HITL) testing SHALL be integrated throughout the DevDocAI dev
 **Qualitative Metrics:**
 
 - **User Feedback Quality**: Detailed feedback collection on pain points and improvement suggestions
-- **Expert Review Depth**: Domain expert assessment of output quality and professional acceptability  
+- **Expert Review Depth**: Domain expert assessment of output quality and professional acceptability
 - **Compliance Officer Approval**: Regulatory compliance validation with sign-off documentation
 - **Security Analyst Clearance**: Security posture assessment with vulnerability validation
 
@@ -1199,7 +1203,7 @@ openapi: 3.0.0
 info:
   title: DevDocAI API
   version: 3.5.0
-  
+
 paths:
   /api/v1/generate:
     post:
@@ -1219,7 +1223,7 @@ paths:
                 $ref: '#/components/schemas/Document'
         402:
           description: Cost limit exceeded
-        
+
   /api/v1/analyze:
     post:
       summary: Analyze document quality

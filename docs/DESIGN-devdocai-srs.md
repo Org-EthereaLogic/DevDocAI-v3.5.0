@@ -153,6 +153,7 @@ Contributors can use this as a blueprint to build the described system.
 This Software Requirements Specification (SRS) defines the functional and non-functional requirements for DevDocAI v3.5.0, an AI-powered documentation generation and management system for solo developers and small teams. This document serves as the authoritative technical specification for development, testing, and validation activities.
 
 **Target Audiences:**
+
 - Development team members implementing features
 - Quality assurance engineers validating behavior
 - Technical stakeholders evaluating compliance
@@ -163,6 +164,7 @@ This Software Requirements Specification (SRS) defines the functional and non-fu
 DevDocAI v3.5.0 SHALL be an open-source documentation system that empowers developers to create, analyze, and maintain professional-grade technical documentation with enterprise-level compliance features using AI-powered generation and enhancement.
 
 **In Scope:**
+
 - Automated document generation from 40+ templates
 - Multi-dimensional document analysis with quality scoring
 - Cross-document consistency management
@@ -177,6 +179,7 @@ DevDocAI v3.5.0 SHALL be an open-source documentation system that empowers devel
 - Cost management with provider optimization
 
 **Out of Scope (Rationale Provided):**
+
 - Real-time collaborative editing (focus on solo developers)
 - Version control implementation (leverages existing Git)
 - Cloud hosting services (privacy-first approach)
@@ -221,6 +224,7 @@ This document follows IEEE 830 standard enhanced for modern practices. Section 2
 DevDocAI SHALL operate as a standalone application with selective cloud integration, following a privacy-first architecture where core functionality runs locally with optional cloud enhancement for LLM capabilities.
 
 **Local vs. Cloud Trade-offs:**
+
 - **Local Operation**: Full privacy, no data transmission, limited to local models
 - **Cloud Enhancement**: Advanced AI capabilities, cost tracking, requires API keys
 
@@ -273,12 +277,14 @@ High-level capabilities mapped to user stories:
 ### 2.4 Constraints
 
 #### 2.4.1 Regulatory Constraints
+
 - GDPR compliance for EU users
 - CCPA compliance for California users
 - EU Cyber Resilience Act (SBOM requirements)
 - US Executive Order 14028 (Software supply chain)
 
 #### 2.4.2 Technical Constraints
+
 - Memory modes: Baseline (3-4GB), Standard (4-6GB), Enhanced (6-8GB), Performance (>8GB)
 - Local model size: 2-5GB disk space
 - API rate limits per provider
@@ -286,11 +292,13 @@ High-level capabilities mapped to user stories:
 ### 2.5 Assumptions and Dependencies
 
 #### 2.5.1 Assumptions (Converted to Requirements)
+
 - Users SHALL have basic command-line familiarity OR use VS Code extension
 - System SHALL provide training documentation for compliance features
 - System SHALL include setup wizards for first-time users
 
 #### 2.5.2 Dependencies
+
 - LLM provider API stability (mitigated by multi-provider support)
 - Node.js 18.0+ and Python 3.9+ ecosystems
 - VS Code extension API v1.70+
@@ -305,6 +313,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.1 Document Generation Requirements
 
 **FR-001**: Template-Based Generation [Priority: High] [US-001]
+
 - The system SHALL provide 40+ document templates organized by category
 - The system SHALL validate template syntax before generation
 - The system SHALL support custom template creation
@@ -312,6 +321,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-001
 
 **FR-002**: Multi-LLM Synthesis [Priority: High] [US-001, AC-001.2]
+
 - The system SHALL integrate Claude (40%), ChatGPT (35%), Gemini (25%) with configurable weights
 - The system SHALL implement automatic fallback on API failure
 - The system SHALL sanitize data before external transmission
@@ -319,6 +329,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-002
 
 **FR-003**: Suite Generation [Priority: High] [US-003]
+
 - The system SHALL generate complete documentation suites atomically
 - The system SHALL establish cross-references automatically
 - The system SHALL preserve existing documents with versioning
@@ -328,6 +339,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.2 Document Analysis Requirements
 
 **FR-005**: Quality Assessment [Priority: High] [US-004]
+
 - The system SHALL calculate quality scores using the formula: Q = 0.35×E + 0.35×C + 0.30×R
 - The system SHALL enforce Quality Gate at exactly 85%
 - The system SHALL provide actionable recommendations with priority levels
@@ -335,6 +347,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-005
 
 **FR-006**: Requirements Validation [Priority: High] [US-005]
+
 - The system SHALL detect ambiguous language with <10% false positives
 - The system SHALL verify testability using RFC 2119 keywords
 - The system SHALL identify conflicts with conflict resolution suggestions
@@ -344,6 +357,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.3 Suite Management Requirements
 
 **FR-008**: Tracking Matrix [Priority: High] [US-002, M005]
+
 - The system SHALL display relationships with directional arrows
 - The system SHALL update visualizations within 500ms of changes
 - The system SHALL use color coding: green (>90%), yellow (70-90%), red (<70%)
@@ -351,6 +365,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-008
 
 **FR-010**: Impact Analysis [Priority: Medium] [US-008, M006]
+
 - The system SHALL identify affected documents with dependency depth
 - The system SHALL estimate effort within ±20% accuracy
 - The system SHALL detect circular dependencies with resolution paths
@@ -360,6 +375,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.4 Enhancement Requirements
 
 **FR-011**: MIAIR Enhancement [Priority: High] [US-009, M003]
+
 - The system SHALL achieve 60-75% entropy reduction
 - The system SHALL maintain coherence index ≥0.94
 - The system SHALL mark AI-generated content with metadata
@@ -369,6 +385,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.5 Security Requirements
 
 **FR-013**: Security Scanning [Priority: High] [US-010]
+
 - The system SHALL detect exposed credentials with 0% false negatives
 - The system SHALL rank findings using CVSS v3.1 scoring
 - The system SHALL reference OWASP Top 10 for web applications
@@ -378,6 +395,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.6 Privacy Requirements
 
 **FR-023**: Data Control [Priority: High] [US-017]
+
 - The system SHALL operate fully offline when configured
 - The system SHALL encrypt API keys using AES-256-GCM per NIST guidelines
 - The system SHALL provide cryptographic erasure per NIST SP 800-88
@@ -387,6 +405,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.7 Cost Management Requirements
 
 **FR-025**: API Cost Tracking [Priority: High] [REQ-044, M008]
+
 - The system SHALL enforce daily limits (default: $10.00) with ±$0.01 accuracy
 - The system SHALL route to providers using cost/quality ratio optimization
 - The system SHALL warn at 80% threshold with projected overage time
@@ -396,6 +415,7 @@ High-level capabilities mapped to user stories:
 #### 3.1.8 Compliance Requirements
 
 **FR-027**: SBOM Generation [Priority: High] [US-019, M010]
+
 - The system SHALL generate SPDX 2.3 and CycloneDX 1.4 formats
 - The system SHALL achieve 100% dependency coverage
 - The system SHALL complete generation within 30 seconds for <500 dependencies
@@ -403,6 +423,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-027
 
 **FR-028**: PII Detection [Priority: High] [US-020]
+
 - The system SHALL detect PII with ≥95% accuracy (F1 score ≥0.95)
 - The system SHALL process at ≥1000 words/second
 - The system SHALL support GDPR and CCPA pattern sets
@@ -410,6 +431,7 @@ High-level capabilities mapped to user stories:
 - **Test Case**: TC-028
 
 **FR-029**: Data Subject Rights [Priority: High] [US-021]
+
 - The system SHALL process DSR requests within 24 hours automated
 - The system SHALL generate cryptographic deletion certificates
 - The system SHALL maintain tamper-evident audit logs using HMAC-SHA256
@@ -421,12 +443,14 @@ High-level capabilities mapped to user stories:
 #### 3.2.1 Performance Requirements
 
 **NFR-001**: Response Time [Priority: High]
+
 - VS Code suggestions SHALL appear within 500ms (95th percentile)
 - Document analysis SHALL complete within 10 seconds (single document)
 - Matrix updates SHALL render within 500ms (target), 1 second (maximum)
 - **Acceptance**: 95% of operations meet target, 100% meet maximum
 
 **NFR-002**: Throughput [Priority: Medium]
+
 - The system SHALL process 100 documents/hour (minimum)
 - The system SHALL support 50 concurrent operations
 - The system SHALL handle 1000 documents in tracking matrix
@@ -434,11 +458,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.2 Scalability Requirements
 
 **NFR-003**: Horizontal Scalability [Priority: Medium]
+
 - The system SHALL support distributed processing for batch operations
 - The system SHALL scale linearly up to 10 concurrent workers
 - The system SHALL maintain consistency across distributed operations
 
 **NFR-004**: Vertical Scalability [Priority: Medium]
+
 - The system SHALL utilize available RAM up to configured limits
 - The system SHALL adapt algorithms based on memory mode
 - The system SHALL provide graceful degradation under resource constraints
@@ -446,11 +472,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.3 Reliability Requirements
 
 **NFR-005**: Availability [Priority: High]
+
 - Core features SHALL maintain 99.9% availability
 - The system SHALL recover from crashes within 30 seconds
 - The system SHALL preserve work with journaling
 
 **NFR-006**: Fault Tolerance [Priority: High]
+
 - The system SHALL handle API failures with local fallback
 - The system SHALL validate all inputs to prevent crashes
 - The system SHALL isolate plugin failures from core
@@ -458,11 +486,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.4 Usability Requirements
 
 **NFR-007**: Learnability [Priority: High]
+
 - New users SHALL generate first document within 5 minutes
 - The system SHALL provide contextual help for all features
 - Error messages SHALL include resolution steps
 
 **NFR-008**: Efficiency [Priority: Medium]
+
 - Common operations SHALL require ≤3 user actions
 - The system SHALL remember user preferences
 - Batch operations SHALL be scriptable
@@ -470,11 +500,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.5 Security Requirements
 
 **NFR-009**: Data Protection [Priority: High]
+
 - The system SHALL encrypt data at rest using AES-256-GCM
 - The system SHALL sanitize logs to exclude sensitive data
 - The system SHALL implement secure deletion (3-pass overwrite)
 
 **NFR-010**: Access Control [Priority: Medium]
+
 - The system SHALL enforce plugin permissions per manifest
 - The system SHALL validate all file access against OS permissions
 - The system SHALL maintain audit logs for security events
@@ -482,11 +514,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.6 Maintainability Requirements
 
 **NFR-011**: Modularity [Priority: High]
+
 - Components SHALL have single responsibilities
 - The system SHALL maintain <10% coupling between modules
 - Code coverage SHALL meet: 80% overall, 90% critical, 100% security
 
 **NFR-012**: Extensibility [Priority: Medium]
+
 - Plugin API SHALL remain backward compatible (semantic versioning)
 - The system SHALL support custom analyzers via standard interfaces
 - Configuration SHALL be extensible without code changes
@@ -494,6 +528,7 @@ High-level capabilities mapped to user stories:
 #### 3.2.7 Portability Requirements
 
 **NFR-013**: Platform Independence [Priority: High]
+
 - The system SHALL run on Windows 10+, macOS 10.14+, Ubuntu 20.04+
 - The system SHALL use platform-agnostic paths
 - Dependencies SHALL be available for all platforms
@@ -501,11 +536,13 @@ High-level capabilities mapped to user stories:
 #### 3.2.8 Reusability Requirements
 
 **NFR-014**: Component Reusability [Priority: Medium]
+
 - Core modules SHALL be usable as standalone libraries
 - Templates SHALL be shareable across projects
 - Analyzers SHALL be composable for custom workflows
 
 **NFR-015**: Configuration Reusability [Priority: Low]
+
 - Settings SHALL be exportable/importable
 - Learned patterns SHALL be shareable
 - Plugin configurations SHALL be templatable
@@ -513,6 +550,7 @@ High-level capabilities mapped to user stories:
 #### 3.2.9 Flexibility Requirements
 
 **NFR-016**: Adaptability [Priority: Medium]
+
 - The system SHALL support custom document types via plugins
 - The system SHALL allow quality metric customization
 - The system SHALL enable workflow automation via scripts
@@ -524,6 +562,7 @@ High-level capabilities mapped to user stories:
 **Formula**: Q(d) = 0.35 × E(d) + 0.35 × C(d) + 0.30 × R(d)
 
 Where:
+
 - E(d) = Entropy Score (0-1, normalized to 0-100)
 - C(d) = Coherence Index (0-1, normalized to 0-100)
 - R(d) = Completeness Rating (0-100)
@@ -545,6 +584,7 @@ Where:
 #### 3.4.1 User Interfaces
 
 **UI-001**: VS Code Extension
+
 - Tree view with health indicators (color-coded)
 - Inline suggestions (non-blocking overlays)
 - Context menus (right-click actions)
@@ -552,12 +592,14 @@ Where:
 - All features SHALL comply with WCAG 2.1 Level AA
 
 **UI-002**: Command Line Interface
+
 - POSIX-compliant syntax
 - JSON output for automation (--format=json)
 - Progress indicators for operations >1 second
 - Exit codes: 0 (success), 1 (error), 2 (warning)
 
 **UI-003**: Documentation Dashboard
+
 - Responsive breakpoints: mobile (<768px), tablet (768-1024px), desktop (>1024px)
 - Progressive enhancement for slow connections
 - Keyboard navigation (Tab, Arrow keys, Enter, Escape)
@@ -566,19 +608,22 @@ Where:
 #### 3.4.2 Software Interfaces
 
 **SI-001**: LLM Provider APIs
+
 - Claude API v1 with Anthropic SDK
 - OpenAI API v1 with official client
 - Google AI API v1 with Gemini SDK
 - Timeout: 30 seconds with exponential backoff
 
 **SI-002**: Compliance APIs
-- SPDX validation service (https://tools.spdx.org/app/validate/)
-- CVE database API (https://nvd.nist.gov/developers/vulnerabilities)
-- License database (https://spdx.org/licenses/)
+
+- SPDX validation service (<https://tools.spdx.org/app/validate/>)
+- CVE database API (<https://nvd.nist.gov/developers/vulnerabilities>)
+- License database (<https://spdx.org/licenses/>)
 
 ### 3.5 Design Constraints
 
 #### 3.5.1 Standards Compliance
+
 - IEEE 830-1998 for requirements
 - ISO/IEC 25010 for quality model
 - RFC 2119 for requirement keywords
@@ -586,6 +631,7 @@ Where:
 - OpenAPI 3.0 for API specifications
 
 #### 3.5.2 Implementation Constraints
+
 - TypeScript for VS Code extension
 - Python 3.9+ for core engine
 - Node.js 18+ for CLI
@@ -631,6 +677,7 @@ Where:
 ### 4.4 Scalability Requirements
 
 The system SHALL scale to handle:
+
 - 10,000+ documents per project
 - 1,000+ concurrent VS Code instances
 - 100+ plugins loaded simultaneously
@@ -643,6 +690,7 @@ The system SHALL scale to handle:
 ### 5.1 Authentication and Authorization
 
 **SEC-001**: Plugin Authorization
+
 - Plugins SHALL declare permissions in manifest
 - Permissions SHALL be granted explicitly by user
 - The system SHALL enforce least privilege principle
@@ -651,6 +699,7 @@ The system SHALL scale to handle:
 ### 5.2 Data Protection
 
 **SEC-002**: Encryption Standards
+
 - Data at rest: AES-256-GCM per FIPS 140-2
 - Key derivation: Argon2id with 64MB memory cost
 - API keys: Stored in OS keychain when available
@@ -659,6 +708,7 @@ The system SHALL scale to handle:
 ### 5.3 Security Analysis
 
 **SEC-003**: Vulnerability Detection
+
 - The system SHALL scan using OWASP dependency check
 - The system SHALL update vulnerability database weekly
 - The system SHALL alert on CVSS score ≥7.0
@@ -667,6 +717,7 @@ The system SHALL scale to handle:
 ### 5.4 Privacy Requirements
 
 **SEC-004**: Data Minimization
+
 - The system SHALL collect only essential metadata
 - The system SHALL anonymize telemetry data
 - The system SHALL provide opt-out for all analytics
@@ -675,6 +726,7 @@ The system SHALL scale to handle:
 ### 5.5 Audit and Compliance
 
 **SEC-005**: Security Logging
+
 - The system SHALL log authentication attempts
 - The system SHALL log permission changes
 - The system SHALL protect logs with HMAC-SHA256
@@ -687,6 +739,7 @@ The system SHALL scale to handle:
 ### 6.1 WCAG 2.1 Compliance
 
 The system SHALL meet WCAG 2.1 Level AA criteria:
+
 - **Perceivable**: Alt text, captions, contrast ratios (4.5:1 normal, 3:1 large)
 - **Operable**: Keyboard navigation, skip links, focus indicators
 - **Understandable**: Clear labels, error identification, consistent navigation
@@ -695,6 +748,7 @@ The system SHALL meet WCAG 2.1 Level AA criteria:
 ### 6.2 Accessibility Testing Coverage
 
 **ACC-001**: Testing Requirements
+
 - 100% of interactive elements SHALL be keyboard accessible
 - 100% of forms SHALL have proper labels
 - 100% of images SHALL have alt text
@@ -708,6 +762,7 @@ The system SHALL meet WCAG 2.1 Level AA criteria:
 ### 7.1 VS Code Extension Interface
 
 The extension SHALL provide:
+
 - Document explorer with health indicators
 - Real-time analysis overlays
 - Quick fix suggestions
@@ -717,6 +772,7 @@ The extension SHALL provide:
 ### 7.2 Command Line Interface
 
 The CLI SHALL support:
+
 - Command completion (bash, zsh, PowerShell)
 - Colorized output with --no-color option
 - Machine-readable formats (JSON, CSV, XML)
@@ -726,6 +782,7 @@ The CLI SHALL support:
 ### 7.3 Documentation Health Dashboard
 
 The dashboard SHALL display:
+
 - Overall health score (prominent, top-center)
 - Document grid with visual indicators
 - Trend charts (30-day default, configurable)
@@ -739,6 +796,7 @@ The dashboard SHALL display:
 ### 8.1 Hardware Requirements
 
 #### 8.1.1 Minimum Requirements (Realistic Baseline)
+
 - Processor: Dual-core 2.0 GHz x64
 - RAM: 3GB absolute minimum (4GB recommended for Baseline Mode)
 - Storage: 5GB available (plus OS requirements)
@@ -746,6 +804,7 @@ The dashboard SHALL display:
 - Network: 1 Mbps for cloud features (optional)
 
 **Baseline Mode Capabilities (3-4GB RAM):**
+
 - ✅ Template-based document generation
 - ✅ Basic quality analysis and scoring
 - ✅ Local storage and encryption
@@ -756,6 +815,7 @@ The dashboard SHALL display:
 - ❌ Concurrent heavy operations
 
 #### 8.1.2 Recommended Requirements
+
 - Processor: Quad-core 2.5 GHz x64
 - RAM: 8GB+ (Performance Mode)
 - Storage: 10GB available
@@ -765,12 +825,14 @@ The dashboard SHALL display:
 ### 8.2 Software Requirements
 
 #### 8.2.1 Operating Systems
+
 - Windows 10 version 1909+ (64-bit)
 - macOS 10.14 Mojave+
 - Ubuntu 20.04 LTS+
 - RHEL 8+, Debian 10+
 
 #### 8.2.2 Dependencies with Versions
+
 - Node.js 18.0.0+
 - Python 3.9.0+
 - Git 2.25.0+
@@ -792,7 +854,9 @@ The dashboard SHALL display:
 ### 9.1 Development Phases
 
 #### Phase 1: Core Foundation (Months 1-3)
+
 **Milestones with Measurable Criteria:**
+
 - M1.1: Repository and CI/CD (100% test automation)
 - M1.2: Basic generation for 5 types (100% template coverage)
 - M1.3: Quality analysis engine (85% gate functional)
@@ -801,7 +865,9 @@ The dashboard SHALL display:
 - **Success**: Generate documents with 85% quality score
 
 #### Phase 2: Intelligence Layer (Months 4-6)
+
 **Milestones with Measurable Criteria:**
+
 - M2.1: LLM integration (3 providers, 99% uptime)
 - M2.2: MIAIR implementation (60% entropy reduction)
 - M2.3: Cost tracking (99.9% accuracy)
@@ -809,7 +875,9 @@ The dashboard SHALL display:
 - **Success**: Enhancement improves scores by 20+ points
 
 #### Phase 3: Suite Management (Months 7-9)
+
 **Milestones with Measurable Criteria:**
+
 - M3.1: Tracking matrix (1000+ documents)
 - M3.2: Consistency checking (95% accuracy)
 - M3.3: Impact analysis (90% accuracy)
@@ -817,7 +885,9 @@ The dashboard SHALL display:
 - **Success**: Generate 10-document suite with integrity
 
 #### Phase 4: User Experience (Months 10-11)
+
 **Milestones with Measurable Criteria:**
+
 - M4.1: VS Code full features (<500ms response)
 - M4.2: Dashboard implementation (<2s load)
 - M4.3: Learning system (Pattern detection at 5)
@@ -825,7 +895,9 @@ The dashboard SHALL display:
 - **Success**: 90% user task completion rate
 
 #### Phase 5: Compliance & Security (Months 12-14)
+
 **Milestones with Measurable Criteria:**
+
 - M5.1: SBOM generation (<30s, 100% coverage)
 - M5.2: PII detection (≥95% accuracy)
 - M5.3: DSR automation (<24 hour processing)
@@ -833,7 +905,9 @@ The dashboard SHALL display:
 - **Success**: Pass security audit, zero CVEs
 
 #### Phase 6: Polish & Release (Months 15-16)
+
 **Milestones with Measurable Criteria:**
+
 - M6.1: Plugin SDK (10+ plugins)
 - M6.2: Performance optimization (All targets met)
 - M6.3: Documentation (100% coverage)
@@ -845,6 +919,7 @@ The dashboard SHALL display:
 #### 9.2.1 Requirement Change Control
 
 **Change Request Process:**
+
 1. Submit change request with impact analysis
 2. Review by technical lead and stakeholders
 3. Assess impact on timeline, resources, dependencies
@@ -853,6 +928,7 @@ The dashboard SHALL display:
 6. Communicate changes to all teams
 
 **Change Categories:**
+
 - **Minor**: Clarifications, <1 day effort (Fast track)
 - **Major**: New features, API changes (Full review)
 - **Critical**: Security, compliance (Emergency process)
@@ -892,18 +968,21 @@ The dashboard SHALL display:
 ### 10.2 Test Types
 
 #### 10.2.1 Functional Testing
+
 - All requirements SHALL have corresponding test cases
 - Acceptance criteria SHALL be verified
 - Edge cases SHALL be tested
 - Error conditions SHALL be validated
 
 #### 10.2.2 Non-Functional Testing
+
 - Performance: Load, stress, endurance testing
 - Security: Penetration, vulnerability scanning
 - Usability: Task completion, error rates
 - Accessibility: WCAG compliance validation
 
 #### 10.2.3 Compliance Testing
+
 - SBOM: Schema validation, completeness
 - PII: Accuracy measurement, false positive/negative rates
 - DSR: Timeline compliance, audit trail verification
@@ -911,6 +990,7 @@ The dashboard SHALL display:
 ### 10.3 Requirements to Test Traceability
 
 Each requirement SHALL map to:
+
 1. One or more test cases
 2. Acceptance criteria
 3. Test data requirements
@@ -1028,6 +1108,7 @@ interface CostTracking {
 #### C.2 Emergency Recovery Procedures
 
 **Critical Failure Recovery:**
+
 ```bash
 # 1. Emergency reset
 devdocai emergency-reset --preserve-data
@@ -1043,6 +1124,7 @@ devdocai self-test --comprehensive
 ```
 
 **Data Recovery:**
+
 ```bash
 # For corrupted documents
 devdocai recover <document> --repair-mode

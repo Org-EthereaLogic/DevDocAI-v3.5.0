@@ -1092,7 +1092,7 @@ devdocai dsr export --user-id=uuid
 ```typescript
 interface CostManager {
   dailyLimit: number;           // Default $10/day
-  monthlyLimit: number;         // Default $300/month
+  monthlyLimit: number;         // Default $200/month
   providerWeights: {
     claude: number;             // 40% - best quality
     chatgpt: number;            // 35% - balanced

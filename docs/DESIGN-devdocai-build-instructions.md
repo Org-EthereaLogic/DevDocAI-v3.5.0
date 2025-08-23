@@ -17,6 +17,7 @@
 📚 **IMPORTANT FOR READERS**
 
 This document describes how DevDocAI will work once implemented. Currently:
+
 - ❌ No working software exists
 - ❌ Installation commands will not work
 - ❌ No packages are available for download
@@ -101,38 +102,74 @@ Select your memory mode based on available RAM:
 
 ## Environment Configuration
 
-### 1. Clone the Repository
+### 1. Future Build Process (Not Yet Available)
+
+Once development begins, the build process will follow these steps:
+
+#### Phase 1: Setting Up Development Environment
+
+*Estimated Timeline: Month 1-2 of development*
+
+1. Repository will be created at: <https://github.com/devdocai/devdocai-v3.5>
+2. Initial project structure will include:
+   - `/src` (source code - TO BE DEVELOPED)
+   - `/docs` (design documentation - CURRENTLY AVAILABLE)
+   - `/tests` (test suites - TO BE DEVELOPED)
+   - `/plugins` (plugin system - TO BE DEVELOPED)
+   - `/templates` (document templates - TO BE DEVELOPED)
 
 ```bash
-git clone https://github.com/devdocai/devdocai-v3.5.git
-cd devdocai-v3.5
+# [PLANNED] Commands for future implementation:
+# git clone https://github.com/devdocai/devdocai-v3.5.git
+# cd devdocai-v3.5
 ```
 
-### 2. Install Dependencies
+**Current Status**: [DESIGN PHASE] Repository structure and build processes are fully designed and ready for implementation.
+
+### 2. [PLANNED] Dependency Installation Process
+
+#### Phase 2: Development Environment Setup
+
+*Estimated Timeline: Month 2 of development*
 
 ```bash
-# Install all project dependencies including development tools
-npm install
-
-# Verify local tool installation
-npx yo --version                  # Should show 4.3.1
-npx generator-code --version      # Should show 1.7.8
-npx vsce --version                # Should show 2.15.0
-npx tsc --version                 # Should show 5.3.3
-npx devdocai --version            # Should show 3.5.0
+# [TO BE DEVELOPED] Future dependency installation commands:
+# npm install
+# 
+# Development tools that will be included:
+# - yo@4.3.1 (VS Code extension scaffolding)
+# - generator-code@1.7.8 (Extension templates)
+# - vsce@2.15.0 (Extension packaging)
+# - typescript@5.3.3 (TypeScript compiler)
+# - @devdocai/cli@3.5.0 (Main CLI tool)
+#
+# Verification commands (when implemented):
+# npx yo --version                  # Should show 4.3.1
+# npx generator-code --version      # Should show 1.7.8
+# npx vsce --version                # Should show 2.15.0
+# npx tsc --version                 # Should show 5.3.3
+# npx devdocai --version            # Should show 3.5.0
 ```
 
-### 3. Configure Memory Mode
+**Implementation Status**: [TO BE DEVELOPED] Package.json and dependency configuration designed but not yet created.
 
-Create a `.devdocai.yml` configuration file:
+### 3. [PLANNED] Memory Mode Configuration
+
+#### Phase 3: System Configuration Setup
+
+*Estimated Timeline: Month 2-3 of development*
+
+**Planned Configuration System**: When implemented, users will configure system memory modes through a `.devdocai.yml` file.
 
 ```bash
-cp .devdocai.example.yml .devdocai.yml
+# [TO BE DEVELOPED] Future configuration commands:
+# cp .devdocai.example.yml .devdocai.yml
 ```
 
-Edit `.devdocai.yml` to set your memory mode:
+**Planned Configuration Format**:
 
 ```yaml
+# [DESIGN SPECIFICATION] Configuration file structure:
 version: 3.5.0
 system:
   memory_mode: standard  # baseline | standard | enhanced | performance
@@ -144,17 +181,25 @@ performance:
   batch_size: 10
 ```
 
-### 4. Configure API Keys (Optional for Cloud Features)
+**Implementation Status**: [TO BE DEVELOPED] Configuration system designed, awaiting implementation.
 
-Create a `.env` file for sensitive configuration:
+### 4. [PLANNED] API Keys and Cloud Configuration
+
+#### Phase 4: Cloud Integration Setup
+
+*Estimated Timeline: Month 3-4 of development*
+
+**Planned Environment Configuration**: When implemented, users will configure API keys and cost management through environment files.
 
 ```bash
-cp .env.example .env
+# [TO BE DEVELOPED] Future environment setup commands:
+# cp .env.example .env
 ```
 
-Edit `.env` to add API keys and cost limits:
+**Planned Environment Configuration Format**:
 
 ```env
+# [DESIGN SPECIFICATION] Environment variable structure:
 # LLM Provider APIs (Optional)
 OPENAI_API_KEY=your_openai_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
@@ -171,128 +216,199 @@ SIGNING_KEY_PATH=./keys/ed25519_private.pem
 CERTIFICATE_PATH=./certs/devdocai.cert
 ```
 
-### 5. Generate Security Keys
+**Implementation Status**: [TO BE DEVELOPED] Cost management and API integration systems designed, awaiting implementation.
+
+### 5. [PLANNED] Security Key Generation
+
+#### Phase 5: Security Infrastructure Setup
+
+*Estimated Timeline: Month 4-5 of development*
+
+**Planned Security System**: When implemented, the system will include automated security key generation for encryption, plugin signing, and certificate management.
 
 ```bash
-# Generate encryption keys for local storage
-npm run security:keygen
-
-# Generate Ed25519 signing keys for plugins
-npm run security:generate-signing-keys
-
-# Generate self-signed certificate for development
-npm run security:generate-cert
+# [TO BE DEVELOPED] Future security setup commands:
+# npm run security:keygen                    # Generate encryption keys for local storage
+# npm run security:generate-signing-keys     # Generate Ed25519 signing keys for plugins
+# npm run security:generate-cert             # Generate self-signed certificate for development
 ```
 
-## Build Process
+**Security Features to be Implemented**:
 
-### Phase 1: Foundation Components
+- Plugin signature verification system
+- Local data encryption system  
+- Certificate-based trust chain
+- Key rotation and management tools
 
-Build core components first:
+**Implementation Status**: [TO BE DEVELOPED] Security architecture designed, awaiting implementation.
+
+## [PLANNED] Build Process - Implementation Roadmap
+
+**Overall Development Timeline**: Estimated 8-12 months for full implementation
+
+### Development Phase 1: Foundation Components [PLANNED]
+
+**Timeline**: Month 1-3 of development  
+**Status**: [TO BE DEVELOPED] Architecture designed, ready for implementation
+
+**Planned Foundation Build Process**:
 
 ```bash
-# Build foundation layer (M001-M002, M004-M007)
-npm run build:foundation
-
-# Components built:
-# - Configuration Manager (M001)
-# - Local Storage System (M002)
-# - Document Generator (M004)
-# - Tracking Matrix (M005)
-# - Suite Manager (M006)
-# - Review Engine (M007)
+# [FUTURE IMPLEMENTATION] Build commands for foundation layer:
+# npm run build:foundation
+#
+# Components to be built (M001-M002, M004-M007):
+# - Configuration Manager (M001) - System configuration and memory modes
+# - Local Storage System (M002) - Encrypted local data storage
+# - Document Generator (M004) - Template-based document creation
+# - Tracking Matrix (M005) - Requirement traceability system
+# - Suite Manager (M006) - Multi-document management
+# - Review Engine (M007) - Quality scoring and analysis
 ```
 
-### Phase 2: Intelligence Components
+**Implementation Priority**: High - Required for basic functionality
 
-Build AI and enhancement features:
+### Development Phase 2: Intelligence Components [PLANNED]
+
+**Timeline**: Month 4-6 of development  
+**Status**: [TO BE DEVELOPED] AI integration architecture designed
+
+**Planned Intelligence Build Process**:
 
 ```bash
-# Build intelligence layer (M003, M008-M009, M011-M012)
-npm run build:intelligence
-
-# Components built:
-# - MIAIR Engine (M003)
-# - LLM Adapter with Cost Management (M008)
-# - Enhancement Pipeline (M009)
-# - Batch Operations Manager (M011)
-# - Version Control Integration (M012)
+# [FUTURE IMPLEMENTATION] Build commands for intelligence layer:
+# npm run build:intelligence
+#
+# Components to be built (M003, M008-M009, M011-M012):
+# - MIAIR Engine (M003) - AI-powered document analysis
+# - LLM Adapter with Cost Management (M008) - Multi-provider AI integration
+# - Enhancement Pipeline (M009) - Document improvement workflows
+# - Batch Operations Manager (M011) - Bulk processing system
+# - Version Control Integration (M012) - Git workflow automation
 ```
 
-### Phase 3: Advanced Components
+**Implementation Priority**: Medium - Builds on foundation components
 
-Build compliance and marketplace features:
+### Development Phase 3: Advanced Components [PLANNED]
+
+**Timeline**: Month 7-9 of development  
+**Status**: [TO BE DEVELOPED] Compliance and marketplace systems designed
+
+**Planned Advanced Build Process**:
 
 ```bash
-# Build advanced features (M010, M013)
-npm run build:advanced
-
-# Components built:
-# - SBOM Generator (M010)
-# - Template Marketplace Client (M013)
-# - PII Detection Engine
-# - DSR Handler
-# - Dashboard
+# [FUTURE IMPLEMENTATION] Build commands for advanced features:
+# npm run build:advanced
+#
+# Components to be built (M010, M013):
+# - SBOM Generator (M010) - Software Bill of Materials generation
+# - Template Marketplace Client (M013) - Community template sharing
+# - PII Detection Engine - Privacy compliance automation
+# - DSR Handler - Data subject request processing
+# - Dashboard - Web-based project overview
 ```
 
-### Complete Build
+**Implementation Priority**: Low - Premium/compliance features
 
-To build all components at once:
+### Complete Build System [PLANNED]
+
+**Timeline**: Month 10-12 of development  
+**Status**: [TO BE DEVELOPED] Production build system designed
+
+**Planned Production Build Process**:
 
 ```bash
-# Full production build
-npm run build:prod
-
-# This creates:
-# - dist/devdocai-extension-3.5.0.vsix (VS Code extension)
-# - dist/devdocai-cli-{platform}-3.5.0 (CLI executables)
-# - dist/plugins/ (Core plugins)
-# - dist/templates/ (Document templates)
+# [FUTURE IMPLEMENTATION] Full production build command:
+# npm run build:prod
+#
+# Planned build artifacts:
+# - dist/devdocai-extension-3.5.0.vsix (VS Code extension package)
+# - dist/devdocai-cli-{platform}-3.5.0 (CLI executables for each platform)
+# - dist/plugins/ (Core plugins with signatures)
+# - dist/templates/ (Document templates library)
+# - dist/models/ (Local AI models for enhanced mode)
+# - dist/certificates/ (Security certificates and keys)
 ```
 
-## Platform-Specific Builds
+**Build System Features to be Implemented**:
 
-### Windows
+- Multi-platform compilation (Windows, macOS, Linux)
+- Code signing and verification
+- Dependency bundling and optimization
+- Test execution and coverage reporting
+
+## [PLANNED] Platform-Specific Build System
+
+**Status**: [TO BE DEVELOPED] Cross-platform build system designed but not yet implemented
+
+### Windows Build Process [PLANNED]
+
+**Planned Windows Build Configuration**:
 
 ```bash
-# Set memory mode for Windows
-set DEVDOCAI_MEMORY_MODE=standard
-
-# Build for Windows
-npm run build:win
-
-# Output: dist/devdocai-cli-win-3.5.0.exe
+# [FUTURE IMPLEMENTATION] Windows-specific build commands:
+# set DEVDOCAI_MEMORY_MODE=standard
+# npm run build:win
+#
+# Planned output: dist/devdocai-cli-win-3.5.0.exe
 ```
 
-### macOS
+**Windows-Specific Features to be Implemented**:
+
+- Windows Service integration for background processing
+- Windows Certificate Store integration
+- PowerShell module for advanced automation
+- Windows-specific performance optimizations
+
+### macOS Build Process [PLANNED]
+
+**Planned macOS Build Configuration**:
 
 ```bash
-# Set memory mode for macOS
-export DEVDOCAI_MEMORY_MODE=enhanced
-
-# Build for macOS (Intel and Apple Silicon)
-npm run build:mac
-
-# Output: 
-# - dist/devdocai-cli-mac-x64-3.5.0
-# - dist/devdocai-cli-mac-arm64-3.5.0
+# [FUTURE IMPLEMENTATION] macOS-specific build commands:
+# export DEVDOCAI_MEMORY_MODE=enhanced
+# npm run build:mac
+#
+# Planned outputs: 
+# - dist/devdocai-cli-mac-x64-3.5.0 (Intel Macs)
+# - dist/devdocai-cli-mac-arm64-3.5.0 (Apple Silicon Macs)
 ```
 
-### Linux
+**macOS-Specific Features to be Implemented**:
+
+- macOS Keychain integration for secure key storage
+- Universal binary support (Intel + Apple Silicon)
+- macOS sandboxing compliance
+- Launch Agent integration for background services
+
+### Linux Build Process [PLANNED]
+
+**Planned Linux Build Configuration**:
 
 ```bash
-# Set memory mode for Linux
-export DEVDOCAI_MEMORY_MODE=performance
-
-# Build for Linux
-npm run build:linux
-
-# Output: dist/devdocai-cli-linux-3.5.0
+# [FUTURE IMPLEMENTATION] Linux-specific build commands:
+# export DEVDOCAI_MEMORY_MODE=performance
+# npm run build:linux
+#
+# Planned output: dist/devdocai-cli-linux-3.5.0
 ```
 
-## Testing
+**Linux-Specific Features to be Implemented**:
 
-### Unit Testing
+- systemd service integration for background processing
+- Linux kernel keyring integration for secure storage
+- AppImage packaging for portable distribution
+- Docker container support for containerized environments
+- Multiple distribution support (Ubuntu, RHEL, SUSE, etc.)
+
+## [PLANNED] Testing Framework - Implementation Roadmap
+
+**Overall Testing Strategy**: Comprehensive test coverage across all components when implemented
+
+### Unit Testing Framework [PLANNED]
+
+**Timeline**: Implemented alongside each development phase  
+**Status**: [TO BE DEVELOPED] Testing architecture designed
 
 ```bash
 # Run unit tests with coverage requirements
@@ -660,14 +776,17 @@ For build issues or questions:
 
 ---
 
-**Document Status**: FINAL - v3.5.0 Suite Aligned  
-**Alignment**: Complete consistency with Architecture v3.5.0, SRS v3.5.0, PRD v3.5.0, and User Stories v3.5.0  
-**Last Updated**: August 21, 2025  
-**Next Review**: September 21, 2025
+**Document Status**: FINAL - v3.5.0 Suite Aligned (Future Development Planning)  
+**Alignment**: Complete consistency with Architecture v3.5.0, SRS v3.6.0, PRD v3.6.0, and User Stories v3.5.0  
+**Last Updated**: August 23, 2025  
+**Next Review**: September 23, 2025
 
 **Revision Notes**:
 
-- v3.5.0: Moved all development tools to project-level devDependencies for improved build repeatability and version consistency
-- All tool installations now use npm/npx commands with locked versions in package-lock.json
-- Added explicit version verification steps and CI/CD configuration examples
+- v3.5.0-UPDATED: Transformed build instructions from active development to future development planning format
+- Added [PLANNED], [TO BE DEVELOPED], and [DESIGN PHASE] status indicators throughout document
+- Converted active commands to commented design specifications
+- Added development timeline estimates (8-12 months total implementation)
+- Clarified that no working software currently exists, only comprehensive design documentation
+- All tool installations and commands are now clearly marked as future implementation specifications
 </refined_build_instructions>

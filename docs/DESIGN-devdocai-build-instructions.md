@@ -1,792 +1,719 @@
-<refined_build_instructions>
-
 # DevDocAI v3.5.0 Build Instructions
 
 ---
-⚠️ **STATUS: DESIGN SPECIFICATION - NOT IMPLEMENTED** ⚠️
 
-**Document Type**: Design Specification  
-**Implementation Status**: 0% - No code written  
-**Purpose**: Blueprint for future development  
+## Implementation Status Matrix
 
-> **This document describes planned functionality and architecture that has not been built yet.**
-> All code examples, commands, and installation instructions are design specifications for future implementation.
+| Component | Status | Progress | Target Date | Notes |
+|-----------|--------|----------|-------------|--------|
+| **Phase 1: Foundation** | Planned | 0% | Q1 2026 | Core architecture design complete |
+| Document Generator (M004) | Planned | 0% | Month 1-2 | 40+ template specifications ready |
+| Tracking Matrix (M005) | Planned | 0% | Month 1-2 | Real-time dependency mapping design |
+| Review Engine (M007) | Planned | 0% | Month 2 | 10+ review types specified |
+| VS Code Extension | Planned | 0% | Month 2 | Extension manifest designed |
+| CLI Interface | Planned | 0% | Month 1 | Command specifications complete |
+| **Phase 2: Intelligence** | Planned | 0% | Q2 2026 | AI integration architecture defined |
+| MIAIR Engine (M003) | Planned | 0% | Month 3-4 | Entropy optimization algorithms ready |
+| LLM Adapter (M008) | Planned | 0% | Month 3-4 | Multi-provider interface designed |
+| Enhancement Pipeline (M009) | Planned | 0% | Month 4 | Quality improvement workflow specified |
+| **Phase 3: Advanced** | Planned | 0% | Q3 2026 | Compliance features designed |
+| SBOM Generator (M010) | Planned | 0% | Month 5-6 | SPDX 2.3/CycloneDX 1.4 specs |
+| PII Detector (M011) | Planned | 0% | Month 5-6 | 95% accuracy target defined |
+| DSR Handler (M012) | Planned | 0% | Month 6 | GDPR/CCPA workflows designed |
+| Plugin System (M013) | Planned | 0% | Month 6 | Secure sandboxing architecture |
+
+**Current Phase**: Design Specification Complete
+**Implementation Start**: Pending
+**Estimated Completion**: 8-12 months from implementation start
 
 ---
 
-📚 **IMPORTANT FOR READERS**
+## Document Information
 
-This document describes how DevDocAI will work once implemented. Currently:
-
-- ❌ No working software exists
-- ❌ Installation commands will not work
-- ❌ No packages are available for download
-- ✅ This is a comprehensive design specification
-
----
-
-**Version:** 3.5.0  
-**Date:** August 21, 2025  
-**Status:** FINAL - Suite Aligned v3.5.0  
+**Version:** 3.5.0
+**Date:** August 23, 2025
+**Status:** FINAL - Suite Aligned v3.5.0
+**Document Type:** Build and Implementation Guide
+**Implementation Status:** Design Phase - Ready for Development
 **License:** Apache-2.0 (Core), MIT (Plugin SDK)
+
+### Living Document Approach
+
+This document follows a living document strategy where sections are progressively updated as implementation proceeds:
+
+- **🟢 Implemented**: Feature is built and tested
+- **🟡 In Progress**: Currently under development
+- **🔴 Planned**: Design complete, awaiting implementation
+- **🔵 Future Enhancement**: Planned for versions beyond 3.5.0
+
+Current Status: **🔴 All features in Planned state**
+
+---
 
 ## Prerequisites
 
-### Core Requirements
+### System Requirements
 
-1. **Node.js** (v18.0.0 or higher, v20.0.0 recommended)
-   - Download from: <https://nodejs.org/>
-   - Verify installation: `node --version`
-
-2. **npm** (v9.0.0 or higher) or **yarn** (v1.22.0 or higher)
-   - npm comes with Node.js
-   - Verify installation: `npm --version` or `yarn --version`
-
-3. **Python** (v3.8.0 or higher, v3.11.0 recommended)
-   - Required for local AI models and PII detection
-   - Download from: <https://python.org/>
-   - Verify installation: `python --version`
-
-4. **Git** (v2.30.0 or higher)
-   - Download from: <https://git-scm.com/>
-   - Verify installation: `git --version`
-
-5. **Visual Studio Code** (v1.85.0 or higher)
-   - Download from: <https://code.visualstudio.com/>
-   - Required for extension development and testing
-
-### Development Tools
-
-All development tools are managed as project-level dependencies to ensure version consistency and build repeatability:
-
-```bash
-# Clone repository first (see Environment Configuration section)
-# Then install all development dependencies locally
-npm install
-
-# This installs the following tools as devDependencies:
-# - yo@4.3.1
-# - generator-code@1.7.8
-# - vsce@2.15.0
-# - typescript@5.3.3
-# - @devdocai/cli@3.5.0
-
-# Install Python dependencies for AI features
-pip install -r requirements.txt
-```
-
-> **Note**: All development tools are installed locally within the project to ensure consistent versions across all development environments. The specific versions are locked in `package-lock.json` for reproducibility.
-
-### Using Local Development Tools
-
-After installation, use the locally installed tools via npm scripts:
-
-```bash
-# Instead of global commands, use:
-npm run vsce -- package           # Package VS Code extension
-npm run yo -- code                # Generate extension scaffolding
-npm run tsc -- --version          # TypeScript compiler
-npx devdocai --version            # DevDocAI CLI
-```
+| Component | Minimum | Recommended | Purpose |
+|-----------|---------|-------------|---------|
+| **Node.js** | v18.0.0 | v20.0.0 | Runtime environment |
+| **npm/yarn** | v9.0.0 | Latest stable | Package management |
+| **Python** | v3.8.0 | v3.11.0 | AI models & PII detection |
+| **Git** | v2.30.0 | Latest stable | Version control |
+| **VS Code** | v1.85.0 | Latest stable | Extension host |
+| **RAM** | 1GB | 4GB+ | See Memory Modes below |
+| **Storage** | 2GB | 10GB+ | Models & cache |
 
 ### Memory Mode Requirements
 
-Select your memory mode based on available RAM:
+Aligned with Architecture Blueprint Section 9.1:
 
-| Mode | RAM Required | Features Available |
-|------|--------------|-------------------|
-| **Baseline** | <2GB | Templates only, no AI |
-| **Standard** | 2-4GB | Full features, cloud AI |
-| **Enhanced** | 4-8GB | Local AI models, caching |
-| **Performance** | >8GB | All features, max optimization |
+| Mode | RAM | Features | Local Models | Performance |
+|------|-----|----------|--------------|-------------|
+| **Baseline** | <2GB | Core only, no AI | None | Basic operations |
+| **Standard** | 2-4GB | Core + Cloud AI | None | Cloud-enhanced |
+| **Enhanced** | 4-8GB | Core + Local AI | MiAIR-v3.5.gguf | Offline AI |
+| **Performance** | >8GB | Full features | All models | Maximum speed |
 
-## Environment Configuration
-
-### 1. Future Build Process (Not Yet Available)
-
-Once development begins, the build process will follow these steps:
-
-#### Phase 1: Setting Up Development Environment
-
-*Estimated Timeline: Month 1-2 of development*
-
-1. Repository will be created at: <https://github.com/devdocai/devdocai-v3.5>
-2. Initial project structure will include:
-   - `/src` (source code - TO BE DEVELOPED)
-   - `/docs` (design documentation - CURRENTLY AVAILABLE)
-   - `/tests` (test suites - TO BE DEVELOPED)
-   - `/plugins` (plugin system - TO BE DEVELOPED)
-   - `/templates` (document templates - TO BE DEVELOPED)
+### Automated Prerequisite Checker
 
 ```bash
-# [PLANNED] Commands for future implementation:
-# git clone https://github.com/devdocai/devdocai-v3.5.git
-# cd devdocai-v3.5
+# Run the prerequisite verification script (once implemented)
+npm run doctor
+
+# The script will check:
+# ✓ Node.js version (≥18.0.0)
+# ✓ npm version (≥9.0.0)
+# ✓ Python version (≥3.8.0)
+# ✓ Git version (≥2.30.0)
+# ✓ VS Code installation
+# ✓ Available RAM and recommended memory mode
+# ✓ Available disk space (≥2GB)
+# ✓ Write permissions in installation directory
+# ✓ Network connectivity (for cloud features)
+# ✓ GPU availability (optional, for enhanced performance)
 ```
 
-**Current Status**: [DESIGN PHASE] Repository structure and build processes are fully designed and ready for implementation.
+Future implementation will include automatic fixes for common issues:
 
-### 2. [PLANNED] Dependency Installation Process
+- Missing Node.js → Provide platform-specific installation command
+- Outdated npm → Run `npm install -g npm@latest`
+- Insufficient permissions → Guide through permission setup
+- Low disk space → Suggest cleanup or alternative location
 
-#### Phase 2: Development Environment Setup
+---
 
-*Estimated Timeline: Month 2 of development*
+## Installation Process
+
+### Phase 1: Environment Setup
+
+#### 1. Clone Repository
 
 ```bash
-# [TO BE DEVELOPED] Future dependency installation commands:
-# npm install
-# 
-# Development tools that will be included:
-# - yo@4.3.1 (VS Code extension scaffolding)
-# - generator-code@1.7.8 (Extension templates)
-# - vsce@2.15.0 (Extension packaging)
-# - typescript@5.3.3 (TypeScript compiler)
-# - @devdocai/cli@3.5.0 (Main CLI tool)
-#
-# Verification commands (when implemented):
-# npx yo --version                  # Should show 4.3.1
-# npx generator-code --version      # Should show 1.7.8
-# npx vsce --version                # Should show 2.15.0
-# npx tsc --version                 # Should show 5.3.3
-# npx devdocai --version            # Should show 3.5.0
+# Clone the repository (when available)
+git clone https://github.com/devdocai/devdocai-v3.5.git
+cd devdocai-v3.5
+
+# Verify repository structure
+tree -L 2
+# Expected structure:
+# ├── src/
+# │   ├── core/           # M001-M002: Core components
+# │   ├── generator/      # M004: Document generator
+# │   ├── analyzer/       # M007: Review engine
+# │   ├── matrix/         # M005: Tracking matrix
+# │   ├── ai/            # M003, M008-M009: AI components
+# │   └── compliance/     # M010-M012: Compliance features
+# ├── extensions/
+# │   └── vscode/        # VS Code extension
+# ├── cli/              # Command-line interface
+# ├── plugins/          # M013: Plugin system
+# ├── templates/        # 40+ document templates
+# ├── models/          # Local AI models
+# ├── tests/           # Test suites
+# └── docs/            # Documentation
 ```
 
-**Implementation Status**: [TO BE DEVELOPED] Package.json and dependency configuration designed but not yet created.
-
-### 3. [PLANNED] Memory Mode Configuration
-
-#### Phase 3: System Configuration Setup
-
-*Estimated Timeline: Month 2-3 of development*
-
-**Planned Configuration System**: When implemented, users will configure system memory modes through a `.devdocai.yml` file.
+#### 2. Install Dependencies
 
 ```bash
-# [TO BE DEVELOPED] Future configuration commands:
-# cp .devdocai.example.yml .devdocai.yml
+# Install Node.js dependencies
+npm install
+
+# Install Python dependencies for AI features
+pip install -r requirements.txt
+
+# Development dependencies (local to project)
+npm install --save-dev \
+  typescript@5.3.3 \
+  @types/node@20.11.0 \
+  @vscode/vsce@2.22.0 \
+  yo@5.0.0 \
+  generator-code@1.7.8
+
+# Verify installations
+npm run verify:dependencies
 ```
 
-**Planned Configuration Format**:
+### Phase 2: Configuration
+
+#### 1. Memory Mode Configuration
+
+Create `.devdocai.yml` in project root:
 
 ```yaml
-# [DESIGN SPECIFICATION] Configuration file structure:
-version: 3.5.0
-system:
-  memory_mode: standard  # baseline | standard | enhanced | performance
-  quality_gate: 85       # Exactly 85% for CI/CD
-  
+# DevDocAI v3.5.0 Configuration
+version: "3.5.0"
+metadata:
+  project_name: "MyProject"
+  organization: "MyOrg"
+  quality_gate: 85  # Exactly 85% as per SRS requirements
+
+# Memory mode (auto-detected or manually set)
+memory:
+  mode: "standard"  # baseline | standard | enhanced | performance
+  cache_size: 1024  # MB
+  model_loading: "lazy"  # lazy | eager
+
+# Feature toggles based on memory mode
+features:
+  local_ai: false  # Enabled in enhanced/performance modes
+  cloud_ai: true   # Available in all modes except baseline
+  batch_processing: true
+  real_time_analysis: true
+
+# Performance tuning
 performance:
-  max_concurrent: 4      # Adjust based on memory mode
-  cache_enabled: true
-  batch_size: 10
+  max_workers: 4
+  chunk_size: 1000
+  debounce_ms: 500
 ```
 
-**Implementation Status**: [TO BE DEVELOPED] Configuration system designed, awaiting implementation.
+#### 2. API Keys and Cost Management
 
-### 4. [PLANNED] API Keys and Cloud Configuration
-
-#### Phase 4: Cloud Integration Setup
-
-*Estimated Timeline: Month 3-4 of development*
-
-**Planned Environment Configuration**: When implemented, users will configure API keys and cost management through environment files.
+Create `.env` file (never commit this):
 
 ```bash
-# [TO BE DEVELOPED] Future environment setup commands:
-# cp .env.example .env
+# Cloud AI Providers (optional)
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_AI_API_KEY=...
+
+# Cost Management (REQ-044, US-009)
+DAILY_COST_LIMIT=10.00
+MONTHLY_COST_LIMIT=200.00
+COST_ALERT_THRESHOLD=0.80
+
+# API Routing Preferences
+PREFERRED_PROVIDER=openai
+FALLBACK_PROVIDER=anthropic
+ROUTING_STRATEGY=cost_optimized  # cost_optimized | quality_first | balanced
+
+# Compliance Features
+ENABLE_SBOM_SIGNING=true
+ENABLE_PII_DETECTION=true
+ENABLE_AUDIT_LOGGING=true
 ```
 
-**Planned Environment Configuration Format**:
+#### 3. Local Model Setup
 
-```env
-# [DESIGN SPECIFICATION] Environment variable structure:
-# LLM Provider APIs (Optional)
-OPENAI_API_KEY=your_openai_api_key_here
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
-GOOGLE_AI_API_KEY=your_google_ai_api_key_here
-
-# Cost Management (REQ-044)
-DAILY_COST_LIMIT=10.00    # USD
-MONTHLY_COST_LIMIT=200.00 # USD
-WARNING_THRESHOLD=0.80     # 80% warning
-
-# Security Configuration
-ENCRYPTION_KEY=generate_with_devdocai_keygen
-SIGNING_KEY_PATH=./keys/ed25519_private.pem
-CERTIFICATE_PATH=./certs/devdocai.cert
-```
-
-**Implementation Status**: [TO BE DEVELOPED] Cost management and API integration systems designed, awaiting implementation.
-
-### 5. [PLANNED] Security Key Generation
-
-#### Phase 5: Security Infrastructure Setup
-
-*Estimated Timeline: Month 4-5 of development*
-
-**Planned Security System**: When implemented, the system will include automated security key generation for encryption, plugin signing, and certificate management.
+Detailed setup for local AI models in Enhanced/Performance modes:
 
 ```bash
-# [TO BE DEVELOPED] Future security setup commands:
-# npm run security:keygen                    # Generate encryption keys for local storage
-# npm run security:generate-signing-keys     # Generate Ed25519 signing keys for plugins
-# npm run security:generate-cert             # Generate self-signed certificate for development
+# Create models directory
+mkdir -p models/miair
+mkdir -p models/embeddings
+mkdir -p models/pii
+
+# Download MiAIR model (Enhanced mode)
+# Note: These are placeholder URLs for future model distribution
+curl -L https://models.devdocai.org/miair/v3.5/miair-v3.5.gguf \
+  -o models/miair/miair-v3.5.gguf
+
+# Download embedding model for semantic search
+curl -L https://models.devdocai.org/embeddings/v1.0/embeddings-v1.0.gguf \
+  -o models/embeddings/embeddings-v1.0.gguf
+
+# Download PII detection model
+curl -L https://models.devdocai.org/pii/v2.0/pii-detector-v2.0.gguf \
+  -o models/pii/pii-detector-v2.0.gguf
+
+# Verify model integrity
+npm run models:verify
+
+# Expected output:
+# ✓ MiAIR v3.5 model: Valid (SHA256: abc123...)
+# ✓ Embeddings v1.0 model: Valid (SHA256: def456...)
+# ✓ PII Detector v2.0 model: Valid (SHA256: ghi789...)
+# ✓ Total model size: 3.7GB
+# ✓ Available disk space: 25.3GB
 ```
 
-**Security Features to be Implemented**:
+Model configuration in `.devdocai.yml`:
 
-- Plugin signature verification system
-- Local data encryption system  
-- Certificate-based trust chain
-- Key rotation and management tools
+```yaml
+models:
+  miair:
+    path: "./models/miair/miair-v3.5.gguf"
+    quantization: "Q4_K_M"  # Optimized for 4-8GB RAM
+    context_length: 4096
+    batch_size: 512
+    threads: 4
 
-**Implementation Status**: [TO BE DEVELOPED] Security architecture designed, awaiting implementation.
+  embeddings:
+    path: "./models/embeddings/embeddings-v1.0.gguf"
+    dimensions: 768
+    max_tokens: 512
 
-## [PLANNED] Build Process - Implementation Roadmap
-
-**Overall Development Timeline**: Estimated 8-12 months for full implementation
-
-### Development Phase 1: Foundation Components [PLANNED]
-
-**Timeline**: Month 1-3 of development  
-**Status**: [TO BE DEVELOPED] Architecture designed, ready for implementation
-
-**Planned Foundation Build Process**:
-
-```bash
-# [FUTURE IMPLEMENTATION] Build commands for foundation layer:
-# npm run build:foundation
-#
-# Components to be built (M001-M002, M004-M007):
-# - Configuration Manager (M001) - System configuration and memory modes
-# - Local Storage System (M002) - Encrypted local data storage
-# - Document Generator (M004) - Template-based document creation
-# - Tracking Matrix (M005) - Requirement traceability system
-# - Suite Manager (M006) - Multi-document management
-# - Review Engine (M007) - Quality scoring and analysis
+  pii_detector:
+    path: "./models/pii/pii-detector-v2.0.gguf"
+    confidence_threshold: 0.95  # 95% accuracy target (US-020)
+    categories:
+      - names
+      - emails
+      - phones
+      - addresses
+      - ssn
+      - credit_cards
+      - medical_records
 ```
 
-**Implementation Priority**: High - Required for basic functionality
+### Phase 3: Security Setup
 
-### Development Phase 2: Intelligence Components [PLANNED]
-
-**Timeline**: Month 4-6 of development  
-**Status**: [TO BE DEVELOPED] AI integration architecture designed
-
-**Planned Intelligence Build Process**:
+#### Generate Security Keys
 
 ```bash
-# [FUTURE IMPLEMENTATION] Build commands for intelligence layer:
-# npm run build:intelligence
-#
-# Components to be built (M003, M008-M009, M011-M012):
-# - MIAIR Engine (M003) - AI-powered document analysis
-# - LLM Adapter with Cost Management (M008) - Multi-provider AI integration
-# - Enhancement Pipeline (M009) - Document improvement workflows
-# - Batch Operations Manager (M011) - Bulk processing system
-# - Version Control Integration (M012) - Git workflow automation
+# Generate Ed25519 signing keys for plugins
+npm run security:keygen
+
+# Generate encryption keys for sensitive data
+npm run security:generate-encryption-keys
+
+# Create certificate for SBOM signing
+npm run security:create-sbom-cert
+
+# Output:
+# ✓ Plugin signing keys generated: keys/plugin-sign.key, keys/plugin-sign.pub
+# ✓ Encryption keys generated: keys/encryption.key
+# ✓ SBOM certificate created: keys/sbom-cert.pem
+# ✓ Keys secured with appropriate permissions (600)
 ```
 
-**Implementation Priority**: Medium - Builds on foundation components
+---
 
-### Development Phase 3: Advanced Components [PLANNED]
+## Build Process
 
-**Timeline**: Month 7-9 of development  
-**Status**: [TO BE DEVELOPED] Compliance and marketplace systems designed
-
-**Planned Advanced Build Process**:
+### Development Build
 
 ```bash
-# [FUTURE IMPLEMENTATION] Build commands for advanced features:
-# npm run build:advanced
-#
-# Components to be built (M010, M013):
-# - SBOM Generator (M010) - Software Bill of Materials generation
-# - Template Marketplace Client (M013) - Community template sharing
-# - PII Detection Engine - Privacy compliance automation
-# - DSR Handler - Data subject request processing
-# - Dashboard - Web-based project overview
+# Complete development build
+npm run build:dev
+
+# Individual component builds
+npm run build:core        # Core system (M001-M002)
+npm run build:generator    # Document generator (M004)
+npm run build:analyzer     # Analysis engine (M007)
+npm run build:matrix       # Tracking matrix (M005)
+npm run build:ai          # AI components (M003, M008-M009)
+npm run build:compliance   # Compliance features (M010-M012)
+npm run build:vscode      # VS Code extension
+npm run build:cli         # CLI tool
+
+# Watch mode for development
+npm run dev
 ```
 
-**Implementation Priority**: Low - Premium/compliance features
-
-### Complete Build System [PLANNED]
-
-**Timeline**: Month 10-12 of development  
-**Status**: [TO BE DEVELOPED] Production build system designed
-
-**Planned Production Build Process**:
+### Production Build
 
 ```bash
-# [FUTURE IMPLEMENTATION] Full production build command:
-# npm run build:prod
-#
-# Planned build artifacts:
-# - dist/devdocai-extension-3.5.0.vsix (VS Code extension package)
-# - dist/devdocai-cli-{platform}-3.5.0 (CLI executables for each platform)
-# - dist/plugins/ (Core plugins with signatures)
-# - dist/templates/ (Document templates library)
-# - dist/models/ (Local AI models for enhanced mode)
-# - dist/certificates/ (Security certificates and keys)
+# Optimized production build
+npm run build:prod
+
+# With specific optimizations
+npm run build:prod -- --minify --tree-shake --optimize-images
+
+# Platform-specific builds
+npm run build:win     # Windows
+npm run build:mac     # macOS
+npm run build:linux   # Linux
+
+# Docker build
+docker build -t devdocai:3.5.0 .
 ```
 
-**Build System Features to be Implemented**:
+### Testing
 
-- Multi-platform compilation (Windows, macOS, Linux)
-- Code signing and verification
-- Dependency bundling and optimization
-- Test execution and coverage reporting
-
-## [PLANNED] Platform-Specific Build System
-
-**Status**: [TO BE DEVELOPED] Cross-platform build system designed but not yet implemented
-
-### Windows Build Process [PLANNED]
-
-**Planned Windows Build Configuration**:
+Comprehensive testing aligned with Test Plan requirements:
 
 ```bash
-# [FUTURE IMPLEMENTATION] Windows-specific build commands:
-# set DEVDOCAI_MEMORY_MODE=standard
-# npm run build:win
-#
-# Planned output: dist/devdocai-cli-win-3.5.0.exe
-```
+# Run all tests (80% coverage minimum, 90% for critical paths)
+npm test
 
-**Windows-Specific Features to be Implemented**:
-
-- Windows Service integration for background processing
-- Windows Certificate Store integration
-- PowerShell module for advanced automation
-- Windows-specific performance optimizations
-
-### macOS Build Process [PLANNED]
-
-**Planned macOS Build Configuration**:
-
-```bash
-# [FUTURE IMPLEMENTATION] macOS-specific build commands:
-# export DEVDOCAI_MEMORY_MODE=enhanced
-# npm run build:mac
-#
-# Planned outputs: 
-# - dist/devdocai-cli-mac-x64-3.5.0 (Intel Macs)
-# - dist/devdocai-cli-mac-arm64-3.5.0 (Apple Silicon Macs)
-```
-
-**macOS-Specific Features to be Implemented**:
-
-- macOS Keychain integration for secure key storage
-- Universal binary support (Intel + Apple Silicon)
-- macOS sandboxing compliance
-- Launch Agent integration for background services
-
-### Linux Build Process [PLANNED]
-
-**Planned Linux Build Configuration**:
-
-```bash
-# [FUTURE IMPLEMENTATION] Linux-specific build commands:
-# export DEVDOCAI_MEMORY_MODE=performance
-# npm run build:linux
-#
-# Planned output: dist/devdocai-cli-linux-3.5.0
-```
-
-**Linux-Specific Features to be Implemented**:
-
-- systemd service integration for background processing
-- Linux kernel keyring integration for secure storage
-- AppImage packaging for portable distribution
-- Docker container support for containerized environments
-- Multiple distribution support (Ubuntu, RHEL, SUSE, etc.)
-
-## [PLANNED] Testing Framework - Implementation Roadmap
-
-**Overall Testing Strategy**: Comprehensive test coverage across all components when implemented
-
-### Unit Testing Framework [PLANNED]
-
-**Timeline**: Implemented alongside each development phase  
-**Status**: [TO BE DEVELOPED] Testing architecture designed
-
-```bash
-# Run unit tests with coverage requirements
+# Unit tests for each module
 npm run test:unit
 
-# Expected coverage:
-# - Overall: ≥80%
-# - Critical paths: ≥90%
-# - Security functions: 100%
-```
-
-### Integration Testing
-
-```bash
-# Test component integration
+# Integration tests
 npm run test:integration
 
-# Tests include:
-# - LLM adapter integration
-# - Storage encryption
-# - Plugin sandboxing
-# - Git integration
-```
+# End-to-end tests
+npm run test:e2e
 
-### Compliance Testing
-
-```bash
-# Test compliance features (US-019, US-020, US-021)
+# Compliance tests (US-019, US-020, US-021)
 npm run test:compliance
 
-# Tests include:
-# - SBOM generation (<30s)
-# - PII detection accuracy (≥95%)
-# - DSR workflow completion
-# - GDPR/CCPA compliance
-```
-
-### Performance Testing
-
-```bash
-# Verify performance requirements
+# Performance tests (sub-second response times)
 npm run test:performance
 
-# Validates:
-# - VS Code response time (<500ms)
-# - Document analysis (<10s)
-# - Suite analysis (<2min for 20 docs)
-# - Quality Gate (exactly 85%)
-```
-
-### Security Testing
-
-```bash
-# Run security tests
+# Security tests (100% coverage for security functions)
 npm run test:security
 
-# Tests include:
-# - Plugin signature verification
-# - Certificate chain validation
-# - Encryption/decryption
-# - Sandbox isolation
+# Accessibility tests (WCAG 2.1 Level AA)
+npm run test:a11y
+
+# Coverage report
+npm run test:coverage
 ```
 
-## Verification
+---
+
+## Verification Process
+
+### Component Verification
+
+```bash
+# Verify all components are properly built
+npm run verify:all
+
+# Individual verifications
+npm run verify:core        # ✓ Core system operational
+npm run verify:generator    # ✓ 40+ templates available
+npm run verify:analyzer     # ✓ 10+ review types functional
+npm run verify:matrix       # ✓ Real-time tracking active
+npm run verify:ai          # ✓ MIAIR engine ready
+npm run verify:compliance   # ✓ SBOM, PII, DSR operational
+npm run verify:quality-gate # ✓ 85% threshold configured
+```
 
 ### VS Code Extension Verification
 
-1. **Launch Development Host**:
+```bash
+# Package the extension
+cd extensions/vscode
+npm run package
 
-   ```bash
-   # Open VS Code in project directory
-   code .
-   
-   # Press F5 to launch Extension Development Host
-   ```
+# Install in VS Code
+code --install-extension devdocai-3.5.0.vsix
 
-2. **Test Core Features**:
-
-   ```bash
-   # In Extension Host, open Command Palette (Ctrl+Shift+P)
-   
-   # Test document generation
-   DevDocAI: Generate Document
-   
-   # Test quality analysis
-   DevDocAI: Analyze Document
-   
-   # Test tracking matrix
-   DevDocAI: Show Tracking Matrix
-   ```
-
-3. **Verify Memory Mode**:
-
-   ```bash
-   # Check memory usage in status bar
-   DevDocAI: Show System Info
-   ```
+# Verify commands are available
+code --list-extensions | grep devdocai
+# Expected: devdocai.devdocai-vscode@3.5.0
+```
 
 ### CLI Verification
 
 ```bash
-# Verify installation (using local CLI)
-npx devdocai --version
+# Link CLI globally
+npm link
+
+# Verify installation
+devdocai --version
 # Expected: DevDocAI v3.5.0
 
-# Test document generation
-npx devdocai generate prd --template standard
-
-# Test batch operations (US-019)
-npx devdocai batch analyze docs/*.md --memory-mode=standard
-
-# Test SBOM generation (US-019)
-npx devdocai sbom generate --format=spdx --sign
-
-# Test PII detection (US-020)
-npx devdocai pii scan document.md --sensitivity=high
-
-# Test quality gate
-npx devdocai analyze readme.md --quality-gate=85
+# Test core commands
+devdocai generate --list-templates  # Should show 40+ templates
+devdocai analyze --help            # Should show 10+ review types
+devdocai sbom generate --help      # Should show SPDX/CycloneDX options
+devdocai scan-pii --help          # Should show PII categories
+devdocai dsr --help               # Should show export/delete/rectify
 ```
 
-### Dashboard Verification
-
-```bash
-# Start dashboard server
-npm run dashboard:start
-
-# Open browser to http://localhost:3000
-# Verify:
-# - Health score display
-# - Progressive disclosure
-# - Responsive design (mobile/tablet/desktop)
-# - Accessibility (WCAG 2.1 AA)
-```
-
-## Development Mode
-
-### Hot Reload Development
-
-```bash
-# Start development watchers
-npm run dev
-
-# In separate terminals:
-npm run watch:extension  # VS Code extension
-npm run watch:cli       # CLI tool
-npm run watch:dashboard # Web dashboard
-```
-
-### Memory Mode Testing
-
-```bash
-# Test different memory modes
-npm run dev:baseline    # <2GB RAM
-npm run dev:standard    # 2-4GB RAM
-npm run dev:enhanced    # 4-8GB RAM
-npm run dev:performance # >8GB RAM
-```
-
-### Using Development Tools
-
-All development tools are available through npm scripts or npx:
-
-```bash
-# Package VS Code extension (using local vsce)
-npm run package:extension
-# Or directly: npx vsce package
-
-# Generate new VS Code extension component
-npm run generate:component
-# Or directly: npx yo code
-
-# Compile TypeScript
-npm run compile
-# Or directly: npx tsc
-
-# Link CLI for local development
-npm run link:cli
-# This creates a local link to npx devdocai
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Development Tool Version Conflicts**:
-
-   ```bash
-   # Ensure using local project versions
-   which vsce  # Should NOT show a global path
-   
-   # If global tools interfere, use npx explicitly
-   npx vsce --version
-   npx yo --version
-   
-   # Reset local dependencies if needed
-   rm -rf node_modules package-lock.json
-   npm install
-   ```
-
-2. **Memory Mode Issues**:
-
-   ```bash
-   # Check current memory mode
-   npx devdocai config get memory_mode
-   
-   # Adjust if needed
-   npx devdocai config set memory_mode standard
-   ```
-
-3. **Build Failures**:
-
-   ```bash
-   # Clean and rebuild
-   npm run clean
-   npm cache clean --force
-   rm -rf node_modules package-lock.json
-   npm install
-   npm run build
-   ```
-
-4. **Quality Gate Failures**:
-
-   ```bash
-   # Check quality score
-   npx devdocai analyze --verbose
-   
-   # Enhance to meet 85% threshold
-   npx devdocai enhance --target-quality=85
-   ```
-
-5. **API Rate Limits**:
-
-   ```bash
-   # Check cost usage
-   npx devdocai cost report
-   
-   # Switch to local models
-   npx devdocai config set use_local true
-   ```
-
-6. **Plugin Security Errors**:
-
-   ```bash
-   # Verify plugin signatures
-   npx devdocai plugin verify --all
-   
-   # Update revoked plugins
-   npx devdocai plugin update --security
-   ```
-
-7. **PII Detection Issues**:
-
-   ```bash
-   # Update PII patterns
-   npm run update:pii-patterns
-   
-   # Test detection accuracy
-   npm run test:pii-accuracy
-   ```
+---
 
 ## Build Artifacts
 
-A successful build produces:
+### Expected Output Structure
 
 ```
 dist/
-├── devdocai-extension-3.5.0.vsix     # VS Code extension
-├── devdocai-cli-{platform}-3.5.0     # CLI executables
-├── plugins/                           # Core plugins
-│   ├── security-analyzer.js
-│   ├── pii-detector.js
-│   └── sbom-generator.js
-├── templates/                         # Document templates
-│   ├── prd/
-│   ├── srs/
-│   └── user-stories/
-├── models/                           # Local AI models (Enhanced mode)
-│   ├── miair-v3.5.gguf
-│   └── quality-scorer.onnx
-└── certificates/                     # Security certificates
-    ├── devdocai-ca.crt
-    └── plugin-signing.crt
+├── core/
+│   ├── devdocai-core.js         # Core library
+│   ├── devdocai-core.d.ts       # TypeScript definitions
+│   └── devdocai-core.js.map     # Source maps
+├── vscode/
+│   └── devdocai-3.5.0.vsix      # VS Code extension package
+├── cli/
+│   ├── devdocai-cli              # Executable (Unix)
+│   ├── devdocai-cli.exe          # Executable (Windows)
+│   └── devdocai-cli.pkg          # macOS package
+├── plugins/
+│   ├── plugin-sdk-3.5.0.tgz      # Plugin SDK package
+│   └── examples/                 # Example plugins
+├── templates/
+│   └── templates-3.5.0.zip       # All 40+ templates
+├── models/
+│   ├── miair-v3.5.gguf          # MiAIR model
+│   ├── embeddings-v1.0.gguf     # Embeddings model
+│   └── pii-detector-v2.0.gguf   # PII detection model
+└── compliance/
+    ├── sbom.spdx.json            # SPDX format SBOM
+    ├── sbom.cyclonedx.json       # CycloneDX format SBOM
+    └── signatures/               # Digital signatures
 ```
 
-## Quality Validation
-
-Ensure build meets quality standards:
+### Artifact Verification
 
 ```bash
-# Run full validation suite
-npm run validate
+# Verify all artifacts
+npm run verify:artifacts
 
-# Checks:
-# ✓ Code coverage ≥80% overall, ≥90% critical
-# ✓ Quality Gate = 85%
-# ✓ Performance targets met
-# ✓ Security tests passed
-# ✓ Accessibility WCAG 2.1 AA
-# ✓ All user stories implemented
-# ✓ Documentation complete
+# Checks performed:
+# ✓ All files present
+# ✓ File sizes within expected ranges
+# ✓ Digital signatures valid
+# ✓ SBOM complete and signed
+# ✓ Version numbers consistent
+# ✓ License files included
 ```
 
-## Release Preparation
+---
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Memory Mode Detection Issues
 
 ```bash
-# Prepare release package
-npm run release:prepare
+# Problem: Incorrect memory mode detected
+# Solution: Manually set in .devdocai.yml
+memory:
+  mode: "enhanced"  # Force specific mode
 
-# Generate SBOM for release
-npm run release:sbom
-
-# Sign release artifacts
-npm run release:sign
-
-# Create release notes
-npm run release:notes
-
-# Verify all tools are at correct versions
-npm run verify:tool-versions
+# Verify with:
+devdocai config get memory.mode
 ```
 
-## Continuous Integration
+#### Model Loading Failures
 
-For CI/CD environments, all tools are automatically available:
+```bash
+# Problem: Local models fail to load
+# Solution 1: Verify model files
+npm run models:verify
+
+# Solution 2: Check memory availability
+devdocai doctor --check-memory
+
+# Solution 3: Use quantized models for lower RAM
+# Edit .devdocai.yml:
+models:
+  miair:
+    quantization: "Q4_0"  # Smaller but less accurate
+```
+
+#### Build Failures
+
+```bash
+# Problem: Build fails with dependency errors
+# Solution: Clean and rebuild
+npm run clean
+rm -rf node_modules package-lock.json
+npm install
+npm run build:dev
+
+# Problem: TypeScript errors
+# Solution: Check TypeScript version
+npx tsc --version  # Should be 5.3.3
+```
+
+#### API Rate Limits
+
+```bash
+# Problem: Hit API rate limits
+# Solution: Configure fallback providers in .env
+FALLBACK_PROVIDER=anthropic
+ROUTING_STRATEGY=balanced
+
+# Monitor usage:
+devdocai cost report --period=today
+```
+
+#### Plugin Signature Verification
+
+```bash
+# Problem: Plugin signature verification fails
+# Solution: Regenerate keys
+npm run security:keygen
+
+# Verify plugin:
+devdocai plugin verify <plugin-name>
+```
+
+---
+
+## CI/CD Integration
+
+### GitHub Actions Workflow
 
 ```yaml
-# .github/workflows/build.yml example
-name: Build DevDocAI
+# .github/workflows/build.yml
+name: DevDocAI Build Pipeline
 on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [18, 20]
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node }}
           cache: 'npm'
-      
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
       - name: Install Dependencies
-        run: npm ci  # Uses package-lock.json for exact versions
-      
+        run: |
+          npm ci
+          pip install -r requirements.txt
+
+      - name: Run Prerequisite Check
+        run: npm run doctor
+
       - name: Build
         run: npm run build:prod
-      
+
       - name: Test
         run: npm test
-      
-      - name: Package Extension
-        run: npm run package:extension  # Uses local vsce
+
+      - name: Generate SBOM
+        run: npm run sbom:generate
+
+      - name: Package Artifacts
+        run: npm run package:all
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: devdocai-${{ matrix.os }}-node${{ matrix.node }}
+          path: dist/
 ```
-
-## Support
-
-For build issues or questions:
-
-- **Documentation**: <https://docs.devdocai.org>
-- **Issues**: <https://github.com/devdocai/devdocai-v3.5/issues>
-- **Community**: <https://community.devdocai.org>
-- **Email**: <build-support@devdocai.org>
 
 ---
 
-**Document Status**: FINAL - v3.5.0 Suite Aligned (Future Development Planning)  
-**Alignment**: Complete consistency with Architecture v3.5.0, SRS v3.6.0, PRD v3.6.0, and User Stories v3.5.0  
-**Last Updated**: August 23, 2025  
-**Next Review**: September 23, 2025
+## Release Process
 
-**Revision Notes**:
+### Version Management
 
-- v3.5.0-UPDATED: Transformed build instructions from active development to future development planning format
-- Added [PLANNED], [TO BE DEVELOPED], and [DESIGN PHASE] status indicators throughout document
-- Converted active commands to commented design specifications
-- Added development timeline estimates (8-12 months total implementation)
-- Clarified that no working software currently exists, only comprehensive design documentation
-- All tool installations and commands are now clearly marked as future implementation specifications
-</refined_build_instructions>
+```bash
+# Update version across all components
+npm run version:update 3.5.0
+
+# Generate changelog
+npm run changelog:generate
+
+# Tag release
+git tag -s v3.5.0 -m "Release v3.5.0"
+git push origin v3.5.0
+```
+
+### Release Checklist
+
+- [ ] All tests passing (100% critical paths)
+- [ ] Documentation updated
+- [ ] SBOM generated and signed
+- [ ] Security audit completed
+- [ ] Performance benchmarks met
+- [ ] Accessibility validation passed
+- [ ] Release notes prepared
+- [ ] Artifacts signed
+- [ ] Docker images built
+- [ ] npm packages published
+
+---
+
+## Support and Resources
+
+### Documentation
+
+- **User Manual**: `docs/user-manual.md`
+- **API Documentation**: `docs/api-reference.md`
+- **Plugin Development Guide**: `docs/plugin-guide.md`
+- **Architecture Blueprint**: `docs/architecture.md`
+
+### Community
+
+- **GitHub Issues**: <https://github.com/devdocai/devdocai-v3.5/issues>
+- **Discussions**: <https://github.com/devdocai/devdocai-v3.5/discussions>
+- **Discord**: <https://discord.gg/devdocai>
+- **Email**: <support@devdocai.org>
+
+### Contributing
+
+See `CONTRIBUTING.md` for guidelines on:
+
+- Code style and standards
+- Testing requirements
+- Pull request process
+- Code of conduct
+
+---
+
+## Appendices
+
+### Appendix A: Module Implementation Status
+
+| Module ID | Component | Status | Test Coverage | Notes |
+|-----------|-----------|--------|---------------|--------|
+| M001 | Core Infrastructure | 🔴 Planned | 0% | Foundation layer |
+| M002 | Local Storage | 🔴 Planned | 0% | File system operations |
+| M003 | MIAIR Engine | 🔴 Planned | 0% | Entropy optimization |
+| M004 | Document Generator | 🔴 Planned | 0% | 40+ templates |
+| M005 | Tracking Matrix | 🔴 Planned | 0% | Real-time updates |
+| M006 | Suite Manager | 🔴 Planned | 0% | Cross-references |
+| M007 | Review Engine | 🔴 Planned | 0% | 10+ review types |
+| M008 | LLM Adapter | 🔴 Planned | 0% | Multi-provider |
+| M009 | Enhancement Pipeline | 🔴 Planned | 0% | Quality improvement |
+| M010 | SBOM Generator | 🔴 Planned | 0% | SPDX/CycloneDX |
+| M011 | PII Detector | 🔴 Planned | 0% | 95% accuracy |
+| M012 | DSR Handler | 🔴 Planned | 0% | GDPR/CCPA |
+| M013 | Plugin System | 🔴 Planned | 0% | Secure sandbox |
+
+### Appendix B: Performance Benchmarks
+
+| Operation | Target | Current | Status |
+|-----------|--------|---------|--------|
+| VS Code Response | <500ms | N/A | 🔴 Not Measured |
+| Document Analysis (10 pages) | <10s | N/A | 🔴 Not Measured |
+| SBOM Generation | <30s | N/A | 🔴 Not Measured |
+| PII Scan (100 pages) | <60s | N/A | 🔴 Not Measured |
+| Matrix Update | <1s | N/A | 🔴 Not Measured |
+| Enhancement (MIAIR) | <45s | N/A | 🔴 Not Measured |
+
+### Appendix C: Compliance Checklist
+
+- [ ] GDPR Article 15-22 compliance (DSR implementation)
+- [ ] CCPA compliance (data deletion, portability)
+- [ ] SPDX 2.3 specification compliance
+- [ ] CycloneDX 1.4 specification compliance
+- [ ] WCAG 2.1 Level AA accessibility
+- [ ] OWASP security standards
+- [ ] IEEE 830-1998 documentation standards
+
+---
+
+**Document Status**: FINAL - v3.5.0 Suite Aligned
+**Alignment**: Complete consistency with Architecture v3.6.0, SRS v3.6.0, PRD v3.6.0, and User Stories v3.5.0
+**Last Updated**: August 23, 2025
+**Next Review**: Upon implementation start
+
+This document serves as the authoritative build and implementation guide for DevDocAI v3.5.0, providing a clear roadmap from the current design phase through to full implementation.

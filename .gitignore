@@ -1,4 +1,6 @@
+# Ignore VS Code AI rules/instructions
+/.github/instructions/codacy.instructions.md
 
-
-#Ignore vscode AI rules
-.github/instructions/codacy.instructions.md
+# Local workspace files
+/.claude
+.DS_Store
